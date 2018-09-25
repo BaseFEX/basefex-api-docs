@@ -1,4 +1,4 @@
-# Web Socket Streams for BaseFEX
+# WebSocket Streams for BaseFEX
 
 ## General WSS information
 
