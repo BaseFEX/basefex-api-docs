@@ -2,7 +2,7 @@
 
 ## General WSS information
 
-- The base endponit is: **wss://api.basefex.com/v1**
+- The base endponit is: **wss://testnet-api.basefex.com/v1**
 
 ## Detailed Stream information
 
