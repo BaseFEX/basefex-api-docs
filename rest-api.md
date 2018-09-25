@@ -2,7 +2,7 @@
 
 ## General API information
 
-- The base endpoint is: **https://api.basefex.com/v1**
+- The base endpoint is: **https://testnet-api.basefex.com/v1**
 - All endpoints return a JSON object.
 - HTTP 4xx return codes are used for malformed requests, the issue is on the sender's side.
 - Any endpoint may return an ERROR payload as follows:
