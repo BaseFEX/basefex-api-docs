@@ -170,7 +170,9 @@ year | years
 - `FOK`: Fill or Kill
 - `POST_ONLY`
 
-### GET /accounts
+### account
+
+#### GET /accounts
 
 To list accounts.
 
@@ -213,7 +215,67 @@ Response:
 }
 ```
 
-### GET /orders
+#### PUT /positions/{id}
+
+To update position.
+
+Parameters:
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+id | String | YES | position id
+is_cross | Bool | YES |
+leverage | String | YES |
+margin | String | YES |
+
+Response:
+
+```js
+{
+  "position": {
+    "entry_price": "0.0",
+    "id": "00000000-0000-0000-0000-000000000000",
+    "leverage": "0.0",
+    "liq_indicator": 0,
+    "liq_price": "0.0",
+    "margin": "0.0",
+    "margin_rate": "0.0",
+    "market_price": "0.0",
+    "notional": "0.0",
+    "realized_pnl": "0.0",
+    "return_on_margin": 0,
+    "size": "0.0",
+    "symbol": "BTCUSD",
+    "unrealised_pnl": "0.0"
+  },
+  "user_id": "00000000-0000-0000-0000-000000000000"
+}
+```
+
+#### DELETE /positions/{id}
+
+To close position.
+
+Parameters:
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+id | String | YES | order id
+price | String | | query parameter
+
+Example:
+
+`/positions/15555d91-40ee-42c9-0001-0e9280e65263?price="6600"`
+
+Response:
+
+```js
+{}
+```
+
+### order
+
+#### GET /orders
 
 Parameters: 
 
@@ -252,7 +314,7 @@ Response:
 }
 ```
 
-### POST /orders
+#### POST /orders
 
 To place order.
 
@@ -272,7 +334,7 @@ Response:
 {}
 ```
 
-### DELETE /orders
+#### DELETE /orders
 
 To delete orders.
 
@@ -288,7 +350,7 @@ Response:
 {}
 ```
 
-### GET /orders/{id}
+#### GET /orders/{id}
 
 To read order.
 
@@ -321,7 +383,7 @@ Response:
 }
 ```
 
-### DELETE /orders/{id}
+#### DELETE /orders/{id}
 
 To cancel order.
 
@@ -341,65 +403,9 @@ Response:
 {}
 ```
 
-### PUT /positions/{id}
+### quotation
 
-To update position.
-
-Parameters:
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-id | String | YES | position id
-is_cross | Bool | YES |
-leverage | String | YES |
-margin | String | YES |
-
-Response:
-
-```js
-{
-  "position": {
-    "entry_price": "0.0",
-    "id": "00000000-0000-0000-0000-000000000000",
-    "leverage": "0.0",
-    "liq_indicator": 0,
-    "liq_price": "0.0",
-    "margin": "0.0",
-    "margin_rate": "0.0",
-    "market_price": "0.0",
-    "notional": "0.0",
-    "realized_pnl": "0.0",
-    "return_on_margin": 0,
-    "size": "0.0",
-    "symbol": "BTCUSD",
-    "unrealised_pnl": "0.0"
-  },
-  "user_id": "00000000-0000-0000-0000-000000000000"
-}
-```
-
-### DELETE /positions/{id}
-
-To close position.
-
-Parameters:
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-id | String | YES | order id
-price | String | | query parameter
-
-Example:
-
-`/positions/15555d91-40ee-42c9-0001-0e9280e65263?price="6600"`
-
-Response:
-
-```js
-{}
-```
-
-### GET /quotation/candlesticks/{type}@{symbol}/history
+#### GET /quotation/candlesticks/{type}@{symbol}/history
 
 Parameters:
 
@@ -430,7 +436,7 @@ Response:
 }
 ```
 
-### GET /quotation/funding-rates
+#### GET /quotation/funding-rates
 
 Parameters: NONE
 
@@ -448,7 +454,7 @@ Response:
 }
 ```
 
-### GET /quotation/instruments
+#### GET /quotation/instruments
 
 To list productions.
 
@@ -473,7 +479,7 @@ Response:
 }
 ```
 
-### GET /quotation/instruments/prices
+#### GET /quotation/instruments/prices
 
 Parameters:
 
@@ -504,7 +510,7 @@ Response:
 }
 ```
 
-### GET /quotation/volumes
+#### GET /quotation/volumes
 
 Parameters: NONE
 
@@ -521,7 +527,9 @@ Response:
 }
 ```
 
-### GET /trades
+### trade
+
+#### GET /trades
 
 To list trades.
 
@@ -557,7 +565,7 @@ Response:
 }
 ```
 
-### GET /trades@{symbol}
+#### GET /trades@{symbol}
 
 To list symbol trades.
 

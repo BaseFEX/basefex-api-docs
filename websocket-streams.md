@@ -145,3 +145,73 @@ Payload:
 Example:
 
 `/quotation/trades@BTCUSD`
+
+## /stream
+
+This interface must add `X-API-KEY`, `X-API-Expires`, `X-API-Signature` HTTP headers to authenticating.
+
+Payload:
+
+```js
+{
+  "cash": {
+    "available_balance": "0.0",
+    "currency": "BTC",
+    "id": "00000000-0000-0000-0000-000000000000",
+    "margin_balance": "0.0",
+    "order_margin": "0.0",
+    "position_margin": "0.0",
+    "unrealised_pnl": "0.0",
+    "wallet_balance": "0.0"
+  },
+  "order": {
+    "avg_price": "0.0",
+    "created_at": 0,
+    "filled": "0.0",
+    "filled_notional": "0.0",
+    "id": "00000000-0000-0000-0000-000000000000",
+    "notional": "0.0",
+    "price": "0.0",
+    "remaining": "0.0",
+    "remaining_notional": "0.0",
+    "side": "BUY | SELL | CANCEL",
+    "size": "0.0",
+    "status": "NEW | INFORCE | FILLED | FAILED",
+    "symbol": "BTCUSD",
+    "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
+  },
+  "position": {
+    "entry_price": "0.0",
+    "id": "00000000-0000-0000-0000-000000000000",
+    "leverage": "0.0",
+    "liq_indicator": 0,
+    "liq_price": "0.0",
+    "margin": "0.0",
+    "margin_rate": "0.0",
+    "market_price": "0.0",
+    "notional": "0.0",
+    "realized_pnl": "0.0",
+    "return_on_margin": 0,
+    "size": "0.0",
+    "symbol": "BTCUSD",
+    "unrealised_pnl": "0.0"
+  },
+  "trade": {
+    "fee": "0.0",
+    "fee_rate": "0.0",
+    "notional": "0.0",
+    "order": {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "price": "0.0",
+      "size": "0.0",
+      "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
+    },
+    "price": "0.0",
+    "side": "BUY | SELL | CANCEL",
+    "size": "0.0",
+    "symbol": "BTCUSD",
+    "time": 0
+  },
+  "user_id": "00000000-0000-0000-0000-000000000000"
+}
+```
