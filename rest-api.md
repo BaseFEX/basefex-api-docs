@@ -118,43 +118,42 @@ func ParseRsaPrivateKeyFromPemStr(privPEM string) (*rsa.PrivateKey, error) {
 #### Symbol
 
 - `BTCUSD`
-- `ETHUSD`
 
 #### Candlestick type
 
 Name | Description
 ------------ | ------------ 
-MIN | minutes
-H | hours
-DAY | days
-WEEK | weeks
-MON | months
-YEAD | years
+min | minutes
+h | hours
+day | days
+week | weeks
+mon | months
+year | years
 
-- `1MIN`
-- `3MIN`
-- `5MIN`
-- `10MIN`
-- `15MIN`
-- `30MIN`
-- `1H`
-- `2H`
-- `3H`
-- `4H`
-- `6H`
-- `8H`
-- `12H`
-- `1DAY`
-- `1WEEK`
-- `1MON`
-- `1YEAR`
+- `1min`
+- `3min`
+- `5min`
+- `10min`
+- `15min`
+- `30min`
+- `1h`
+- `2h`
+- `3h`
+- `4h`
+- `6h`
+- `8h`
+- `12h`
+- `1day`
+- `1week`
+- `1mon`
+- `1year`
 
 #### Side
 
 - `BUY`
 - `SELL`
 
-#### Order status
+#### Order Status
 
 - `NEW`
 - `PARTIALLY_FILLED`
@@ -220,7 +219,7 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-status | Array[String] | NO | Valid Value: `NEW, INFORCE, FILLED, FAILED`
+status | Array[String] | NO | ENUM Order Status
 page | INT | YES |
 size | INT | NO | Default 100
 
@@ -505,24 +504,6 @@ Response:
 }
 ```
 
-### GET /quotation/price-indices
-
-Parameters: NONE
-
-Response:
-
-```js
-{
-  "price_indices": [
-    {
-      "spot_index_price": 0,
-      "spot_prices": {},
-      "time": 0
-    }
-  ]
-}
-```
-
 ### GET /quotation/volumes
 
 Parameters: NONE
@@ -533,7 +514,7 @@ Response:
 {
   "data": [
     {
-      "type": "1H | 24H | 30DAY",
+      "type": "1h | 24h | 30day",
       "value": 0
     }
   ]
