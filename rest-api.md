@@ -1,5 +1,37 @@
 # Public Rest API for BaseFEX
 
+- [Public Rest API for BaseFEX](#public-rest-api-for-basefex)
+    - [General API information](#general-api-information)
+    - [Authenticating with an API Key](#authenticating-with-an-api-key)
+        - [SIGNED Endpoint Examples](#signed-endpoint-examples)
+        - [golang Example](#golang-example)
+    - [Public API Endpoints](#public-api-endpoints)
+        - [ENUM definitions](#enum-definitions)
+            - [Symbol](#symbol)
+            - [Candlestick type](#candlestick-type)
+            - [Side](#side)
+            - [Order Status](#order-status)
+            - [Order Type](#order-type)
+        - [account](#account)
+            - [GET /accounts](#get-accounts)
+            - [PUT /positions/{id}](#put-positionsid)
+            - [DELETE /positions/{id}](#delete-positionsid)
+        - [order](#order)
+            - [GET /orders](#get-orders)
+            - [POST /orders](#post-orders)
+            - [DELETE /orders](#delete-orders)
+            - [GET /orders/{id}](#get-ordersid)
+            - [DELETE /orders/{id}](#delete-ordersid)
+        - [quotation](#quotation)
+            - [GET /quotation/candlesticks/{type}@{symbol}/history](#get-quotationcandlestickstypesymbolhistory)
+            - [GET /quotation/funding-rates](#get-quotationfunding-rates)
+            - [GET /quotation/instruments](#get-quotationinstruments)
+            - [GET /quotation/instruments/prices](#get-quotationinstrumentsprices)
+            - [GET /quotation/volumes](#get-quotationvolumes)
+        - [trade](#trade)
+            - [GET /trades](#get-trades)
+            - [GET /trades@{symbol}](#get-tradessymbol)
+
 ## General API information
 
 - The base endpoint is: **https://testnet-api.basefex.com/v1**
