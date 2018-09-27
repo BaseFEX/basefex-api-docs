@@ -18,19 +18,12 @@
 
 Authentication is done by sending the following HTTP headers:
 
-- `X-API-Key`
-
-Your public API key. 
-
-- `X-API-Expires`
-
-A UNIX timestamp after which the request is no longer valid. This is to prevent replay attacks.
+- `X-API-Key`: Your public API key. 
+- `X-API-Expires`: A UNIX timestamp after which the request is no longer valid. This is to prevent replay attacks.
 
 > UNIX timestamps are in seconds. For example, 2018-09-21T01:56:04+08:00 is 1537466164.
 
-- `X-API-Signature`
-
-A signature of the request you are making. It is calculated as `signature = Base64.encode(SHA256WithRSA(privateKey, sigstr)`.
+- `X-API-Signature`: A signature of the request you are making. It is calculated as `signature = Base64.encode(SHA256WithRSA(privateKey, sigstr)`.
 
 `SHA256WithRSA` use PKCS1v1.5 padding way, that normally is the default for most languages.
 
