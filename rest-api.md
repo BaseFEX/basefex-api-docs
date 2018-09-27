@@ -12,23 +12,23 @@
             - [Side](#side)
             - [Order Status](#order-status)
             - [Order Type](#order-type)
-        - [account](#account)
+        - [Account](#account)
             - [GET /accounts](#get-accounts)
             - [PUT /positions/{id}](#put-positionsid)
             - [DELETE /positions/{id}](#delete-positionsid)
-        - [order](#order)
+        - [Order](#order)
             - [GET /orders](#get-orders)
             - [POST /orders](#post-orders)
             - [DELETE /orders](#delete-orders)
             - [GET /orders/{id}](#get-ordersid)
             - [DELETE /orders/{id}](#delete-ordersid)
-        - [quotation](#quotation)
+        - [Market Quotation](#market-quotation)
             - [GET /quotation/candlesticks/{type}@{symbol}/history](#get-quotationcandlestickstypesymbolhistory)
             - [GET /quotation/funding-rates](#get-quotationfunding-rates)
             - [GET /quotation/instruments](#get-quotationinstruments)
             - [GET /quotation/instruments/prices](#get-quotationinstrumentsprices)
             - [GET /quotation/volumes](#get-quotationvolumes)
-        - [trade](#trade)
+        - [User Trades History](#user-trades-history)
             - [GET /trades](#get-trades)
             - [GET /trades@{symbol}](#get-tradessymbol)
 
@@ -196,7 +196,7 @@ year | years
 - `FOK`: Fill or Kill
 - `POST_ONLY`
 
-### account
+### Account
 
 #### GET /accounts
 
@@ -299,7 +299,7 @@ Response:
 {}
 ```
 
-### order
+### Order
 
 #### GET /orders
 
@@ -429,7 +429,7 @@ Response:
 {}
 ```
 
-### quotation
+### Market Quotation
 
 #### GET /quotation/candlesticks/{type}@{symbol}/history
 
@@ -553,7 +553,7 @@ Response:
 }
 ```
 
-### trade
+### User Trades History
 
 #### GET /trades
 
