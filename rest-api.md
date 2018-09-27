@@ -152,6 +152,7 @@ year | years
 
 - `BUY`
 - `SELL`
+- `CANCEL`
 
 #### Order Status
 
@@ -208,7 +209,7 @@ Response:
       "realized_pnl": "0.0",
       "return_on_margin": 0,
       "size": "0.0",
-      "symbol": "BTCUSD",
+      "symbol": `ENUM Symbol`,
       "unrealised_pnl": "0.0"
     }
   ]
@@ -245,7 +246,7 @@ Response:
     "realized_pnl": "0.0",
     "return_on_margin": 0,
     "size": "0.0",
-    "symbol": "BTCUSD",
+    "symbol": `ENUM Symbol`,
     "unrealised_pnl": "0.0"
   },
   "user_id": "00000000-0000-0000-0000-000000000000"
@@ -281,7 +282,7 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-status | Array[String] | NO | ENUM Order Status
+status | Array[String] | NO | `ENUM Order Status`
 page | INT | YES |
 size | INT | NO | Default 100
 
@@ -304,11 +305,11 @@ Response:
       "price": "0.0",
       "remaining": "0.0",
       "remaining_notional": "0.0",
-      "side": "BUY | SELL | CANCEL",
+      "side": `ENUM Side`,
       "size": "0.0",
-      "status": "NEW | INFORCE | FILLED | FAILED",
-      "symbol": "BTCUSD",
-      "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
+      "status": `ENUM Order Status`,
+      "symbol": `ENUM Symbol`,
+      "type": `ENUM Order Type`
     }
   ]
 }
@@ -323,10 +324,10 @@ Parameters:
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 price | String | YES |
-side | String | YES | Valid Value: `BUY, SELL, CANCEL`
+side | String | YES | `ENUM Side`
 size | String | YES |
-symbol | String | YES | Valid Value: `BTCUSD`
-type | String | YES |Valid Value: `LIMIT, MARKET, IOC, FOK, POST_ONLY`
+symbol | String | YES | `ENUM Symbol`
+type | String | YES | `ENUM Order Type`
 
 Response:
 
@@ -374,11 +375,11 @@ Response:
     "price": "0.0",
     "remaining": "0.0",
     "remaining_notional": "0.0",
-    "side": "BUY | SELL | CANCEL",
+    "side": `ENUM Side`,
     "size": "0.0",
-    "status": "NEW | INFORCE | FILLED | FAILED",
-    "symbol": "BTCUSD",
-    "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
+    "status": `ENUM Order Status`,
+    "symbol": `ENUM Symbol`,
+    "type": `ENUM Order Type`
   }
 }
 ```
@@ -411,8 +412,8 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-type | String | YES | ENUM Candlestick type
-symbol | String | YES | ENUM Symbol
+type | String | YES | `ENUM Candlestick type`
+symbol | String | YES | `ENUM Symbol`
 size | INT | YES | 
 since | INT | NO | unix timestamp
 
@@ -427,7 +428,7 @@ Response:
       "low": 0,
       "n_trades": 0,
       "open": 0,
-      "symbol": "BTCUSD",
+      "symbol": `ENUM Symbol`,
       "time": 0,
       "type": "string",
       "volume": 0
@@ -471,7 +472,7 @@ Response:
       "mark_price": 0,
       "open_time": 0,
       "open_value": 0,
-      "symbol": "BTCUSD",
+      "symbol": `ENUM Symbol`,
       "turnover24h": 0,
       "volume24h": 0
     }
@@ -504,7 +505,7 @@ Response:
           "time": 1537421400
         }
       ],
-      "symbol": "BTCUSD"
+      "symbol": `ENUM Symbol`
     }
   ]
 }
@@ -553,12 +554,12 @@ Response:
         "id": "00000000-0000-0000-0000-000000000000",
         "price": "0.0",
         "size": "0.0",
-        "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
+        "type": `ENUM Order Type`
       },
       "price": "0.0",
-      "side": "BUY | SELL | CANCEL",
+      "side": `ENUM Side`,
       "size": "0.0",
-      "symbol": "BTCUSD",
+      "symbol": `ENUM Symbol`,
       "time": 0
     }
   ]
@@ -573,7 +574,7 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-symbol | String | YES | ENUM Symbol
+symbol | String | YES | `ENUM Symbol`
 page | INT | YES |
 size | INT | NO | default size is 100
 
@@ -594,12 +595,12 @@ Response:
         "id": "00000000-0000-0000-0000-000000000000",
         "price": "0.0",
         "size": "0.0",
-        "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
+        "type": `ENUM Order Type`
       },
       "price": "0.0",
-      "side": "BUY | SELL | CANCEL",
+      "side": `ENUM Side`,
       "size": "0.0",
-      "symbol": "BTCUSD",
+      "symbol": `ENUM Symbol`,
       "time": 0
     }
   ]
