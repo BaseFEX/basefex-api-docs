@@ -58,7 +58,9 @@ Authentication is done by sending the following HTTP headers:
 
 `SHA256WithRSA` use PKCS1v1.5 padding way, that normally is the default for most languages.
 
-`sigstr = ${API-KEY}${EXPIRES-TIME}${HTTP-METHOD}${PATH-WITH-QUERY-STRING}${HTTP-BODY}`
+```
+sigstr = ${API-KEY}${EXPIRES-TIME}${HTTP-METHOD}${PATH-WITH-QUERY-STRING}${HTTP-BODY}
+```
 
 ### Signed Endpoint Examples
 
