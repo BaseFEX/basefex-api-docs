@@ -11,26 +11,27 @@
     - [Side](#side)
     - [Order Status](#order-status)
     - [Order Type](#order-type)
-- [Public API Endpoints](#public-api-endpoints)
-  - [Account](#account)
+- [User Private Endpoints](#user-private-endpoints)
+  - [User Account](#user-account)
       - [GET /accounts](#get-accounts)
       - [PUT /positions/{id}](#put-positionsid)
       - [DELETE /positions/{id}](#delete-positionsid)
-  - [Order](#order)
-      - [GET /orders](#get-orders)
+  - [User Order](#user-order)
       - [POST /orders](#post-orders)
-      - [DELETE /orders](#delete-orders)
+      - [GET /orders](#get-orders)
       - [GET /orders/{id}](#get-ordersid)
       - [DELETE /orders/{id}](#delete-ordersid)
+      - [DELETE /orders](#delete-orders)
+  - [User Trades History](#user-trades-history)
+      - [GET /trades](#get-trades)
+      - [GET /trades@{symbol}](#get-tradessymbol)
+- [Public API Endpoints](#public-api-endpoints)
   - [Market Quotation](#market-quotation)
       - [GET /quotation/candlesticks/{type}@{symbol}/history](#get-quotationcandlestickstypesymbolhistory)
       - [GET /quotation/funding-rates](#get-quotationfunding-rates)
       - [GET /quotation/instruments](#get-quotationinstruments)
       - [GET /quotation/instruments/prices](#get-quotationinstrumentsprices)
       - [GET /quotation/volumes](#get-quotationvolumes)
-  - [User Trades History](#user-trades-history)
-      - [GET /trades](#get-trades)
-      - [GET /trades@{symbol}](#get-tradessymbol)
 
 ## General information
 
@@ -194,9 +195,9 @@ year | years
 - `FOK`: Fill or Kill
 - `POST_ONLY`
 
-## Public API Endpoints
+## User Private Endpoints
 
-### Account
+### User Account
 
 #### GET /accounts
 
@@ -249,10 +250,10 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-id | String | YES | position id
-is_cross | Bool | YES |
-leverage | String | YES |
-margin | String | YES |
+`id` | String | YES | position id
+`is_cross` | Bool | YES |
+`leverage` | String | YES |
+`margin` | String | YES |
 
 Response:
 
@@ -286,8 +287,8 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-id | String | YES | order id
-price | String | | query parameter
+`id` | String | YES | order id
+`price` | String | | query parameter
 
 Example:
 
@@ -299,7 +300,27 @@ Response:
 {}
 ```
 
-### Order
+### User Order
+
+#### POST /orders
+
+To place order.
+
+Parameters:
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+`price` | String | YES |
+`side` | String | YES | [ENUM Side](#side)
+`size` | String | YES |
+`symbol` | String | YES | [ENUM Symbol](#symbol)
+`type` | String | YES | [ENUM Order Type](#order-type)
+
+Response:
+
+```js
+{}
+```
 
 #### GET /orders
 
@@ -307,9 +328,9 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-status | Array[String] | NO | [ENUM Order Status](#order-status)
-page | INT | YES |
-size | INT | NO | Default 100
+`status` | Array[String] | NO | [ENUM Order Status](#order-status)
+`page` | INT | YES |
+`size` | INT | NO | Default 100
 
 Example:
 
@@ -340,42 +361,6 @@ Response:
 }
 ```
 
-#### POST /orders
-
-To place order.
-
-Parameters:
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-price | String | YES |
-side | String | YES | [ENUM Side](#side)
-size | String | YES |
-symbol | String | YES | [ENUM Symbol](#symbol)
-type | String | YES | [ENUM Order Type](#order-type)
-
-Response:
-
-```js
-{}
-```
-
-#### DELETE /orders
-
-To delete orders.
-
-Parameters:
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-ids | Array[String] | YES | array of order id
-
-Response:
-
-```js
-{}
-```
-
 #### GET /orders/{id}
 
 To read order.
@@ -384,7 +369,7 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-id | String | YES | order id
+`id` | String | YES | order id
 
 Response:
 
@@ -411,13 +396,13 @@ Response:
 
 #### DELETE /orders/{id}
 
-To cancel order.
+To cancel one order.
 
 Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-id | String | YES | order id
+`id` | String | YES | order id
 
 Example:
 
@@ -429,6 +414,103 @@ Response:
 {}
 ```
 
+#### DELETE /orders
+
+To cancel all orders by `ids`.
+
+Parameters:
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+`ids` | Array[String] | YES | array of order id
+
+Response:
+
+```js
+{}
+```
+
+### User Trades History
+
+#### GET /trades
+
+To list trades.
+
+Parameters:
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+`page` | INT | YES |
+`size` | INT | NO | default size is 100
+
+Response:
+
+```js
+{
+  "trades": [
+    {
+      "fee": "0.0",
+      "fee_rate": "0.0",
+      "notional": "0.0",
+      "order": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "price": "0.0",
+        "size": "0.0",
+        "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
+      },
+      "price": "0.0",
+      "side": "BUY | SELL | CANCEL",
+      "size": "0.0",
+      "symbol": "BTCUSD",
+      "time": 0
+    }
+  ]
+}
+```
+
+#### GET /trades@{symbol}
+
+To list symbol trades.
+
+Parameters:
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+`symbol` | String | YES | [ENUM Symbol](#symbol)
+`page` | INT | YES |
+`size` | INT | NO | default size is 100
+
+Example:
+
+`/trades@BTCUSD?page=1`
+
+Response:
+
+```js
+{
+  "trades": [
+    {
+      "fee": "0.0",
+      "fee_rate": "0.0",
+      "notional": "0.0",
+      "order": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "price": "0.0",
+        "size": "0.0",
+        "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
+      },
+      "price": "0.0",
+      "side": "BUY | SELL | CANCEL",
+      "size": "0.0",
+      "symbol": "BTCUSD",
+      "time": 0
+    }
+  ]
+}
+```
+
+## Public API Endpoints
+
 ### Market Quotation
 
 #### GET /quotation/candlesticks/{type}@{symbol}/history
@@ -437,10 +519,10 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-type | String | YES | [ENUM Candlestick type](#candlestick-type)
-symbol | String | YES | [ENUM Symbol](#symbol)
-size | INT | YES | 
-since | INT | NO | unix timestamp
+`type` | String | YES | [ENUM Candlestick type](#candlestick-type)
+`symbol` | String | YES | [ENUM Symbol](#symbol)
+`size` | INT | YES | 
+`since` | INT | NO | unix timestamp
 
 Response:
 
@@ -511,8 +593,8 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-size | INT | NO | 
-since | INT | NO | unix timestamp
+`size` | INT | NO | 
+`since` | INT | NO | unix timestamp
 
 Example:
 
@@ -548,85 +630,6 @@ Response:
     {
       "type": "1h | 24h | 30day",
       "value": 0
-    }
-  ]
-}
-```
-
-### User Trades History
-
-#### GET /trades
-
-To list trades.
-
-Parameters:
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-page | INT | YES |
-size | INT | NO | default size is 100
-
-Response:
-
-```js
-{
-  "trades": [
-    {
-      "fee": "0.0",
-      "fee_rate": "0.0",
-      "notional": "0.0",
-      "order": {
-        "id": "00000000-0000-0000-0000-000000000000",
-        "price": "0.0",
-        "size": "0.0",
-        "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
-      },
-      "price": "0.0",
-      "side": "BUY | SELL | CANCEL",
-      "size": "0.0",
-      "symbol": "BTCUSD",
-      "time": 0
-    }
-  ]
-}
-```
-
-#### GET /trades@{symbol}
-
-To list symbol trades.
-
-Parameters:
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-symbol | String | YES | [ENUM Symbol](#symbol)
-page | INT | YES |
-size | INT | NO | default size is 100
-
-Example:
-
-`/trades@BTCUSD?page=1`
-
-Response:
-
-```js
-{
-  "trades": [
-    {
-      "fee": "0.0",
-      "fee_rate": "0.0",
-      "notional": "0.0",
-      "order": {
-        "id": "00000000-0000-0000-0000-000000000000",
-        "price": "0.0",
-        "size": "0.0",
-        "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
-      },
-      "price": "0.0",
-      "side": "BUY | SELL | CANCEL",
-      "size": "0.0",
-      "symbol": "BTCUSD",
-      "time": 0
     }
   ]
 }
