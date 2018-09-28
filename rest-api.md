@@ -1,4 +1,4 @@
-# Public Rest API for BaseFEX
+# REST HTTPS API for BaseFEX
 
 - [General information](#general-information)
 - [Authenticating with an API Key](#authenticating-with-an-api-key)
@@ -195,13 +195,13 @@ year | years
 - `FOK`: Fill or Kill
 - `POST_ONLY`
 
-## User Private Endpoints
+## Private User API Endpoints
 
 ### User Account
 
 #### GET /accounts
 
-To list accounts.
+To check account for cashes and positions.
 
 Parameters: NONE
 
@@ -244,7 +244,7 @@ Response:
 
 #### PUT /positions/{id}
 
-To update position.
+To update specified position.
 
 Parameters:
 
@@ -281,7 +281,7 @@ Response:
 
 #### DELETE /positions/{id}
 
-To close position.
+To close specified position.
 
 Parameters:
 
@@ -304,7 +304,7 @@ Response:
 
 #### POST /orders
 
-To place order.
+To place a new order.
 
 Parameters:
 
@@ -324,17 +324,19 @@ Response:
 
 #### GET /orders
 
-Parameters: 
+To list orders.
+
+Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 `status` | Array[String] | NO | [ENUM Order Status](#order-status)
-`page` | INT | YES |
-`size` | INT | NO | Default 100
+`page_no` | INT | YES |
+`page_size` | INT | NO | Default 100
 
 Example:
 
-`/orders?page=1&size=200`
+`/orders?page_no=1&page_size=200`
 
 Response:
 
@@ -363,7 +365,7 @@ Response:
 
 #### GET /orders/{id}
 
-To read order.
+To read specified order.
 
 Parameters:
 
@@ -396,7 +398,7 @@ Response:
 
 #### DELETE /orders/{id}
 
-To cancel one order.
+To cancel specified order.
 
 Parameters:
 
@@ -416,7 +418,7 @@ Response:
 
 #### DELETE /orders
 
-To cancel all orders by `ids`.
+To cancel all orders specified by `ids`.
 
 Parameters:
 
@@ -434,14 +436,14 @@ Response:
 
 #### GET /trades
 
-To list trades.
+To list trades history.
 
 Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-`page` | INT | YES |
-`size` | INT | NO | default size is 100
+`page_no` | INT | YES |
+`page_size` | INT | NO | default size is 100
 
 Response:
 
@@ -470,19 +472,19 @@ Response:
 
 #### GET /trades@{symbol}
 
-To list symbol trades.
+To list trades specified by `symbol`.
 
 Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 `symbol` | String | YES | [ENUM Symbol](#symbol)
-`page` | INT | YES |
-`size` | INT | NO | default size is 100
+`page_no` | INT | YES |
+`page_size` | INT | NO | default size is 100
 
 Example:
 
-`/trades@BTCUSD?page=1`
+`/trades@BTCUSD?page_no=1`
 
 Response:
 
@@ -515,13 +517,15 @@ Response:
 
 #### GET /quotation/candlesticks/{type}@{symbol}/history
 
+To get candlestick history specified by `type` and `symbol`.
+
 Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 `type` | String | YES | [ENUM Candlestick type](#candlestick-type)
 `symbol` | String | YES | [ENUM Symbol](#symbol)
-`size` | INT | YES | 
+`page_size` | INT | YES | 
 `since` | INT | NO | unix timestamp
 
 Response:
@@ -546,6 +550,8 @@ Response:
 
 #### GET /quotation/funding-rates
 
+To list funding rate history.
+
 Parameters: NONE
 
 Response:
@@ -564,7 +570,7 @@ Response:
 
 #### GET /quotation/instruments
 
-To list productions.
+To list all products.
 
 Parameters: NONE
 
@@ -589,16 +595,18 @@ Response:
 
 #### GET /quotation/instruments/prices
 
+To list product prices.
+
 Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-`size` | INT | NO | 
+`page_size` | INT | NO | 
 `since` | INT | NO | unix timestamp
 
 Example:
 
-`/quotation/instruments/prices?size=100&since=1537401400`
+`/quotation/instruments/prices?page_size=100&since=1537401400`
 
 Response:
 
@@ -619,6 +627,8 @@ Response:
 ```
 
 #### GET /quotation/volumes
+
+To list recent BaseFEX trade volumes.
 
 Parameters: NONE
 

@@ -11,21 +11,21 @@
 
 ## General information
 
-- The base endponit is: **wss://testnet-api.basefex.com/v1**
+- The WebSocket base URL is **wss://testnet-api.basefex.com/v1**
 - BaseFEX API Explorer: **https://testnet.basefex.com/api/explorer**
 
 ## Detailed Stream information
 
 ### /quotation/candlesticks/{type}@{symbol}
 
-The candlesticks stream updates data.
+The candlesticks stream.
 
 Parameters: 
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-type | String | YES | ENUM type
-symbol | String | YES | ENUM symbol
+`type` | String | YES | ENUM type
+`symbol` | String | YES | ENUM symbol
 
 Payload:
 
@@ -57,7 +57,7 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-symbol | String | YES | ENUM symbol
+`symbol` | String | YES | ENUM symbol
 
 Payload:
 
@@ -103,7 +103,7 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-symbol | String | YES | ENUM symbol
+`symbol` | String | YES | ENUM symbol
 
 Payload:
 
@@ -134,7 +134,7 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-symbol | String | YES | ENUM symbol
+`symbol` | String | YES | ENUM symbol
 
 Payload:
 

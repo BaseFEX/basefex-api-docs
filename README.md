@@ -2,7 +2,7 @@
 
 Official Documentation for the BaseFEX API and WebSocket.
 
-- [rest-api.md](./rest-api.md): Details on the Rest API
-- [websocket-streams.md](./websocket-streams.md): Details on available streams and payloads
-- [errors.md](./errors.md): Descriptions of possible error messages from the Rest API
+- [rest-api.md](./rest-api.md): REST HTTPS API for BaseFEX
+- [websocket-streams.md](./websocket-streams.md): WebSocket Streams for BaseFEX
+- [errors.md](./errors.md):  error codes and messages for REST API
 - BaseFEX API Explorer: **https://testnet.basefex.com/api/explorer**
