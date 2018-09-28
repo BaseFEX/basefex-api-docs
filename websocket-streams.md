@@ -20,14 +20,14 @@
 
 The candlesticks stream.
 
-Parameters: 
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 `type` | String | YES | ENUM type
 `symbol` | String | YES | ENUM symbol
 
-Payload:
+**Payload**
 
 ```js
 {
@@ -47,19 +47,19 @@ Payload:
 }
 ```
 
-Example:
+**Example**
 
 `/quotation/candlesticks/1min@BTCUSD`
 
 ### /quotation/depth@{symbol}
 
-Parameters: 
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 `symbol` | String | YES | ENUM symbol
 
-Payload:
+**Payload**
 
 ```js
 {
@@ -70,15 +70,15 @@ Payload:
 }
 ```
 
-Example:
+**Example**
 
 `/quotation/depth@BTCUSD`
 
 ### /quotation/instruments
 
-Parameters: NONE
+**Parameters**: N/A
 
-Payload:
+**Payload**
 
 ```js
 {
@@ -99,13 +99,13 @@ Payload:
 
 ### /quotation/instruments@{symbol}
 
-Parameters: 
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 `symbol` | String | YES | ENUM symbol
 
-Payload:
+**Payload**
 
 ```js
 {
@@ -124,19 +124,19 @@ Payload:
 }
 ```
 
-Example:
+**Example**
 
 `/quotation/instruments@BTCUSD`
 
 ### /quotation/trades@{symbol}
 
-Parameters: 
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 `symbol` | String | YES | ENUM symbol
 
-Payload:
+**Payload**
 
 ```js
 {
@@ -152,7 +152,7 @@ Payload:
 }
 ```
 
-Example:
+**Example**
 
 `/quotation/trades@BTCUSD`
 
@@ -160,7 +160,7 @@ Example:
 
 This interface must add `X-API-KEY`, `X-API-Expires`, `X-API-Signature` HTTP headers to authenticating.
 
-Payload:
+**Payload**
 
 ```js
 {

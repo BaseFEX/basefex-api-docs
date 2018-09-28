@@ -1,6 +1,6 @@
 # Error codes for BaseFEX
 
-Errors consist of two parts: an error code and a message.
+Each error JSON object consist of an error code and a message.
 
 ```js
 {

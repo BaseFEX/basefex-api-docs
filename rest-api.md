@@ -205,9 +205,9 @@ Name | Description
 
 To check account for cashes and positions.
 
-Parameters: NONE
+**Parameters**: N/A
 
-Response:
+**Response**
 
 ```js
 {
@@ -248,7 +248,7 @@ Response:
 
 To update specified position.
 
-Parameters:
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
@@ -257,7 +257,7 @@ Name | Type | Mandatory | Description
 `leverage` | String | YES |
 `margin` | String | YES |
 
-Response:
+**Response**
 
 ```js
 {
@@ -285,18 +285,18 @@ Response:
 
 To close specified position.
 
-Parameters:
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 `id` | String | YES | order id
 `price` | String | | query parameter
 
-Example:
+**Example**
 
 `/positions/15555d91-40ee-42c9-0001-0e9280e65263?price="6600"`
 
-Response:
+**Response**
 
 ```js
 {}
@@ -308,7 +308,7 @@ Response:
 
 To place a new order.
 
-Parameters:
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
@@ -318,7 +318,7 @@ Name | Type | Mandatory | Description
 `symbol` | String | YES | [ENUM Symbol](#symbol)
 `type` | String | YES | [ENUM Order Type](#order-type)
 
-Response:
+**Response**
 
 ```js
 {}
@@ -328,7 +328,7 @@ Response:
 
 To list orders.
 
-Parameters:
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
@@ -336,11 +336,11 @@ Name | Type | Mandatory | Description
 `page_no` | INT | YES |
 `page_size` | INT | NO | Default 100
 
-Example:
+**Example**
 
 `/orders?page_no=1&page_size=200`
 
-Response:
+**Response**
 
 ```js
 {
@@ -369,13 +369,13 @@ Response:
 
 To read specified order.
 
-Parameters:
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 `id` | String | YES | order id
 
-Response:
+**Response**
 
 ```js
 {
@@ -402,17 +402,17 @@ Response:
 
 To cancel specified order.
 
-Parameters:
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 `id` | String | YES | order id
 
-Example:
+**Example**
 
 `/orders/15555d91-40ee-42c9-0001-0e9280e65263`
 
-Response:
+**Response**
 
 ```js
 {}
@@ -422,13 +422,13 @@ Response:
 
 To cancel all orders specified by `ids`.
 
-Parameters:
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 `ids` | Array[String] | YES | array of order id
 
-Response:
+**Response**
 
 ```js
 {}
@@ -440,14 +440,14 @@ Response:
 
 To list trades history.
 
-Parameters:
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 `page_no` | INT | YES |
 `page_size` | INT | NO | default size is 100
 
-Response:
+**Response**
 
 ```js
 {
@@ -476,7 +476,7 @@ Response:
 
 To list trades specified by `symbol`.
 
-Parameters:
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
@@ -484,11 +484,11 @@ Name | Type | Mandatory | Description
 `page_no` | INT | YES |
 `page_size` | INT | NO | default size is 100
 
-Example:
+**Example**
 
 `/trades@BTCUSD?page_no=1`
 
-Response:
+**Response**
 
 ```js
 {
@@ -521,7 +521,7 @@ Response:
 
 To get candlestick history specified by `type` and `symbol`.
 
-Parameters:
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
@@ -530,7 +530,7 @@ Name | Type | Mandatory | Description
 `page_size` | INT | YES | 
 `since` | INT | NO | unix timestamp
 
-Response:
+**Response**
 
 ```js
 {
@@ -554,9 +554,9 @@ Response:
 
 To list funding rate history.
 
-Parameters: NONE
+**Parameters**: N/A
 
-Response:
+**Response**
 
 ```js
 {
@@ -574,9 +574,9 @@ Response:
 
 To list all products.
 
-Parameters: NONE
+**Parameters**: N/A
 
-Response:
+**Response**
 
 ```js
 {
@@ -599,18 +599,18 @@ Response:
 
 To list product prices.
 
-Parameters:
+**Parameters**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 `page_size` | INT | NO | 
 `since` | INT | NO | unix timestamp
 
-Example:
+**Example**
 
 `/quotation/instruments/prices?page_size=100&since=1537401400`
 
-Response:
+**Response**
 
 ```js
 {
@@ -632,9 +632,9 @@ Response:
 
 To list recent BaseFEX trade volumes.
 
-Parameters: NONE
+**Parameters**: N/A
 
-Response:
+**Response**
 
 ```js
 {
