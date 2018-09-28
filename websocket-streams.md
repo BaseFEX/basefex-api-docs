@@ -1,14 +1,13 @@
 # WebSocket Streams for BaseFEX
 
-- [WebSocket Streams for BaseFEX](#websocket-streams-for-basefex)
-    - [General WSS information](#general-wss-information)
-    - [Detailed Stream information](#detailed-stream-information)
-    - [/quotation/candlesticks/{type}@{symbol}](#quotationcandlestickstypesymbol)
-    - [/quotation/depth@{symbol}](#quotationdepthsymbol)
-    - [/quotation/instruments](#quotationinstruments)
-    - [/quotation/instruments@{symbol}](#quotationinstrumentssymbol)
-    - [/quotation/trades@{symbol}](#quotationtradessymbol)
-    - [/stream](#stream)
+- [General WSS information](#general-wss-information)
+- [Detailed Stream information](#detailed-stream-information)
+- [/quotation/candlesticks/{type}@{symbol}](#quotationcandlestickstypesymbol)
+- [/quotation/depth@{symbol}](#quotationdepthsymbol)
+- [/quotation/instruments](#quotationinstruments)
+- [/quotation/instruments@{symbol}](#quotationinstrumentssymbol)
+- [/quotation/trades@{symbol}](#quotationtradessymbol)
+- [/stream](#stream)
 
 ## General WSS information
 

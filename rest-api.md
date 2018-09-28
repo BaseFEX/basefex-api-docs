@@ -1,36 +1,35 @@
 # Public Rest API for BaseFEX
 
-- [Public Rest API for BaseFEX](#public-rest-api-for-basefex)
-    - [General API information](#general-api-information)
-    - [Authenticating with an API Key](#authenticating-with-an-api-key)
-        - [SIGNED Endpoint Examples](#signed-endpoint-examples)
-        - [golang Example](#golang-example)
-    - [Public API Endpoints](#public-api-endpoints)
-        - [ENUM definitions](#enum-definitions)
-            - [Symbol](#symbol)
-            - [Candlestick type](#candlestick-type)
-            - [Side](#side)
-            - [Order Status](#order-status)
-            - [Order Type](#order-type)
-        - [Account](#account)
-            - [GET /accounts](#get-accounts)
-            - [PUT /positions/{id}](#put-positionsid)
-            - [DELETE /positions/{id}](#delete-positionsid)
-        - [Order](#order)
-            - [GET /orders](#get-orders)
-            - [POST /orders](#post-orders)
-            - [DELETE /orders](#delete-orders)
-            - [GET /orders/{id}](#get-ordersid)
-            - [DELETE /orders/{id}](#delete-ordersid)
-        - [Market Quotation](#market-quotation)
-            - [GET /quotation/candlesticks/{type}@{symbol}/history](#get-quotationcandlestickstypesymbolhistory)
-            - [GET /quotation/funding-rates](#get-quotationfunding-rates)
-            - [GET /quotation/instruments](#get-quotationinstruments)
-            - [GET /quotation/instruments/prices](#get-quotationinstrumentsprices)
-            - [GET /quotation/volumes](#get-quotationvolumes)
-        - [User Trades History](#user-trades-history)
-            - [GET /trades](#get-trades)
-            - [GET /trades@{symbol}](#get-tradessymbol)
+- [General API information](#general-api-information)
+- [Authenticating with an API Key](#authenticating-with-an-api-key)
+  - [SIGNED Endpoint Examples](#signed-endpoint-examples)
+  - [golang Example](#golang-example)
+- [ENUM definitions](#enum-definitions)
+    - [Symbol](#symbol)
+    - [Candlestick type](#candlestick-type)
+    - [Side](#side)
+    - [Order Status](#order-status)
+    - [Order Type](#order-type)
+- [Public API Endpoints](#public-api-endpoints)
+  - [Account](#account)
+      - [GET /accounts](#get-accounts)
+      - [PUT /positions/{id}](#put-positionsid)
+      - [DELETE /positions/{id}](#delete-positionsid)
+  - [Order](#order)
+      - [GET /orders](#get-orders)
+      - [POST /orders](#post-orders)
+      - [DELETE /orders](#delete-orders)
+      - [GET /orders/{id}](#get-ordersid)
+      - [DELETE /orders/{id}](#delete-ordersid)
+  - [Market Quotation](#market-quotation)
+      - [GET /quotation/candlesticks/{type}@{symbol}/history](#get-quotationcandlestickstypesymbolhistory)
+      - [GET /quotation/funding-rates](#get-quotationfunding-rates)
+      - [GET /quotation/instruments](#get-quotationinstruments)
+      - [GET /quotation/instruments/prices](#get-quotationinstrumentsprices)
+      - [GET /quotation/volumes](#get-quotationvolumes)
+  - [User Trades History](#user-trades-history)
+      - [GET /trades](#get-trades)
+      - [GET /trades@{symbol}](#get-tradessymbol)
 
 ## General API information
 
@@ -136,15 +135,13 @@ func ParseRsaPrivateKeyFromPemStr(privPEM string) (*rsa.PrivateKey, error) {
 }
 ```
 
-## Public API Endpoints
+## ENUM definitions
 
-### ENUM definitions
-
-#### Symbol
+### Symbol
 
 - `BTCUSD`
 
-#### Candlestick type
+### Candlestick type
 
 Name | Description
 ------------ | ------------ 
@@ -173,13 +170,13 @@ year | years
 - `1mon`
 - `1year`
 
-#### Side
+### Side
 
 - `BUY`
 - `SELL`
 - `CANCEL`
 
-#### Order Status
+### Order Status
 
 - `NEW`
 - `PARTIALLY_FILLED`
@@ -188,13 +185,15 @@ year | years
 - `PARTIALLY_CANCELED`
 - `REJECTED`
 
-#### Order Type
+### Order Type
 
 - `LIMIT`
 - `MARKET`
 - `IOC`: Immediate or Cancel
 - `FOK`: Fill or Kill
 - `POST_ONLY`
+
+## Public API Endpoints
 
 ### Account
 
