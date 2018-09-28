@@ -1,21 +1,22 @@
 # WebSocket Streams for BaseFEX
 
-- [General WSS information](#general-wss-information)
+- [General information](#general-information)
 - [Detailed Stream information](#detailed-stream-information)
-- [/quotation/candlesticks/{type}@{symbol}](#quotationcandlestickstypesymbol)
-- [/quotation/depth@{symbol}](#quotationdepthsymbol)
-- [/quotation/instruments](#quotationinstruments)
-- [/quotation/instruments@{symbol}](#quotationinstrumentssymbol)
-- [/quotation/trades@{symbol}](#quotationtradessymbol)
-- [/stream](#stream)
+  - [/quotation/candlesticks/{type}@{symbol}](#quotationcandlestickstypesymbol)
+  - [/quotation/depth@{symbol}](#quotationdepthsymbol)
+  - [/quotation/instruments](#quotationinstruments)
+  - [/quotation/instruments@{symbol}](#quotationinstrumentssymbol)
+  - [/quotation/trades@{symbol}](#quotationtradessymbol)
+  - [/stream](#stream)
 
-## General WSS information
+## General information
 
 - The base endponit is: **wss://testnet-api.basefex.com/v1**
+- BaseFEX API Explorer: **https://testnet.basefex.com/api/explorer**
 
 ## Detailed Stream information
 
-## /quotation/candlesticks/{type}@{symbol}
+### /quotation/candlesticks/{type}@{symbol}
 
 The candlesticks stream updates data.
 
@@ -50,7 +51,7 @@ Example:
 
 `/quotation/candlesticks/1min@BTCUSD`
 
-## /quotation/depth@{symbol}
+### /quotation/depth@{symbol}
 
 Parameters: 
 
@@ -73,7 +74,7 @@ Example:
 
 `/quotation/depth@BTCUSD`
 
-## /quotation/instruments
+### /quotation/instruments
 
 Parameters: NONE
 
@@ -96,7 +97,7 @@ Payload:
 }
 ```
 
-## /quotation/instruments@{symbol}
+### /quotation/instruments@{symbol}
 
 Parameters: 
 
@@ -127,7 +128,7 @@ Example:
 
 `/quotation/instruments@BTCUSD`
 
-## /quotation/trades@{symbol}
+### /quotation/trades@{symbol}
 
 Parameters: 
 
@@ -155,7 +156,7 @@ Example:
 
 `/quotation/trades@BTCUSD`
 
-## /stream
+### /stream
 
 This interface must add `X-API-KEY`, `X-API-Expires`, `X-API-Signature` HTTP headers to authenticating.
 
@@ -185,7 +186,7 @@ Payload:
     "remaining_notional": "0.0",
     "side": "BUY | SELL | CANCEL",
     "size": "0.0",
-    "status": "NEW | INFORCE | FILLED | FAILED",
+    "status": "NEW | PARTIALLY_FILLED | FILLED | CANCELED | PARTIALLY_CANCELED | REJECTED",
     "symbol": "BTCUSD",
     "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
   },

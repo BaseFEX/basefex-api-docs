@@ -1,10 +1,11 @@
 # Public Rest API for BaseFEX
 
-- [General API information](#general-api-information)
+- [General information](#general-information)
 - [Authenticating with an API Key](#authenticating-with-an-api-key)
-  - [SIGNED Endpoint Examples](#signed-endpoint-examples)
-  - [golang Example](#golang-example)
-- [ENUM definitions](#enum-definitions)
+  - [Signed Endpoint Examples](#signed-endpoint-examples)
+    - [Pseudo Code Example](#pseudo-code-example)
+    - [Go Language Example](#go-language-example)
+- [ENUM Definitions](#enum-definitions)
     - [Symbol](#symbol)
     - [Candlestick type](#candlestick-type)
     - [Side](#side)
@@ -31,12 +32,13 @@
       - [GET /trades](#get-trades)
       - [GET /trades@{symbol}](#get-tradessymbol)
 
-## General API information
+## General information
 
 - The base endpoint is: **https://testnet-api.basefex.com/v1**
 - All endpoints return a JSON object.
 - HTTP 4xx return codes are used for malformed requests, the issue is on the sender's side.
-- Any endpoint may return an ERROR payload as follows:
+- BaseFEX API Explorer: **https://testnet.basefex.com/api/explorer**
+- Any endpoint may return an [ERROR](./errors.md) payload as follows:
 
 ```js
 {
@@ -50,17 +52,16 @@
 Authentication is done by sending the following HTTP headers:
 
 - `X-API-Key`: Your public API key. 
-- `X-API-Expires`: A UNIX timestamp after which the request is no longer valid. This is to prevent replay attacks.
-
-> UNIX timestamps are in seconds. For example, 2018-09-21T01:56:04+08:00 is 1537466164.
-
+- `X-API-Expires`: A UNIX timestamp after which the request is no longer valid. This is to prevent replay attacks. UNIX timestamps are in seconds. For example: `2018-09-21T01:56:04+08:00 is 1537466164`.
 - `X-API-Signature`: A signature of the request you are making. It is calculated as `signature = Base64.encode(SHA256WithRSA(privateKey, sigstr)`.
 
 `SHA256WithRSA` use PKCS1v1.5 padding way, that normally is the default for most languages.
 
 `sigstr = ${API-KEY}${EXPIRES-TIME}${HTTP-METHOD}${PATH-WITH-QUERY-STRING}${HTTP-BODY}`
 
-### SIGNED Endpoint Examples
+### Signed Endpoint Examples
+
+#### Pseudo Code Example
 
 ```
 apiKey = "15552edf-dc08-61f0-0000-f0d4e18fccc0"
@@ -78,7 +79,7 @@ data = ""
 signature = Base64.encode(SHA256WithRSA(privateKey, apiKey + expires + verb + pathWithQuery + data))
 ```
 
-### golang Example
+#### Go Language Example
 
 ```go
 package main
@@ -135,7 +136,7 @@ func ParseRsaPrivateKeyFromPemStr(privPEM string) (*rsa.PrivateKey, error) {
 }
 ```
 
-## ENUM definitions
+## ENUM Definitions
 
 ### Symbol
 
@@ -233,7 +234,7 @@ Response:
       "realized_pnl": "0.0",
       "return_on_margin": 0,
       "size": "0.0",
-      "symbol": `ENUM Symbol`,
+      "symbol": "BTCUSD",
       "unrealised_pnl": "0.0"
     }
   ]
@@ -270,7 +271,7 @@ Response:
     "realized_pnl": "0.0",
     "return_on_margin": 0,
     "size": "0.0",
-    "symbol": `ENUM Symbol`,
+    "symbol": "BTCUSD",
     "unrealised_pnl": "0.0"
   },
   "user_id": "00000000-0000-0000-0000-000000000000"
@@ -306,7 +307,7 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-status | Array[String] | NO | `ENUM Order Status`
+status | Array[String] | NO | [ENUM Order Status](#order-status)
 page | INT | YES |
 size | INT | NO | Default 100
 
@@ -329,11 +330,11 @@ Response:
       "price": "0.0",
       "remaining": "0.0",
       "remaining_notional": "0.0",
-      "side": `ENUM Side`,
+      "side": "BUY | SELL | CANCEL",
       "size": "0.0",
-      "status": `ENUM Order Status`,
-      "symbol": `ENUM Symbol`,
-      "type": `ENUM Order Type`
+      "status": "NEW | PARTIALLY_FILLED | FILLED | CANCELED | PARTIALLY_CANCELED | REJECTED",
+      "symbol": "BTCUSD",
+      "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
     }
   ]
 }
@@ -348,10 +349,10 @@ Parameters:
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 price | String | YES |
-side | String | YES | `ENUM Side`
+side | String | YES | [ENUM Side](#side)
 size | String | YES |
-symbol | String | YES | `ENUM Symbol`
-type | String | YES | `ENUM Order Type`
+symbol | String | YES | [ENUM Symbol](#symbol)
+type | String | YES | [ENUM Order Type](#order-type)
 
 Response:
 
@@ -399,11 +400,11 @@ Response:
     "price": "0.0",
     "remaining": "0.0",
     "remaining_notional": "0.0",
-    "side": `ENUM Side`,
+    "side": "BUY | SELL | CANCEL",
     "size": "0.0",
-    "status": `ENUM Order Status`,
-    "symbol": `ENUM Symbol`,
-    "type": `ENUM Order Type`
+    "status": "NEW | PARTIALLY_FILLED | FILLED | CANCELED | PARTIALLY_CANCELED | REJECTED",
+    "symbol": "BTCUSD",
+    "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
   }
 }
 ```
@@ -436,8 +437,8 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-type | String | YES | `ENUM Candlestick type`
-symbol | String | YES | `ENUM Symbol`
+type | String | YES | [ENUM Candlestick type](#candlestick-type)
+symbol | String | YES | [ENUM Symbol](#symbol)
 size | INT | YES | 
 since | INT | NO | unix timestamp
 
@@ -452,7 +453,7 @@ Response:
       "low": 0,
       "n_trades": 0,
       "open": 0,
-      "symbol": `ENUM Symbol`,
+      "symbol": "BTCUSD",
       "time": 0,
       "type": "string",
       "volume": 0
@@ -496,7 +497,7 @@ Response:
       "mark_price": 0,
       "open_time": 0,
       "open_value": 0,
-      "symbol": `ENUM Symbol`,
+      "symbol": "BTCUSD",
       "turnover24h": 0,
       "volume24h": 0
     }
@@ -529,7 +530,7 @@ Response:
           "time": 1537421400
         }
       ],
-      "symbol": `ENUM Symbol`
+      "symbol": "BTCUSD"
     }
   ]
 }
@@ -578,12 +579,12 @@ Response:
         "id": "00000000-0000-0000-0000-000000000000",
         "price": "0.0",
         "size": "0.0",
-        "type": `ENUM Order Type`
+        "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
       },
       "price": "0.0",
-      "side": `ENUM Side`,
+      "side": "BUY | SELL | CANCEL",
       "size": "0.0",
-      "symbol": `ENUM Symbol`,
+      "symbol": "BTCUSD",
       "time": 0
     }
   ]
@@ -598,7 +599,7 @@ Parameters:
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-symbol | String | YES | `ENUM Symbol`
+symbol | String | YES | [ENUM Symbol](#symbol)
 page | INT | YES |
 size | INT | NO | default size is 100
 
@@ -619,12 +620,12 @@ Response:
         "id": "00000000-0000-0000-0000-000000000000",
         "price": "0.0",
         "size": "0.0",
-        "type": `ENUM Order Type`
+        "type": "LIMIT | MARKET | IOC | FOK | POST_ONLY"
       },
       "price": "0.0",
-      "side": `ENUM Side`,
+      "side": "BUY | SELL | CANCEL",
       "size": "0.0",
-      "symbol": `ENUM Symbol`,
+      "symbol": "BTCUSD",
       "time": 0
     }
   ]
