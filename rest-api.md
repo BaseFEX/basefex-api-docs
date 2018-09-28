@@ -147,12 +147,12 @@ func ParseRsaPrivateKeyFromPemStr(privPEM string) (*rsa.PrivateKey, error) {
 
 Name | Description
 ------------ | ------------ 
-min | minutes
-h | hours
-day | days
-week | weeks
-mon | months
-year | years
+`min` | Minute
+`h` | Hour
+`day` | Day
+`week` | Week
+`mon` | Month
+`year` | Year
 
 - `1min`
 - `3min`
