@@ -1,7 +1,7 @@
 # WebSocket Streams for BaseFEX
 
-- [General information](#general-information)
-- [Detailed Stream information](#detailed-stream-information)
+- [General Information](#general-information)
+- [Detailed Stream Information](#detailed-stream-information)
   - [/quotation/candlesticks/{type}@{symbol}](#quotationcandlestickstypesymbol)
   - [/quotation/depth@{symbol}](#quotationdepthsymbol)
   - [/quotation/instruments](#quotationinstruments)
@@ -9,12 +9,12 @@
   - [/quotation/trades@{symbol}](#quotationtradessymbol)
   - [/stream](#stream)
 
-## General information
+## General Information
 
 - The WebSocket base URL is **wss://testnet-api.basefex.com/v1**
 - BaseFEX API Explorer: **https://testnet.basefex.com/api/explorer**
 
-## Detailed Stream information
+## Detailed Stream Information
 
 ### /quotation/candlesticks/{type}@{symbol}
 
@@ -22,10 +22,10 @@ The candlesticks stream.
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`type` | String | YES | ENUM type
-`symbol` | String | YES | ENUM symbol
+| Name     | Type   | Mandatory | Description                                             |
+|----------|--------|-----------|---------------------------------------------------------|
+| `type`   | String | YES       | [ENUM Candlestick Type](./rest-api.md#candlestick-type) |
+| `symbol` | String | YES       | [ENUM Symbol](./rest-api.md#symbol)                     |
 
 **Payload**
 
@@ -55,9 +55,9 @@ Name | Type | Mandatory | Description
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`symbol` | String | YES | ENUM symbol
+| Name     | Type   | Mandatory | Description                         |
+|----------|--------|-----------|-------------------------------------|
+| `symbol` | String | YES       | [ENUM symbol](./rest-api.md#symbol) |
 
 **Payload**
 
@@ -101,9 +101,9 @@ Name | Type | Mandatory | Description
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`symbol` | String | YES | ENUM symbol
+| Name     | Type   | Mandatory | Description                         |
+|----------|--------|-----------|-------------------------------------|
+| `symbol` | String | YES       | [ENUM symbol](./rest-api.md#symbol) |
 
 **Payload**
 
@@ -132,9 +132,9 @@ Name | Type | Mandatory | Description
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`symbol` | String | YES | ENUM symbol
+| Name     | Type   | Mandatory | Description |
+|----------|--------|-----------|-------------|
+| `symbol` | String | YES       | ENUM symbol |
 
 **Payload**
 

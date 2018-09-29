@@ -1,39 +1,44 @@
 # REST HTTPS API for BaseFEX
 
-- [General information](#general-information)
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [General Information](#general-information)
 - [Authenticating with an API Key](#authenticating-with-an-api-key)
-  - [Signed Endpoint Examples](#signed-endpoint-examples)
-    - [Pseudo Code Example](#pseudo-code-example)
-    - [Go Language Example](#go-language-example)
+    - [Signed Endpoint Examples](#signed-endpoint-examples)
+        - [Pseudo Code Example](#pseudo-code-example)
+        - [Go Language Example](#go-language-example)
 - [ENUM Definitions](#enum-definitions)
     - [Symbol](#symbol)
-    - [Candlestick type](#candlestick-type)
+    - [Candlestick Type](#candlestick-type)
     - [Side](#side)
     - [Order Status](#order-status)
     - [Order Type](#order-type)
-- [User Private Endpoints](#user-private-endpoints)
-  - [User Account](#user-account)
-      - [GET /accounts](#get-accounts)
-      - [PUT /positions/{id}](#put-positionsid)
-      - [DELETE /positions/{id}](#delete-positionsid)
-  - [User Order](#user-order)
-      - [POST /orders](#post-orders)
-      - [GET /orders](#get-orders)
-      - [GET /orders/{id}](#get-ordersid)
-      - [DELETE /orders/{id}](#delete-ordersid)
-      - [DELETE /orders](#delete-orders)
-  - [User Trades History](#user-trades-history)
-      - [GET /trades](#get-trades)
-      - [GET /trades@{symbol}](#get-tradessymbol)
+- [Private User API Endpoints](#private-user-api-endpoints)
+    - [User Account](#user-account)
+        - [GET /accounts](#get-accounts)
+        - [PUT /positions/{id}](#put-positionsid)
+        - [DELETE /positions/{id}](#delete-positionsid)
+    - [User Order](#user-order)
+        - [POST /orders](#post-orders)
+        - [GET /orders](#get-orders)
+        - [GET /orders/{id}](#get-ordersid)
+        - [DELETE /orders/{id}](#delete-ordersid)
+        - [DELETE /orders](#delete-orders)
+    - [User Trades History](#user-trades-history)
+        - [GET /trades](#get-trades)
+        - [GET /trades@{symbol}](#get-tradessymbol)
 - [Public API Endpoints](#public-api-endpoints)
-  - [Market Quotation](#market-quotation)
-      - [GET /quotation/candlesticks/{type}@{symbol}/history](#get-quotationcandlestickstypesymbolhistory)
-      - [GET /quotation/funding-rates](#get-quotationfunding-rates)
-      - [GET /quotation/instruments](#get-quotationinstruments)
-      - [GET /quotation/instruments/prices](#get-quotationinstrumentsprices)
-      - [GET /quotation/volumes](#get-quotationvolumes)
+    - [Market Quotation](#market-quotation)
+        - [GET /quotation/candlesticks/{type}@{symbol}/history](#get-quotationcandlestickstypesymbolhistory)
+        - [GET /quotation/funding-rates](#get-quotationfunding-rates)
+        - [GET /quotation/instruments](#get-quotationinstruments)
+        - [GET /quotation/instruments/prices](#get-quotationinstrumentsprices)
+        - [GET /quotation/volumes](#get-quotationvolumes)
 
-## General information
+<!-- markdown-toc end -->
+
+## General Information
 
 - The base endpoint is: **https://testnet-api.basefex.com/v1**
 - All endpoints return a JSON object.
@@ -43,8 +48,8 @@
 
 ```js
 {
-    "code": "err_account_login_required",
-    "message": "Login is required"
+  "code": "err_account_login_required",
+  "message": "Login is required"
 }
 ```
 
@@ -52,7 +57,7 @@
 
 Authentication is done by sending the following HTTP headers:
 
-- `X-API-Key`: Your public API key. 
+- `X-API-Key`: Your public API key.
 - `X-API-Expires`: A UNIX timestamp after which the request is no longer valid. This is to prevent replay attacks. UNIX timestamps are in seconds. For example: `2018-09-21T01:56:04+08:00 is 1537466164`.
 - `X-API-Signature`: A signature of the request you are making. It is calculated as `signature = Base64.encode(SHA256WithRSA(privateKey, sigstr)`.
 
@@ -145,16 +150,16 @@ func ParseRsaPrivateKeyFromPemStr(privPEM string) (*rsa.PrivateKey, error) {
 
 - `BTCUSD`
 
-### Candlestick type
+### Candlestick Type
 
-Name | Description
------------- | ------------ 
-`min` | Minute
-`h` | Hour
-`day` | Day
-`week` | Week
-`mon` | Month
-`year` | Year
+| Name   | Description |
+|--------|-------------|
+| `min`  | Minute      |
+| `h`    | Hour        |
+| `day`  | Day         |
+| `week` | Week        |
+| `mon`  | Month       |
+| `year` | Year        |
 
 - `1min`
 - `3min`
@@ -250,12 +255,12 @@ To update specified position.
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`id` | String | YES | position id
-`is_cross` | Bool | YES |
-`leverage` | String | YES |
-`margin` | String | YES |
+| Name       | Type   | Mandatory | Description |
+|------------|--------|-----------|-------------|
+| `id`       | String | YES       | position id |
+| `is_cross` | Bool   | YES       |             |
+| `leverage` | String | YES       |             |
+| `margin`   | String | YES       |             |
 
 **Response**
 
@@ -287,10 +292,10 @@ To close specified position.
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`id` | String | YES | order id
-`price` | String | | query parameter
+| Name    | Type   | Mandatory | Description     |
+|---------|--------|-----------|-----------------|
+| `id`    | String | YES       | order id        |
+| `price` | String |           | query parameter |
 
 **Example**
 
@@ -310,13 +315,13 @@ To place a new order.
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`price` | String | YES |
-`side` | String | YES | [ENUM Side](#side)
-`size` | String | YES |
-`symbol` | String | YES | [ENUM Symbol](#symbol)
-`type` | String | YES | [ENUM Order Type](#order-type)
+| Name     | Type   | Mandatory | Description                    |
+|----------|--------|-----------|--------------------------------|
+| `price`  | String | YES       |                                |
+| `side`   | String | YES       | [ENUM Side](#side)             |
+| `size`   | String | YES       |                                |
+| `symbol` | String | YES       | [ENUM Symbol](#symbol)         |
+| `type`   | String | YES       | [ENUM Order Type](#order-type) |
 
 **Response**
 
@@ -330,11 +335,11 @@ To list orders.
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`status` | Array[String] | NO | [ENUM Order Status](#order-status)
-`page_no` | INT | YES |
-`page_size` | INT | NO | Default 100
+| Name        | Type          | Mandatory | Description                        |
+|-------------|---------------|-----------|------------------------------------|
+| `status`    | Array[String] | NO        | [ENUM Order Status](#order-status) |
+| `page_no`   | INT           | YES       |                                    |
+| `page_size` | INT           | NO        | Default 100                        |
 
 **Example**
 
@@ -371,9 +376,9 @@ To read specified order.
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`id` | String | YES | order id
+| Name | Type   | Mandatory | Description |
+|------|--------|-----------|-------------|
+| `id` | String | YES       | order id    |
 
 **Response**
 
@@ -404,9 +409,9 @@ To cancel specified order.
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`id` | String | YES | order id
+| Name | Type   | Mandatory | Description |
+|------|--------|-----------|-------------|
+| `id` | String | YES       | order id    |
 
 **Example**
 
@@ -424,9 +429,9 @@ To cancel all orders specified by `ids`.
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`ids` | Array[String] | YES | array of order id
+| Name  | Type          | Mandatory | Description       |
+|-------|---------------|-----------|-------------------|
+| `ids` | Array[String] | YES       | array of order id |
 
 **Response**
 
@@ -442,10 +447,10 @@ To list trades history.
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`page_no` | INT | YES |
-`page_size` | INT | NO | default size is 100
+| Name        | Type | Mandatory | Description         |
+|-------------|------|-----------|---------------------|
+| `page_no`   | INT  | YES       |                     |
+| `page_size` | INT  | NO        | default size is 100 |
 
 **Response**
 
@@ -478,11 +483,11 @@ To list trades specified by `symbol`.
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`symbol` | String | YES | [ENUM Symbol](#symbol)
-`page_no` | INT | YES |
-`page_size` | INT | NO | default size is 100
+| Name        | Type   | Mandatory | Description            |
+|-------------|--------|-----------|------------------------|
+| `symbol`    | String | YES       | [ENUM Symbol](#symbol) |
+| `page_no`   | INT    | YES       |                        |
+| `page_size` | INT    | NO        | default size is 100    |
 
 **Example**
 
@@ -523,12 +528,12 @@ To get candlestick history specified by `type` and `symbol`.
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`type` | String | YES | [ENUM Candlestick type](#candlestick-type)
-`symbol` | String | YES | [ENUM Symbol](#symbol)
-`page_size` | INT | YES | 
-`since` | INT | NO | unix timestamp
+| Name        | Type   | Mandatory | Description                                |
+|-------------|--------|-----------|--------------------------------------------|
+| `type`      | String | YES       | [ENUM Candlestick type](#candlestick-type) |
+| `symbol`    | String | YES       | [ENUM Symbol](#symbol)                     |
+| `page_size` | INT    | YES       |                                            |
+| `since`     | INT    | NO        | unix timestamp                             |
 
 **Response**
 
@@ -601,10 +606,10 @@ To list product prices.
 
 **Parameters**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-`page_size` | INT | NO | 
-`since` | INT | NO | unix timestamp
+| Name        | Type | Mandatory | Description    |
+|-------------|------|-----------|----------------|
+| `page_size` | INT  | NO        |                |
+| `since`     | INT  | NO        | unix timestamp |
 
 **Example**
 
