@@ -4,6 +4,7 @@
 **Table of Contents**
 
 - [General Information](#general-information)
+- [Pagination](#pagination)
 - [Authenticating with an API Key](#authenticating-with-an-api-key)
     - [Signed Endpoint Examples](#signed-endpoint-examples)
         - [Pseudo Code Example](#pseudo-code-example)
@@ -44,12 +45,43 @@
 - All endpoints return a JSON object.
 - HTTP 4xx return codes are used for malformed requests, the issue is on the sender's side.
 - BaseFEX API Explorer: **https://testnet.basefex.com/api/explorer**
-- Any endpoint may return an [ERROR](./errors.md) payload as follows:
+- Any endpoint may return either a data payload with envelop:
+  ```js
+  {
+    "meta": {},
+    "data": {
+      "orders": [],
+      "posiion": {}
+    }
+  }
+  ```
 
+  or an [ERROR](./errors.md) payload as follows:
+  ```js
+  {
+    "code": "err_account_login_required",
+    "message": "Login is required"
+  }
+  ```
+
+## Pagination
+Some endpoints support pagination.
+
+**Parameters**
+
+| Name        | Type | Mandatory | Description |
+|-------------|------|-----------|-------------|
+| `page_no`   | INT  | YES       |             |
+| `page_size` | INT  | NO        | Default 100 |
+
+
+**Response**
 ```js
 {
-  "code": "err_account_login_required",
-  "message": "Login is required"
+  "meta": {
+    "total_count": 361
+  },
+  "data": {}
 }
 ```
 
