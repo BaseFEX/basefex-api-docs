@@ -11,8 +11,8 @@
 
 ## General Information
 
-- The WebSocket base URL is **wss://testnet-api.basefex.com/v1**
-- BaseFEX API Explorer: **https://testnet.basefex.com/api/explorer**
+- The WebSocket base URL is **wss://api.basefex.com/v1**
+- BaseFEX API Explorer: **https://www.basefex.com/api/explorer**
 
 ## Detailed Stream Information
 
