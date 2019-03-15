@@ -183,7 +183,7 @@ async def receive(url, headers):
             print(data)
 ```
 
-#### Listen Candlesticks
+#### Subscribe Candlesticks
 ```python
 candlestick_url = 'wss://api.basefex.com/v1/quotation/candlesticks/1MIN@BTCUSD'
 asyncio.get_event_loop().run_until_complete(receive(candlestick_url, None))
@@ -193,7 +193,7 @@ asyncio.get_event_loop().run_until_complete(receive(candlestick_url, None))
 [{"symbol":"BTCUSD","type":"1min","time":1552628760,"open":3860,"close":3859.5,"high":3860,"low":3859.5,"volume":17195,"n_trades":3}]
 ```
 
-#### Listen Depth Book
+#### Subscribe Depth Book
 ```python
 depth_url = 'wss://api.basefex.com/v1/quotation/depth@BTCUSD'
 asyncio.get_event_loop().run_until_complete(receive(depth_url, None))
@@ -204,7 +204,7 @@ asyncio.get_event_loop().run_until_complete(receive(depth_url, None))
 {"bids":{},"last-price":3860,"from":547056,"best-prices":{"ask":3860,"bid":3859.5},"asks":{"3860":901715},"to":547056}
 ```
 
-#### Listen Recent Trades
+#### Subscribe Recent Trades
 ```python
 trades_url = 'wss://api.basefex.com/v1/quotation/trades@BTCUSD'
 asyncio.get_event_loop().run_until_complete(receive(trades_url, None))
@@ -215,7 +215,7 @@ asyncio.get_event_loop().run_until_complete(receive(trades_url, None))
 [{"id":"5a5ffc1b-6b80-0000-0001-00000008661d","symbol":"BTCUSD","price":3859.5,"size":2144,"matched_at":1552629657,"side":"SELL"}]
 ```
 
-#### Listen Cash and Position
+#### Subscribe Cash and Position
 ```python
 # api key id from website
 key_id = "5a54876c-04a9-4138-0004-5cb81fffffb8"
