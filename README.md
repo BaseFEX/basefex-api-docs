@@ -37,9 +37,9 @@ Sample JWT header:
 ```
 
 For JWT digest payload:
-- HTTP-METHOD: upper-case, `GET` | `POST`
-- PATH-WITH-QUERY-STRING: PATH always starts with `/`, QUERY-STRING comes with `?` if exists. This fields comes as it is without `URL ENCODING`. For example: `"/balance?ABC=123&def=456"`
-- HTTP-BODY: JSON-encoding String in request raw body, eg: `"{\"abc\":1,\"bar\":2}"`
+- `HTTP-METHOD`: upper-case, `GET` | `POST`
+- `PATH-WITH-QUERY-STRING`: PATH always starts with `/`, QUERY-STRING comes with `?` if exists. This fields comes as it is without `URL ENCODING`. For example: `"/balance?ABC=123&def=456"`
+- `HTTP-BODY`: JSON-encoding String in request raw body, eg: `"{\"abc\":1,\"bar\":2}"`
 
 raw `digest` before MD5 example: `POST/balance/user?q=foo{\"abc\":1,\"bar\":2}`
 
@@ -152,7 +152,7 @@ print(response.json())
       "id": "5a5c7825-10ea-4526-0004-f1732630e663",
       "markPrice": 0.000724,
       "buyingNotional": 0.0,
-      "isCross": True,
+      "isCross": true,
       "feeRateMaker": 0.0,
       "entryPrice": 0,
       "sellingNotional": 0.0,
@@ -176,7 +176,7 @@ print(response.json())
       "liquidatePrice": 0,
       "notional": 0.0,
       "id": "5a5c7825-5b24-4434-0004-d1019822088b",
-      "isCross": True,
+      "isCross": true,
       "feeRateMaker": 0.0,
       "entryPrice": 0,
       "sellingNotional": 0.0,
@@ -240,8 +240,8 @@ print(response.json())
   },
   "filledNotional": 0,
   "status": "NEW",
-  "isLiquidate": False,
-  "reduceOnly": False,
+  "isLiquidate": false,
+  "reduceOnly": false,
   "type": "LIMIT",
   "symbol": "BTCUSD",
   "filled": 0,
