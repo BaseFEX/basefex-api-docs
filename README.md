@@ -2,7 +2,7 @@
 You can apply API keys from Account & Preferences page. In order to be able to create API Key,
 Two-Factor Authentication via Google Authenticator or Authy app is required. After creating your key, store the private key safely and remember the key-id for it. You will need both to create an authorization token for API access. RSA signed [JWT](https://jwt.io/introduction/) token is used here.
 
-## Apply API key at [here](https://www.basefex.com/account/keys)
+## Apply API keys from [here](https://www.basefex.com/account/keys)
 
 ### authorization spec:
 ```
@@ -24,7 +24,7 @@ Sample JWT header:
 
 For JWT digest payload:
 - HTTP-METHOD: upper-case, `GET` | `POST`
-- PATH-WITH-QUERY-STRING: lower-case, PATH always starts with `/`, QUERY-STRING comes with `?` if exists. This fields comes as it is without `URL ENCODING`. For example: `"/balance?abc=123&def=456"`
+- PATH-WITH-QUERY-STRING: PATH always starts with `/`, QUERY-STRING comes with `?` if exists. This fields comes as it is without `URL ENCODING`. For example: `"/balance?ABC=123&def=456"`
 - HTTP-BODY: JSON-encoding String in request raw body, eg: `"{\"abc\":1,\"bar\":2}"`
 
 raw `digest` before MD5 example: `POST/balance/user?q=foo{\"abc\":1,\"bar\":2}`
