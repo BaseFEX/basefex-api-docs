@@ -1,15 +1,15 @@
 # Overview
 [BaseFEX](https://www.basefex.com) offers fully featured REST API and streaming WebSocket API.
-1. [REST API](#REST-API)
-   1. [Apply API keys](#Apply-API-keys)
-   2. [Authentication](#Authentication)
-   3. [Python Example](#rest-api-usage-python-example)
-2. [WebSocket API](#WebSocket-API)
-   1. [Python Example](#websocket-api-usage-python-example)
+* [REST API](#REST-API)
+   * [Apply API keys](#Apply-API-keys)
+   * [Authentication](#Authentication)
+   * [Python Example](#rest-api-usage-python-example)
+* [WebSocket API](#WebSocket-API)
+   * [Python Example](#websocket-api-usage-python-example)
 
 ## REST API
 We provide fully featured REST API to help you automate your trading.
-* BaseFEX base endpoint: [https://api.basefex.com](https://api.basefex.com)
+* BaseFEX base endpoint: `https://api.basefex.com`
 * Interactive Swagger REST API explorer: [https://api.basefex.com/explorer](https://api.basefex.com/explorer)
 
 ### Apply API keys
@@ -160,8 +160,8 @@ print(response.json())
 
 ## WebSocket API
   You may subscribe to real-time changes through our websocket endpoints.
-* The WebSocket base URL is [wss://ws.basefex.com](wss://ws.basefex.com)
-* Interactive Swagger WebSocket API explorer [https://ws.basefex.com](https://ws.basefex.com)
+* The WebSocket base URL is `wss://ws.basefex.com`
+* Interactive Swagger WebSocket API explorer [https://ws.basefex.com/explorer](https://ws.basefex.com/explorer)
 
 ### WebSocket API Usage Python Example
 ```python
