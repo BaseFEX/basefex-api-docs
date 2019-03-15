@@ -161,7 +161,7 @@ print(response.json())
 ## WebSocket API
   You may subscribe to real-time changes through our websocket endpoints.
 * The WebSocket base URL is [wss://ws.basefex.com](wss://ws.basefex.com)
-* WebSocket Interactive Swagger API explorer [https://ws.basefex.com](https://ws.basefex.com)
+* Interactive Swagger WebSocket API explorer [https://ws.basefex.com](https://ws.basefex.com)
 
 ### WebSocket API Usage Python Example
 ```python
