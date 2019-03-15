@@ -146,3 +146,73 @@ print(response.json())
 
 # Interactive REST API Explorer
 For a list of endpoints and return types, view the REST documentation in the [API Explorer](https://api.basefex.com/explorer).
+
+# Websocket API Usage Python Example
+```python
+import asyncio
+import base64
+import hashlib
+import jwt
+import requests
+import ssl
+import websockets
+from cryptography.hazmat.primitives.serialization import load_der_private_key
+from cryptography.hazmat.backends.openssl import backend
+
+context = ssl.SSLContext(protocol=ssl.PROTOCOL_TLS)
+async def receive(url, headers):
+    async with websockets.connect(url, ssl=context, extra_headers=headers) as websocket:
+        while not websocket.closed:
+            data = await websocket.recv()
+            print(data)
+```
+
+### Receive Candlesticks
+```python
+candlestick_url = 'wss://api.basefex.com/v1/quotation/candlesticks/1MIN@BTCUSD'
+asyncio.get_event_loop().run_until_complete(receive(candlestick_url, None))
+```
+=>
+```json
+[{"symbol":"BTCUSD","type":"1min","time":1552628760,"open":3860,"close":3859.5,"high":3860,"low":3859.5,"volume":17195,"n_trades":3}]
+```
+
+### Receive Depth Book
+```python
+depth_url = 'wss://api.basefex.com/v1/quotation/depth@BTCUSD'
+asyncio.get_event_loop().run_until_complete(receive(depth_url, None))
+```
+=>
+```json
+{"bids":{"3844":27927},"last-price":3860,"from":547055,"best-prices":{"ask":3860,"bid":3859.5},"asks":{},"to":547055}
+{"bids":{},"last-price":3860,"from":547056,"best-prices":{"ask":3860,"bid":3859.5},"asks":{"3860":901715},"to":547056}
+```
+
+### Receive Recent Trades
+```python
+trades_url = 'wss://api.basefex.com/v1/quotation/trades@BTCUSD'
+asyncio.get_event_loop().run_until_complete(receive(trades_url, None))
+```
+=>
+```json
+[{"id":"5a5ffc13-b380-0000-0001-000000086607","symbol":"BTCUSD","price":3860,"size":15328,"matched_at":1552629649,"side":"BUY"}]
+[{"id":"5a5ffc1b-6b80-0000-0001-00000008661d","symbol":"BTCUSD","price":3859.5,"size":2144,"matched_at":1552629657,"side":"SELL"}]
+```
+
+### Receive Cash and Position
+```python
+# api key id from website
+key_id = "5a54876c-04a9-4138-0004-5cb81fffffb8"
+
+# api private key from website
+private_key = "MIICdQI........"
+
+auth_token = generate_token(key_id, private_key, "GET", 1584014794, "/stream")
+headers = {'authorization': 'Bearer ' + auth_token}
+stream_url = 'wss://api.basefex.com/stream'
+asyncio.get_event_loop().run_until_complete(receive(stream_url, headers))
+```
+=>
+```json
+{"cash":{"id":"5a5c77df-0a5b-4de7-0004-1482d7fd360f","userId":"5a51dee2-1ceb-4c67-0004-0a9b2b5396a2","currency":"BTC","balances":0,"available":0,"margin":0,"orderMargin":0,"overLoss":0,"leverage":0,"marginBalances":0,"unrealizedPnl":0,"marginRate":0,"positionMargin":0},"positions":{"BTCUSD":{"id":"5a5c7825-5b24-4434-0004-d1019822088b","userId":"5a51dee2-1ceb-4c67-0004-0a9b2b5396a2","symbol":"BTCUSD","isCross":true,"marginRate":0.01,"feeRateTaker":0.0005,"feeRateMaker":0,"size":0,"notional":0,"margin":0,"orderMargin":0,"buyingSize":0,"buyingNotional":0,"sellingSize":0,"sellingNotional":0,"realisedPnl":0,"totalPnl":0,"markPrice":3854.3,"riskLimit":100,"leverage":100,"rom":0,"equity":0,"value":0,"entryPrice":0,"risk":0,"unrealizedPnl":0,"liquidatePrice":0}},"userId":"5a51dee2-1ceb-4c67-0004-0a9b2b5396a2","trades":[],"orders":[]} 
+```
