@@ -1,11 +1,11 @@
 # Overview
 [BaseFEX](https://www.basefex.com) offers fully featured REST API and streaming WebSocket API.
-1. [REST API](#REST API)
-   1. [Apply API keys](#Apply API keys)
+1. [REST API](#REST-API)
+   1. [Apply API keys](#Apply-API-keys)
    2. [Authentication](#Authentication)
-   3. [Python Example](#Python Example)
-2. [WebSocket API](#WebSocket API Overview)
-   1. [Python Example](#Python Example)
+   3. [Python Example](#Python-Example)
+2. [WebSocket API](#WebSocket-API-Overview)
+   1. [Python Example](#Python-Example)
 
 ## REST API
 We provide fully featured REST API to help you automate your trading.
