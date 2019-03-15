@@ -128,7 +128,76 @@ print(response.json())
 ```
 =>
 ```json
-{'cash': {'leverageUsageRate': 0.0, 'available': 9.999371427, 'orderMargin': 0.000628573, 'balances': 10.0, 'id': '5a5c77df-0a5b-4de7-0004-1482d7fd360f', 'unrealizedPnl': 0, 'overLoss': 0.0, 'userId': '5a51dee2-1ceb-4c67-0004-0a9b2b5396a2', 'marginBalances': 10.0, 'marginUsageRate': 6.28573e-05, 'currency': 'BTC', 'margin': 0.0}, 'positions': {'GRINBTC': {'marginRate': 0.01, 'size': 0.0, 'liquidatePrice': 0, 'notional': 0.0, 'id': '5a5c7825-10ea-4526-0004-f1732630e663', 'markPrice': 0.000724, 'buyingNotional': 0.0, 'isCross': True, 'feeRateMaker': 0.0, 'entryPrice': 0, 'sellingNotional': 0.0, 'symbol': 'GRINBTC', 'riskLimit': 100.0, 'totalPnl': 0.0, 'unrealizedPnl': 0, 'feeRateTaker': 0.0005, 'orderMargin': 0.0, 'sellingSize': 0.0, 'realisedPnl': 0.0, 'userId': '5a51dee2-1ceb-4c67-0004-0a9b2b5396a2', 'buyingSize': 0.0, 'leverage': 100.0, 'margin': 0.0, 'rom': 0}, 'BTCUSD': {'marginRate': 0.01, 'size': 0.0, 'liquidatePrice': 0, 'notional': 0.0, 'id': '5a5c7825-5b24-4434-0004-d1019822088b', 'isCross': True, 'feeRateMaker': 0.0, 'entryPrice': 0, 'sellingNotional': 0.0, 'orderMargin': 0.000628573, 'symbol': 'BTCUSD', 'riskLimit': 100.0, 'markPrice': 3858.64, 'totalPnl': 0.0, 'unrealizedPnl': 0, 'feeRateTaker': 0.0005, 'buyingNotional': 0.057143, 'sellingSize': 0.0, 'realisedPnl': 0.0, 'userId': '5a51dee2-1ceb-4c67-0004-0a9b2b5396a2', 'leverage': 100.0, 'buyingSize': 200.0, 'margin': 0.0, 'rom': 0}}}
+{
+  'cash': {
+    'leverageUsageRate': 0.0,
+    'available': 9.999371427,
+    'orderMargin': 0.000628573,
+    'balances': 10.0,
+    'id': '5a5c77df-0a5b-4de7-0004-1482d7fd360f',
+    'unrealizedPnl': 0,
+    'overLoss': 0.0,
+    'userId': '5a51dee2-1ceb-4c67-0004-0a9b2b5396a2',
+    'marginBalances': 10.0,
+    'marginUsageRate': 6.28573e-05,
+    'currency': 'BTC',
+    'margin': 0.0
+  },
+  'positions': {
+    'GRINBTC': {
+      'marginRate': 0.01,
+      'size': 0.0,
+      'liquidatePrice': 0,
+      'notional': 0.0,
+      'id': '5a5c7825-10ea-4526-0004-f1732630e663',
+      'markPrice': 0.000724,
+      'buyingNotional': 0.0,
+      'isCross': True,
+      'feeRateMaker': 0.0,
+      'entryPrice': 0,
+      'sellingNotional': 0.0,
+      'symbol': 'GRINBTC',
+      'riskLimit': 100.0,
+      'totalPnl': 0.0,
+      'unrealizedPnl': 0,
+      'feeRateTaker': 0.0005,
+      'orderMargin': 0.0,
+      'sellingSize': 0.0,
+      'realisedPnl': 0.0,
+      'userId': '5a51dee2-1ceb-4c67-0004-0a9b2b5396a2',
+      'buyingSize': 0.0,
+      'leverage': 100.0,
+      'margin': 0.0,
+      'rom': 0
+    },
+    'BTCUSD': {
+      'marginRate': 0.01,
+      'size': 0.0,
+      'liquidatePrice': 0,
+      'notional': 0.0,
+      'id': '5a5c7825-5b24-4434-0004-d1019822088b',
+      'isCross': True,
+      'feeRateMaker': 0.0,
+      'entryPrice': 0,
+      'sellingNotional': 0.0,
+      'orderMargin': 0.000628573,
+      'symbol': 'BTCUSD',
+      'riskLimit': 100.0,
+      'markPrice': 3858.64,
+      'totalPnl': 0.0,
+      'unrealizedPnl': 0,
+      'feeRateTaker': 0.0005,
+      'buyingNotional': 0.057143,
+      'sellingSize': 0.0,
+      'realisedPnl': 0.0,
+      'userId': '5a51dee2-1ceb-4c67-0004-0a9b2b5396a2',
+      'leverage': 100.0,
+      'buyingSize': 200.0,
+      'margin': 0.0,
+      'rom': 0
+    }
+  }
+}
 ```
 
 #### Get transactions
@@ -155,7 +224,33 @@ print(response.json())
 ```
 =>
 ```json
-{"ts": 1552444436078, "liquidateUserId": null, "size": 200, "id": "5a5d398b-9bb3-43be-0004-7097a8e2f9be", "side": "BUY", "meta": {"markPrice": 3858.64, "bestPrices": {"ask": 3856.5, "bid": 3856}, "bestPrice": 3856.5}, "filledNotional": 0, "status": "NEW", "isLiquidate": False, "reduceOnly": False, "type": "LIMIT", "symbol": "BTCUSD", "filled": 0, "conditional": null, "price": 3500, "avgPrice": 0, "notional": 0.057143, "userId": "5a51dee2-1ceb-4c67-0004-0a9b2b5396a2"}
+{
+  "ts": 1552444436078,
+  "liquidateUserId": null,
+  "size": 200,
+  "id": "5a5d398b-9bb3-43be-0004-7097a8e2f9be",
+  "side": "BUY",
+  "meta": {
+    "markPrice": 3858.64,
+    "bestPrices": {
+      "ask": 3856.5,
+      "bid": 3856
+    },
+    "bestPrice": 3856.5
+  },
+  "filledNotional": 0,
+  "status": "NEW",
+  "isLiquidate": False,
+  "reduceOnly": False,
+  "type": "LIMIT",
+  "symbol": "BTCUSD",
+  "filled": 0,
+  "conditional": null,
+  "price": 3500,
+  "avgPrice": 0,
+  "notional": 0.057143,
+  "userId": "5a51dee2-1ceb-4c67-0004-0a9b2b5396a2"
+}
 ```
 
 ## WebSocket API
@@ -190,7 +285,19 @@ asyncio.get_event_loop().run_until_complete(receive(candlestick_url, None))
 ```
 =>
 ```json
-[{"symbol":"BTCUSD","type":"1min","time":1552628760,"open":3860,"close":3859.5,"high":3860,"low":3859.5,"volume":17195,"n_trades":3}]
+[
+  {
+    "symbol": "BTCUSD",
+    "type": "1min",
+    "time": 1552628760,
+    "open": 3860,
+    "close": 3859.5,
+    "high": 3860,
+    "low": 3859.5,
+    "volume": 17195,
+    "n_trades": 3
+  }
+]
 ```
 
 #### Subscribe Depth Book
@@ -200,8 +307,21 @@ asyncio.get_event_loop().run_until_complete(receive(depth_url, None))
 ```
 =>
 ```json
-{"bids":{"3844":27927},"last-price":3860,"from":547055,"best-prices":{"ask":3860,"bid":3859.5},"asks":{},"to":547055}
-{"bids":{},"last-price":3860,"from":547056,"best-prices":{"ask":3860,"bid":3859.5},"asks":{"3860":901715},"to":547056}
+{
+  "bids": {
+    "3844": 27927
+  },
+  "last-price": 3860,
+  "from": 547055,
+  "best-prices": {
+    "ask": 3860,
+    "bid": 3859.5
+  },
+  "asks": {
+    
+  },
+  "to": 547055
+}
 ```
 
 #### Subscribe Recent Trades
@@ -211,8 +331,16 @@ asyncio.get_event_loop().run_until_complete(receive(trades_url, None))
 ```
 =>
 ```json
-[{"id":"5a5ffc13-b380-0000-0001-000000086607","symbol":"BTCUSD","price":3860,"size":15328,"matched_at":1552629649,"side":"BUY"}]
-[{"id":"5a5ffc1b-6b80-0000-0001-00000008661d","symbol":"BTCUSD","price":3859.5,"size":2144,"matched_at":1552629657,"side":"SELL"}]
+[
+  {
+    "id": "5a5ffc13-b380-0000-0001-000000086607",
+    "symbol": "BTCUSD",
+    "price": 3860,
+    "size": 15328,
+    "matched_at": 1552629649,
+    "side": "BUY"
+  }
+]
 ```
 
 #### Subscribe Cash and Position
@@ -230,5 +358,59 @@ asyncio.get_event_loop().run_until_complete(receive(stream_url, headers))
 ```
 =>
 ```json
-{"cash":{"id":"5a5c77df-0a5b-4de7-0004-1482d7fd360f","userId":"5a51dee2-1ceb-4c67-0004-0a9b2b5396a2","currency":"BTC","balances":0,"available":0,"margin":0,"orderMargin":0,"overLoss":0,"leverage":0,"marginBalances":0,"unrealizedPnl":0,"marginRate":0,"positionMargin":0},"positions":{"BTCUSD":{"id":"5a5c7825-5b24-4434-0004-d1019822088b","userId":"5a51dee2-1ceb-4c67-0004-0a9b2b5396a2","symbol":"BTCUSD","isCross":true,"marginRate":0.01,"feeRateTaker":0.0005,"feeRateMaker":0,"size":0,"notional":0,"margin":0,"orderMargin":0,"buyingSize":0,"buyingNotional":0,"sellingSize":0,"sellingNotional":0,"realisedPnl":0,"totalPnl":0,"markPrice":3854.3,"riskLimit":100,"leverage":100,"rom":0,"equity":0,"value":0,"entryPrice":0,"risk":0,"unrealizedPnl":0,"liquidatePrice":0}},"userId":"5a51dee2-1ceb-4c67-0004-0a9b2b5396a2","trades":[],"orders":[]}
+{
+  "cash": {
+    "id": "5a5c77df-0a5b-4de7-0004-1482d7fd360f",
+    "userId": "5a51dee2-1ceb-4c67-0004-0a9b2b5396a2",
+    "currency": "BTC",
+    "balances": 0,
+    "available": 0,
+    "margin": 0,
+    "orderMargin": 0,
+    "overLoss": 0,
+    "leverage": 0,
+    "marginBalances": 0,
+    "unrealizedPnl": 0,
+    "marginRate": 0,
+    "positionMargin": 0
+  },
+  "positions": {
+    "BTCUSD": {
+      "id": "5a5c7825-5b24-4434-0004-d1019822088b",
+      "userId": "5a51dee2-1ceb-4c67-0004-0a9b2b5396a2",
+      "symbol": "BTCUSD",
+      "isCross": true,
+      "marginRate": 0.01,
+      "feeRateTaker": 0.0005,
+      "feeRateMaker": 0,
+      "size": 0,
+      "notional": 0,
+      "margin": 0,
+      "orderMargin": 0,
+      "buyingSize": 0,
+      "buyingNotional": 0,
+      "sellingSize": 0,
+      "sellingNotional": 0,
+      "realisedPnl": 0,
+      "totalPnl": 0,
+      "markPrice": 3854.3,
+      "riskLimit": 100,
+      "leverage": 100,
+      "rom": 0,
+      "equity": 0,
+      "value": 0,
+      "entryPrice": 0,
+      "risk": 0,
+      "unrealizedPnl": 0,
+      "liquidatePrice": 0
+    }
+  },
+  "userId": "5a51dee2-1ceb-4c67-0004-0a9b2b5396a2",
+  "trades": [
+    
+  ],
+  "orders": [
+    
+  ]
+}
 ```
