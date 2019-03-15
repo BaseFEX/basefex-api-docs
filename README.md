@@ -1,10 +1,24 @@
-# API usage
-You can apply API keys from Account & Preferences page. In order to be able to create API Key,
+# Overview
+[BaseFEX](https://www.basefex.com) offers fully featured REST API and streaming WebSocket API.
+1. [REST API](#REST-API)
+   1. [Apply API keys](#Apply-API-keys)
+   2. [Authentication](#Authentication)
+   3. [Python Example](#rest-api-usage-python-example)
+2. [WebSocket API](#WebSocket-API)
+   1. [Python Example](#websocket-api-usage-python-example)
+
+## REST API
+We provide fully featured REST API to help you automate your trading.
+* BaseFEX base endpoint: [https://api.basefex.com](https://api.basefex.com)
+* Interactive Swagger REST API explorer: [https://api.basefex.com/explorer](https://api.basefex.com/explorer)
+
+### Apply API keys
+* Apply API keys from [https://www.basefex.com/account/keys](https://www.basefex.com/account/keys)
+* You can apply API keys from the above link. In order to be able to create API Key,
 Two-Factor Authentication via Google Authenticator or Authy app is required. After creating your key, store the private key safely and remember the key-id for it. You will need both to create an authorization token for API access. RSA signed [JWT](https://jwt.io/introduction/) token is used here.
 
-## Apply API keys from [here](https://www.basefex.com/account/keys)
-
-### authorization spec:
+### Authentication
+#### Authorization spec:
 ```
 Authorization: Bearer JWT.RS512.sign(privateKey, header, payload)
     where
@@ -13,7 +27,7 @@ Authorization: Bearer JWT.RS512.sign(privateKey, header, payload)
      payload = {"exp": expiration-time(epoch in seconds), "digest": http-payload-md5}
      http-payload-md5 = md5(${HTTP-METHOD}${PATH-WITH-QUERY-STRING}${HTTP-BODY}).toHexString().toUpperCase()
 ```
-
+#### Signing detail with examples:
 In your JWT token headers, make sure `alg` equals to `RS512` and `kid` equals to your private key id.
 
 Sample JWT header:
@@ -98,13 +112,13 @@ generate_token(key_id, private_key, "GET", "id=5a24e489-849c-fdd7-0002-2047993c1
 generate_token(key_id, private_key, "POST", "", "{\"price\":3500,\"size\":200}")
 ```
 
-# API Usage Python Example
+### REST API Usage Python Example
 ```python
 import requests
 import json
 ```
 
-### Get account balance
+#### Get account balance
 ```python
 url = 'https://next-api.basefex.com/accounts'
 auth_token = generate_token(key_id, private_key, "GET", 1584014794, "/accounts")
@@ -117,7 +131,7 @@ print(response.json())
 {'cash': {'leverageUsageRate': 0.0, 'available': 9.999371427, 'orderMargin': 0.000628573, 'balances': 10.0, 'id': '5a5c77df-0a5b-4de7-0004-1482d7fd360f', 'unrealizedPnl': 0, 'overLoss': 0.0, 'userId': '5a51dee2-1ceb-4c67-0004-0a9b2b5396a2', 'marginBalances': 10.0, 'marginUsageRate': 6.28573e-05, 'currency': 'BTC', 'margin': 0.0}, 'positions': {'GRINBTC': {'marginRate': 0.01, 'size': 0.0, 'liquidatePrice': 0, 'notional': 0.0, 'id': '5a5c7825-10ea-4526-0004-f1732630e663', 'markPrice': 0.000724, 'buyingNotional': 0.0, 'isCross': True, 'feeRateMaker': 0.0, 'entryPrice': 0, 'sellingNotional': 0.0, 'symbol': 'GRINBTC', 'riskLimit': 100.0, 'totalPnl': 0.0, 'unrealizedPnl': 0, 'feeRateTaker': 0.0005, 'orderMargin': 0.0, 'sellingSize': 0.0, 'realisedPnl': 0.0, 'userId': '5a51dee2-1ceb-4c67-0004-0a9b2b5396a2', 'buyingSize': 0.0, 'leverage': 100.0, 'margin': 0.0, 'rom': 0}, 'BTCUSD': {'marginRate': 0.01, 'size': 0.0, 'liquidatePrice': 0, 'notional': 0.0, 'id': '5a5c7825-5b24-4434-0004-d1019822088b', 'isCross': True, 'feeRateMaker': 0.0, 'entryPrice': 0, 'sellingNotional': 0.0, 'orderMargin': 0.000628573, 'symbol': 'BTCUSD', 'riskLimit': 100.0, 'markPrice': 3858.64, 'totalPnl': 0.0, 'unrealizedPnl': 0, 'feeRateTaker': 0.0005, 'buyingNotional': 0.057143, 'sellingSize': 0.0, 'realisedPnl': 0.0, 'userId': '5a51dee2-1ceb-4c67-0004-0a9b2b5396a2', 'leverage': 100.0, 'buyingSize': 200.0, 'margin': 0.0, 'rom': 0}}}
 ```
 
-### Get transactions
+#### Get transactions
 ```python
 url = 'https://next-api.basefex.com/accounts/transactions?limit=10'
 auth_token = generate_token(key_id, private_key, "GET", 1584014794, "/accounts/transactions", "?limit=10")
@@ -130,7 +144,7 @@ print(response.json())
 []
 ```
 
-### Place an order
+#### Place an order
 ```python
 payload = {'price': 3500, 'size': 200, 'type': 'LIMIT', 'side': 'BUY', 'symbol': 'BTCUSD'}
 url = 'https://next-api.basefex.com/orders'
@@ -144,10 +158,12 @@ print(response.json())
 {"ts": 1552444436078, "liquidateUserId": null, "size": 200, "id": "5a5d398b-9bb3-43be-0004-7097a8e2f9be", "side": "BUY", "meta": {"markPrice": 3858.64, "bestPrices": {"ask": 3856.5, "bid": 3856}, "bestPrice": 3856.5}, "filledNotional": 0, "status": "NEW", "isLiquidate": False, "reduceOnly": False, "type": "LIMIT", "symbol": "BTCUSD", "filled": 0, "conditional": null, "price": 3500, "avgPrice": 0, "notional": 0.057143, "userId": "5a51dee2-1ceb-4c67-0004-0a9b2b5396a2"}
 ```
 
-# Interactive REST API Explorer
-For a list of endpoints and return types, view the REST documentation in the [API Explorer](https://api.basefex.com/explorer).
+## WebSocket API
+  You may subscribe to real-time changes through our websocket endpoints.
+* The WebSocket base URL is [wss://ws.basefex.com](wss://ws.basefex.com)
+* Interactive Swagger WebSocket API explorer [https://ws.basefex.com](https://ws.basefex.com)
 
-# Websocket API Usage Python Example
+### WebSocket API Usage Python Example
 ```python
 import asyncio
 import base64
@@ -167,7 +183,7 @@ async def receive(url, headers):
             print(data)
 ```
 
-### Receive Candlesticks
+#### Listen Candlesticks
 ```python
 candlestick_url = 'wss://api.basefex.com/v1/quotation/candlesticks/1MIN@BTCUSD'
 asyncio.get_event_loop().run_until_complete(receive(candlestick_url, None))
@@ -177,7 +193,7 @@ asyncio.get_event_loop().run_until_complete(receive(candlestick_url, None))
 [{"symbol":"BTCUSD","type":"1min","time":1552628760,"open":3860,"close":3859.5,"high":3860,"low":3859.5,"volume":17195,"n_trades":3}]
 ```
 
-### Receive Depth Book
+#### Listen Depth Book
 ```python
 depth_url = 'wss://api.basefex.com/v1/quotation/depth@BTCUSD'
 asyncio.get_event_loop().run_until_complete(receive(depth_url, None))
@@ -188,7 +204,7 @@ asyncio.get_event_loop().run_until_complete(receive(depth_url, None))
 {"bids":{},"last-price":3860,"from":547056,"best-prices":{"ask":3860,"bid":3859.5},"asks":{"3860":901715},"to":547056}
 ```
 
-### Receive Recent Trades
+#### Listen Recent Trades
 ```python
 trades_url = 'wss://api.basefex.com/v1/quotation/trades@BTCUSD'
 asyncio.get_event_loop().run_until_complete(receive(trades_url, None))
@@ -199,7 +215,7 @@ asyncio.get_event_loop().run_until_complete(receive(trades_url, None))
 [{"id":"5a5ffc1b-6b80-0000-0001-00000008661d","symbol":"BTCUSD","price":3859.5,"size":2144,"matched_at":1552629657,"side":"SELL"}]
 ```
 
-### Receive Cash and Position
+#### Listen Cash and Position
 ```python
 # api key id from website
 key_id = "5a54876c-04a9-4138-0004-5cb81fffffb8"
@@ -214,5 +230,5 @@ asyncio.get_event_loop().run_until_complete(receive(stream_url, headers))
 ```
 =>
 ```json
-{"cash":{"id":"5a5c77df-0a5b-4de7-0004-1482d7fd360f","userId":"5a51dee2-1ceb-4c67-0004-0a9b2b5396a2","currency":"BTC","balances":0,"available":0,"margin":0,"orderMargin":0,"overLoss":0,"leverage":0,"marginBalances":0,"unrealizedPnl":0,"marginRate":0,"positionMargin":0},"positions":{"BTCUSD":{"id":"5a5c7825-5b24-4434-0004-d1019822088b","userId":"5a51dee2-1ceb-4c67-0004-0a9b2b5396a2","symbol":"BTCUSD","isCross":true,"marginRate":0.01,"feeRateTaker":0.0005,"feeRateMaker":0,"size":0,"notional":0,"margin":0,"orderMargin":0,"buyingSize":0,"buyingNotional":0,"sellingSize":0,"sellingNotional":0,"realisedPnl":0,"totalPnl":0,"markPrice":3854.3,"riskLimit":100,"leverage":100,"rom":0,"equity":0,"value":0,"entryPrice":0,"risk":0,"unrealizedPnl":0,"liquidatePrice":0}},"userId":"5a51dee2-1ceb-4c67-0004-0a9b2b5396a2","trades":[],"orders":[]} 
+{"cash":{"id":"5a5c77df-0a5b-4de7-0004-1482d7fd360f","userId":"5a51dee2-1ceb-4c67-0004-0a9b2b5396a2","currency":"BTC","balances":0,"available":0,"margin":0,"orderMargin":0,"overLoss":0,"leverage":0,"marginBalances":0,"unrealizedPnl":0,"marginRate":0,"positionMargin":0},"positions":{"BTCUSD":{"id":"5a5c7825-5b24-4434-0004-d1019822088b","userId":"5a51dee2-1ceb-4c67-0004-0a9b2b5396a2","symbol":"BTCUSD","isCross":true,"marginRate":0.01,"feeRateTaker":0.0005,"feeRateMaker":0,"size":0,"notional":0,"margin":0,"orderMargin":0,"buyingSize":0,"buyingNotional":0,"sellingSize":0,"sellingNotional":0,"realisedPnl":0,"totalPnl":0,"markPrice":3854.3,"riskLimit":100,"leverage":100,"rom":0,"equity":0,"value":0,"entryPrice":0,"risk":0,"unrealizedPnl":0,"liquidatePrice":0}},"userId":"5a51dee2-1ceb-4c67-0004-0a9b2b5396a2","trades":[],"orders":[]}
 ```
