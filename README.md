@@ -353,7 +353,7 @@ private_key = "MIICdQI........"
 
 auth_token = generate_token(key_id, private_key, "GET", 1584014794, "/stream")
 headers = {'authorization': 'Bearer ' + auth_token}
-stream_url = 'wss://api.basefex.com/stream'
+stream_url = 'wss://ws.basefex.com/stream'
 asyncio.get_event_loop().run_until_complete(receive(stream_url, headers))
 ```
 =>
