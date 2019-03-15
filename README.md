@@ -3,9 +3,9 @@
 1. [REST API](#REST-API)
    1. [Apply API keys](#Apply-API-keys)
    2. [Authentication](#Authentication)
-   3. [Python Example](#Python-Example)
-2. [WebSocket API](#WebSocket-API-Overview)
-   1. [Python Example](#Python-Example)
+   3. [Python Example](#rest-api-usage-python-example)
+2. [WebSocket API](#WebSocket-API)
+   1. [Python Example](#websocket-api-usage-python-example)
 
 ## REST API
 We provide fully featured REST API to help you automate your trading.
@@ -112,7 +112,7 @@ generate_token(key_id, private_key, "GET", "id=5a24e489-849c-fdd7-0002-2047993c1
 generate_token(key_id, private_key, "POST", "", "{\"price\":3500,\"size\":200}")
 ```
 
-### Python Example
+### REST API Usage Python Example
 ```python
 import requests
 import json
