@@ -58,6 +58,9 @@ PrivateKey myPrivKey = keyFactory.generatePrivate(keySpec);
 ```
 
 Or in python
+
+Install some dependencies first with `pip install pyjwt cryptography requests`
+
 ```python
 import base64
 from cryptography.hazmat.primitives.serialization import load_pem_private_key
