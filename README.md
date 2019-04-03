@@ -1,7 +1,7 @@
 # Overview
 [BaseFEX](https://www.basefex.com) offers fully featured REST API and streaming WebSocket API.
 * [REST API](#REST-API)
-   * [Apply API keys](#Apply-API-keys)
+   * [Generate API keys](#Generate-API-keys)
    * [Authentication](#Authentication)
    * [Python Example](#rest-api-usage-python-example)
 * [WebSocket API](#WebSocket-API)
@@ -12,10 +12,10 @@ We provide fully featured REST API to help you automate your trading.
 * BaseFEX base endpoint: `https://api.basefex.com`
 * Interactive Swagger REST API explorer: [https://api.basefex.com/explorer](https://api.basefex.com/explorer)
 
-### Apply API keys
-* Apply API keys from [https://www.basefex.com/account/keys](https://www.basefex.com/account/keys)
-* You can apply API keys from the above link. In order to be able to create API Key,
-Two-Factor Authentication via Google Authenticator or Authy app is required. After creating your key, store the private key safely and remember the key-id for it. You will need both to create an authorization token for API access. RSA signed [JWT](https://jwt.io/introduction/) token is used here.
+### Generate API keys
+* Generate API keys from [https://www.basefex.com/account/keys](https://www.basefex.com/account/keys)
+* In order to be able to generate API keys,
+Two-Factor Authentication via Google Authenticator or Authy app is required. After generating your key, store the private key safely and remember the key-id for it. You will need both to create an authorization token for API access. RSA signed [JWT](https://jwt.io/introduction/) token is used here.
 
 ### Authentication
 #### Authorization spec:
@@ -23,7 +23,7 @@ Two-Factor Authentication via Google Authenticator or Authy app is required. Aft
 Authorization: Bearer JWT.RS512.sign(privateKey, header, payload)
     where
      privateKey,keyId = Created from Account page
-     header = {"alg": "RS512", "kid": "you api key"}
+     header = {"alg": "RS512", "kid": "you api key-id"}
      payload = {"exp": expiration-time(epoch in seconds), "digest": http-payload-md5}
      http-payload-md5 = md5(${HTTP-METHOD}${PATH-WITH-QUERY-STRING}${HTTP-BODY}).toHexString().toUpperCase()
 ```
