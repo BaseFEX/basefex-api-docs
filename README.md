@@ -92,6 +92,25 @@ def create_digest(method, uri, query_str, body):
     return hashlib.md5(data.encode()).hexdigest()
 
 def generate_token(key_id, private_key, method, exp, uri="/", query_str="", body=""):
+       """Generate signed jwt token string
+
+       Parameters
+       ----------
+       key_id : str
+            API key id
+       private_key : str
+            API private key
+       method : str
+            HTTP method, POST|GET|etc
+       exp : int
+            Epoch timestamp(in seconds)
+       uri : str
+            URI raw path
+       query_str : str
+            URI query begins with ?
+       body : str
+            Raw JSON encoding string
+       """
     digest = create_digest(method, uri, query_str, body)
     der = base64.b64decode(private_key)
     pem_key = load_der_private_key(der, password=None, backend=backend)
@@ -104,7 +123,7 @@ Sample usage:
 #
 # GET with complex querystring
 #
-generate_token(key_id, private_key, "GET", "id=5a24e489-849c-fdd7-0002-2047993c11a3&limit=1&page=2")
+generate_token(key_id, private_key, "GET", 1584014794, "/foo", "?id=5a24e489-849c-fdd7-0002-2047993c11a3&limit=1&page=2")
 
 ```
 
@@ -112,7 +131,7 @@ generate_token(key_id, private_key, "GET", "id=5a24e489-849c-fdd7-0002-2047993c1
 #
 # POST with body
 #
-generate_token(key_id, private_key, "POST", "", "{\"price\":3500,\"size\":200}")
+generate_token(key_id, private_key, "POST", 1584014794, "/bar", body="{\"price\":3500,\"size\":200}")
 ```
 
 ### REST API Usage Python Example
