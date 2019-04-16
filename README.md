@@ -123,7 +123,7 @@ import json
 
 #### Get account balance
 ```python
-url = 'https://next-api.basefex.com/accounts'
+url = 'https://api.basefex.com/accounts'
 auth_token = generate_token(key_id, private_key, "GET", 1584014794, "/accounts")
 hed = {'authorization': 'Bearer ' + auth_token}
 response = requests.get(url, headers=hed)
@@ -205,7 +205,7 @@ print(response.json())
 
 #### Get transactions
 ```python
-url = 'https://next-api.basefex.com/accounts/transactions?limit=10'
+url = 'https://api.basefex.com/accounts/transactions?limit=10'
 auth_token = generate_token(key_id, private_key, "GET", 1584014794, "/accounts/transactions", "?limit=10")
 hed = {'authorization': 'Bearer ' + auth_token}
 response = requests.get(url, headers=hed)
@@ -219,7 +219,7 @@ print(response.json())
 #### Place an order
 ```python
 payload = {'price': 3500, 'size': 200, 'type': 'LIMIT', 'side': 'BUY', 'symbol': 'BTCUSD'}
-url = 'https://next-api.basefex.com/orders'
+url = 'https://api.basefex.com/orders'
 auth_token = generate_token(key_id, private_key, "POST", 1584014794, "/orders", "", json.dumps(payload))
 hed = {'authorization': 'Bearer ' + auth_token, 'Content-Type': 'application/json'}
 response = requests.post(url, headers=hed, json=payload)
