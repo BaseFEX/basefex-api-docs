@@ -302,7 +302,7 @@ async def receive(url, headers):
 
 #### Subscribe Candlesticks
 ```python
-candlestick_url = 'wss://ws.basefex.com/quotation/candlesticks/1MIN@BTCUSD'
+candlestick_url = 'wss://ws.basefex.com/candlesticks/1MIN@BTCUSD'
 asyncio.get_event_loop().run_until_complete(receive(candlestick_url, None))
 ```
 =>
@@ -324,7 +324,7 @@ asyncio.get_event_loop().run_until_complete(receive(candlestick_url, None))
 
 #### Subscribe Depth Book
 ```python
-depth_url = 'wss://ws.basefex.com/quotation/depth@BTCUSD'
+depth_url = 'wss://ws.basefex.com/depth@BTCUSD'
 asyncio.get_event_loop().run_until_complete(receive(depth_url, None))
 ```
 =>
@@ -348,7 +348,7 @@ asyncio.get_event_loop().run_until_complete(receive(depth_url, None))
 
 #### Subscribe Recent Trades
 ```python
-trades_url = 'wss://ws.basefex.com/quotation/trades@BTCUSD'
+trades_url = 'wss://ws.basefex.com/trades@BTCUSD'
 asyncio.get_event_loop().run_until_complete(receive(trades_url, None))
 ```
 =>
