@@ -275,6 +275,17 @@ print(response.json())
 }
 ```
 
+| order status         |
+|----------------------|
+| `NEW`                |
+| `PARTIALLY_FILLED`   |
+| `FILLED`             |
+| `CANCELED`           |
+| `PARTIALLY_CANCELED` |
+| `REJECTED`           |
+
+
+
 ## WebSocket API
   You may subscribe to real-time changes through our websocket endpoints.
 * The WebSocket base URL is `wss://ws.basefex.com`
