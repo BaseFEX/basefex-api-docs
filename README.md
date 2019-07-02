@@ -78,7 +78,7 @@ Sample python code for generating token:
 import base64
 import jwt
 import hashlib
-from cryptography.hazmat.primitives.serialization import load_pem_private_key
+from cryptography.hazmat.primitives.serialization import load_der_private_key
 from cryptography.hazmat.backends.openssl import backend
 
 # api key id from website
