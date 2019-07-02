@@ -63,7 +63,7 @@ Install some dependencies first with `pip install pyjwt cryptography requests`
 
 ```python
 import base64
-from cryptography.hazmat.primitives.serialization import load_pem_private_key
+from cryptography.hazmat.primitives.serialization import load_der_private_key
 from cryptography.hazmat.backends.openssl import backend
 
 key_str = "your private key string"
