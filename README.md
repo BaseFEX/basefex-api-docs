@@ -1,4 +1,4 @@
-Rest API 和 Websocket推送中文版文档
+REST API 和 WebSocket 推送中文版文档
 ================
 
 部分接口需要获取签名Token，请查看[这里(英文)](./sign.md)
@@ -22,7 +22,7 @@ Rest API 和 Websocket推送中文版文档
   - 正式交易环境:
 <https://api.basefex.com/explorer/index.html#/>
 
-## <span id="open-api-orders"> 订单(Orders) </span>
+## <span id="open-api-orders"> 订单 Orders </span>
 
 <!-- GET /orders/{id} -->
 
@@ -513,7 +513,7 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 }
 ```
 
-## <span id="open-api-positions"> 持仓(Positions) </span>
+## <span id="open-api-positions"> 持仓 Positions </span>
 
 ### 杠杆调节
 
@@ -621,7 +621,7 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 }
 ```
 
-## <span id="open-api-trades"> 账户(Trades) </span>
+## <span id="open-api-trades"> 交易 Trades </span>
 
 ### 获取交易列表
 
@@ -704,7 +704,7 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 }
 ```
 
-## <span id="open-api-accounts"> 账户(Accounts) </span>
+## <span id="open-api-accounts"> 账户 Accounts </span>
 
 ### 获取账户余额和持仓详情
 
@@ -855,7 +855,7 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 }
 ```
 
-## <span id="open-api-misc"> 其他(Misc) </span>
+## <span id="open-api-misc"> 其他 Misc </span>
 
 ### 获取合约价格
 
@@ -1017,7 +1017,7 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
   },
 ```
 
-## <span id="open-api-ws"> Websocket推送接口 </span>
+## <span id="open-api-ws"> WebSocket 推送接口 </span>
 
 ### 获取行情
 
