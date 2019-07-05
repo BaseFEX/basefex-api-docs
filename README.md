@@ -1,7 +1,7 @@
 Rest API 和 Websocket推送中文版文档
 ================
 
-以下接口部分需要获取签名Token，请查看[这里(英文)](./sign.md)
+部分接口需要获取签名Token，请查看[这里(英文)](./sign.md)
 
 <!-- toc -->
 
@@ -99,15 +99,15 @@ Rest API 和 Websocket推送中文版文档
 
 ##### 请求参数
 
-| 参数          | 必选                   | 类型                | 说明                                                                                                                                     |
-| ----------- | -------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| size        | :white\_check\_mark: | number            | 合约数量                                                                                                                                   |
-| symbol      | :white\_check\_mark: | string            | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| type        | :white\_check\_mark: |                   | 订单类型，可选值：`LIMIT`, `MARKET`, `IOC`, `FOK`, `POST_ONLY`                                                                                  |
-| side        | :white\_check\_mark: | 买入`BUY`或者卖出`SELL` |                                                                                                                                        |
-| price       |                      |                   | 订单价格                                                                                                                                   |
-| reduceOnly  |                      |                   | 如果为true，则只减少持仓而不会增加持仓，即如果这个订单将要增加仓位时，这个订单将会被自动取消。                                                                                      |
-| conditional |                      |                   | 可通过 conditional 是否为 null 来判断是否为条件委托，conditional的type目前只有 `REACH`，priceType 包括 `MARK_PRICE`、`INDEX_PRICE`、`MARKET_PRICE`                |
+| 参数          | 必选                   | 类型     | 说明                                                                                                                                     |
+| ----------- | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| size        | :white\_check\_mark: | number | 合约数量                                                                                                                                   |
+| symbol      | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| type        | :white\_check\_mark: |        | 订单类型，可选值：`LIMIT`, `MARKET`, `IOC`, `FOK`, `POST_ONLY`                                                                                  |
+| side        | :white\_check\_mark: | string | 买入`BUY`或者卖出`SELL`                                                                                                                      |
+| price       |                      |        | 订单价格                                                                                                                                   |
+| reduceOnly  |                      |        | 如果为true，则只减少持仓而不会增加持仓，即如果这个订单将要增加仓位时，这个订单将会被自动取消。                                                                                      |
+| conditional |                      |        | 可通过 conditional 是否为 null 来判断是否为条件委托，conditional的type目前只有 `REACH`，priceType 包括 `MARK_PRICE`、`INDEX_PRICE`、`MARKET_PRICE`                |
 
 ##### URL请求示例
 
