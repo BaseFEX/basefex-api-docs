@@ -1,6 +1,6 @@
-# Basefex Offical API Documentation
+# BaseFEX Offical API Documentation
 
-Official Documentation for the Basefex APIs and WebSockets.
+Official Documentation for the BaseFEX APIs and WebSockets.
 
 [English](./en/)
 

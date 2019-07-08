@@ -23,7 +23,7 @@ Two-Factor Authentication via Google Authenticator or Authy app is required. Aft
 Authorization: Bearer JWT.RS512.sign(privateKey, header, payload)
     where
      privateKey,keyId = Created from Account page
-     header = {"alg": "RS512", "kid": "you api key-id"}
+     header = {"alg": "RS512", "kid": "your api key-id"}
      payload = {"exp": expiration-time(epoch in seconds), "digest": http-payload-md5}
      http-payload-md5 = md5(${HTTP-METHOD}${PATH-WITH-QUERY-STRING}${HTTP-BODY}).toHexString().toUpperCase()
 ```
