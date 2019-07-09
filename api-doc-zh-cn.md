@@ -1,27 +1,174 @@
-| [English Documents](./api-doc-en.md) | [中文文档](./api-doc-zh-cn.md) |
-| ------------------------------------ | -------------------------- |
 
-REST API 和 WebSocket 推送中文版文档
-================
+| [English](./api-doc-en.md) | [中文简体](./api-doc-zh-cn.md) |
+| -------------------------- | -------------------------- |
+
+# REST 接口和 WebSocket 推送中文版文档
 
 <!-- toc -->
 
 # 概览
 
   - REST API
-      - [订单](#open-api-orders)
-      - [持仓](#open-api-positions)
-      - [交易](#open-api-trades)
       - [账户](#open-api-accounts)
-      - [工具和其他](#open-api-misc)
+      - [订单](#open-api-orders)
+      - [交易](#open-api-trades)
+      - [持仓](#open-api-positions)
+      - [工具及其他](#open-api-misc)
   - WebSocket API
       - [Websocket推送接口](#open-api-ws)
 
 ## 网页端Swagger
 
   - 模拟交易环境: <https://testnet-api.basefex.com/explorer/index.html#/>
-  - 正式交易环境:
-<https://api.basefex.com/explorer/index.html#/>
+  - 正式交易环境: <https://api.basefex.com/explorer/index.html#/>
+
+## <span id="open-api-accounts"> 账户 Accounts </span>
+
+### 获取账户余额和持仓详情
+
+##### URL
+
+<https://api.basefex.com/accounts>
+
+##### HTTP请求方式
+
+> GET
+
+##### 请求参数
+
+无
+
+##### 请求示例URL
+
+<https://api.basefex.com/accounts>
+
+##### 返回示例
+
+``` js
+{
+  "cash": {                                            // 结算方式
+    "orderMargin": 0.0983953764,                       // 委托保证金
+    "balances": 1000,                                  // 余额
+    "marginRate": 0,                                   // 保证金比率
+    "userId": "5aec525e-335d-4724-0005-20153b361f89",  // 
+    "leverage": 0,                                     // 杠杆倍数
+    "marginBalances": 1000,                            // 保证金余额
+    "positionMargin": 0,                               // 仓位保证金
+    "available": 999.9016046236,                       // 可用余额
+    "unrealizedPnl": 0,                                // 未实现盈亏
+    "id": "5aec8f3b-ea46-4eaa-0005-639ddae22e5f",      // 
+    "currency": "BTC",                                 // 货币类型
+    "margin": 0                                        // 保证金
+  },
+  "positions": {
+    "ETHXBT": {                                          // 合约类型
+      "markPrice": 0.02608751,                           // 标记价格
+      "value": 0,                                        // 
+      "size": 0,                                         // 合约数量
+      "liquidatePrice": 0,                               // 
+      "risk": 0,                                         // 风险程度
+      "symbol": "ETHXBT",                                // 合约类型
+      "notional": 0,                                     // 仓位价值
+      "userId": "5aec525e-335d-4724-0005-20153b361f89",  // 
+      "buyingNotional": 0,                               // 买入总价值
+      "isCross": true,                                   // 是否满仓
+      "feeRateMaker": 0,                                 // maker费率
+      "entryPrice": 0,                                   // 入场价格
+      "sellingNotional": 0,                              // 卖出总价值
+      "marginRate": 0.02,                                // 保证金比率
+      "id": "5aec8f3f-ad95-43a7-0005-c80b43cdb509",      // 
+      "seqNo": null,                                     // 
+      "leverage": 50,                                    // 杠杆倍数
+      "totalPnl": 0,                                     // 总盈亏
+      "unrealizedPnl": 0,                                // 未实现盈亏
+      "feeRateTaker": 0.002,                             // 
+      "orderMargin": 0,                                  // 
+      "sellingSize": 0,                                  // 买入合约数量
+      "realisedPnl": 0,                                  // 已实现盈亏
+      "equity": 0,                                       // 
+      "buyingSize": 0,                                   // 买入数量
+      "riskLimit": 50,                                   // 风险限额
+      "margin": 0,                                       // 保证金
+      "rom": 0                                           // 回报率
+    },
+    ...                                                  // 其他合约
+  }
+}
+```
+
+### 获取充值和提现记录
+
+##### URL
+
+<https://api.basefex.com/accounts/transactions>
+
+##### HTTP请求方式
+
+> GET
+
+##### 请求参数
+
+| 参数    | 必选 | 类型     | 说明                              |
+| ----- | -- | ------ | ------------------------------- |
+| type  |    | string | 交易类型，包括充值`DEPOSIT`和提现`WITHDRAW` |
+| id    |    | string | 前一次请求中最后一个订单的id，用于分页            |
+| limit |    | number | 单次请求结果数目限制，不传值则为100             |
+
+##### 请求示例URL
+
+<https://api.basefex.com/accounts/transactions?type=DEPOSIT&limit=30>
+
+##### 返回示例
+
+``` js
+[
+  {
+    "address": "2N2BUEAqDH1mhYe2tVy1tRPda9jY4KniyjB",                                  // 充值地址
+    "foreignTxId": "a862ade7c3a642968b1f1e1412701fd3c854397fa2706b57a9ce1838d3bfddf7", // 外部交易id
+    "userId": "5aec525e-335d-4724-0005-20153b361f89",                                  // 
+    "status": "NEW",                                                                   // 状态（ NEW,AUDITED,PENDING,COMPLETED,CANCELED,REJECTED ）
+    "id": "5aeeeba7-2843-f607-0005-2fdaac7eda8f",                                      // 
+    "subtype": null,                                                                   // 
+    "amount": 0.0653564,                                                               // 充值或者提现金额
+    "balances": null,                                                                  // 
+    "ts": 1562221911201,                                                               // 时间
+    "type": "DEPOSIT",                                                                 // 充值（或者提现）
+    "readableId": null,                                                                // 
+    "audit": null,                                                                     // 
+    "fee": 0,                                                                          // 费用
+    "note": null,                                                                      // 
+    "currency": "BTC"                                                                  // 结算类型
+  }
+]
+```
+
+### 获取充值及提现记录数量
+
+##### URL
+
+<https://api.basefex.com/accounts/transactions/count>
+
+##### HTTP请求方式
+
+> GET
+
+##### 请求参数
+
+| 参数   | 必选 | 类型     | 说明                              |
+| ---- | -- | ------ | ------------------------------- |
+| type |    | string | 交易类型，包括充值`DEPOSIT`和提现`WITHDRAW` |
+
+##### 请求示例URL
+
+<https://api.basefex.com/accounts/transactions/count?type=DEPOSIT>
+
+##### 返回示例
+
+``` js
+{
+  "count": 1
+}
+```
 
 ## <span id="open-api-orders"> 订单 Orders </span>
 
@@ -514,6 +661,89 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 }
 ```
 
+## <span id="open-api-trades"> 交易 Trades </span>
+
+### 获取交易列表
+
+##### URL
+
+<https://api.basefex.com/trades>
+
+##### HTTP请求方式
+
+> GET
+
+##### 请求参数
+
+| 参数       | 必选 | 类型     | 说明                                                                                                                                     |
+| -------- | -- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol   |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| id       |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                   |
+| limit    |    | number | 单次请求结果数目限制，不传值则为10                                                                                                                     |
+| side     |    | string | 买入`BUY`，卖出`SELL`，或者平台每8个小时触发的`FUNDING`                                                                                                 |
+| order-id |    | string | 订单id                                                                                                                                   |
+
+##### 请求示例URL
+
+<https://api.basefex.com/trades?limit=30&side=SELL>
+
+##### 返回示例
+
+``` js
+[
+  {
+    "fee": 0.00006200177148,                           // 手续费
+    "symbol": "BTCUSD",                                // 合约类型
+    "feeRate": 0.0007,                                 // 费率
+    "size": 1000,                                      // 合约数量
+    "ts": 1562244089804,                               // 成交时间
+    "notional": 0.08857395925,                         // 成交价值
+    "orderId": "5aef4041-ee43-4a60-0005-705a0f1edcb4", // 订单id
+    "id": "5aef4041-f300-0000-0001-00000000001b",      // 交易id
+    "side": "SELL",                                    // 卖出（还是买入）
+    "order": {                                         // 
+      "id": "5aef4041-ee43-4a60-0005-705a0f1edcb4",    // 订单id
+      "type": "LIMIT",                                 // 订单类型
+      "size": 1000,                                    //
+      "price": 11290                                   // 
+    },
+    "price": 11290
+  }
+]
+```
+
+### 获取交易数量
+
+##### URL
+
+<https://api.basefex.com/trades/count>
+
+##### HTTP请求方式
+
+> GET
+
+##### 请求参数
+
+| 参数       | 必选 | 类型     | 说明                                                                                                                                     |
+| -------- | -- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol   |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| id       |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                   |
+| limit    |    | number | 单次请求结果数目限制，不传值则为10                                                                                                                     |
+| side     |    | string | 买入`BUY`，卖出`SELL`，或者平台每8个小时触发的`FUNDING`                                                                                                 |
+| order-id |    | string | 订单id                                                                                                                                   |
+
+##### 请求示例URL
+
+<https://api.basefex.com/trades/count?symbol=BTCUSD&limit=30&side=BUY>
+
+##### 返回示例
+
+``` js
+{
+  "count": 3       // 数量
+}
+```
+
 ## <span id="open-api-positions"> 持仓 Positions </span>
 
 ### 杠杆调节
@@ -619,240 +849,6 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 {
   "notional": 200, 
   "IMR": 0.015   // initial margin rate，初始保证金比率
-}
-```
-
-## <span id="open-api-trades"> 交易 Trades </span>
-
-### 获取交易列表
-
-##### URL
-
-<https://api.basefex.com/trades>
-
-##### HTTP请求方式
-
-> GET
-
-##### 请求参数
-
-| 参数       | 必选 | 类型     | 说明                                                                                                                                     |
-| -------- | -- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol   |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| id       |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                   |
-| limit    |    | number | 单次请求结果数目限制，不传值则为10                                                                                                                     |
-| side     |    | string | 买入`BUY`，卖出`SELL`，或者平台每8个小时触发的`FUNDING`                                                                                                 |
-| order-id |    | string | 订单id                                                                                                                                   |
-
-##### 请求示例URL
-
-<https://api.basefex.com/trades?limit=30&side=SELL>
-
-##### 返回示例
-
-``` js
-[
-  {
-    "fee": 0.00006200177148,                           // 手续费
-    "symbol": "BTCUSD",                                // 合约类型
-    "feeRate": 0.0007,                                 // 费率
-    "size": 1000,                                      // 合约数量
-    "ts": 1562244089804,                               // 成交时间
-    "notional": 0.08857395925,                         // 成交价值
-    "orderId": "5aef4041-ee43-4a60-0005-705a0f1edcb4", // 订单id
-    "id": "5aef4041-f300-0000-0001-00000000001b",      // 交易id
-    "side": "SELL",                                    // 卖出（还是买入）
-    "order": {                                         // 
-      "id": "5aef4041-ee43-4a60-0005-705a0f1edcb4",    // 订单id
-      "type": "LIMIT",                                 // 订单类型
-      "size": 1000,                                    //
-      "price": 11290                                   // 
-    },
-    "price": 11290
-  }
-]
-```
-
-### 获取交易数量
-
-##### URL
-
-<https://api.basefex.com/trades/count>
-
-##### HTTP请求方式
-
-> GET
-
-##### 请求参数
-
-| 参数       | 必选 | 类型     | 说明                                                                                                                                     |
-| -------- | -- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol   |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| id       |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                   |
-| limit    |    | number | 单次请求结果数目限制，不传值则为10                                                                                                                     |
-| side     |    | string | 买入`BUY`，卖出`SELL`，或者平台每8个小时触发的`FUNDING`                                                                                                 |
-| order-id |    | string | 订单id                                                                                                                                   |
-
-##### 请求示例URL
-
-<https://api.basefex.com/trades/count?symbol=BTCUSD&limit=30&side=BUY>
-
-##### 返回示例
-
-``` js
-{
-  "count": 3       // 数量
-}
-```
-
-## <span id="open-api-accounts"> 账户 Accounts </span>
-
-### 获取账户余额和持仓详情
-
-##### URL
-
-<https://api.basefex.com/accounts>
-
-##### HTTP请求方式
-
-> GET
-
-##### 请求参数
-
-无
-
-##### 请求示例URL
-
-<https://api.basefex.com/accounts>
-
-##### 返回示例
-
-``` js
-{
-  "cash": {                                            // 结算方式
-    "orderMargin": 0.0983953764,                       // 委托保证金
-    "balances": 1000,                                  // 余额
-    "marginRate": 0,                                   // 保证金比率
-    "userId": "5aec525e-335d-4724-0005-20153b361f89",  // 
-    "leverage": 0,                                     // 杠杆倍数
-    "marginBalances": 1000,                            // 保证金余额
-    "positionMargin": 0,                               // 仓位保证金
-    "available": 999.9016046236,                       // 可用余额
-    "unrealizedPnl": 0,                                // 未实现盈亏
-    "id": "5aec8f3b-ea46-4eaa-0005-639ddae22e5f",      // 
-    "currency": "BTC",                                 // 货币类型
-    "margin": 0                                        // 保证金
-  },
-  "positions": {
-    "ETHXBT": {                                          // 合约类型
-      "markPrice": 0.02608751,                           // 标记价格
-      "value": 0,                                        // 
-      "size": 0,                                         // 合约数量
-      "liquidatePrice": 0,                               // 
-      "risk": 0,                                         // 风险程度
-      "symbol": "ETHXBT",                                // 合约类型
-      "notional": 0,                                     // 仓位价值
-      "userId": "5aec525e-335d-4724-0005-20153b361f89",  // 
-      "buyingNotional": 0,                               // 买入总价值
-      "isCross": true,                                   // 是否满仓
-      "feeRateMaker": 0,                                 // maker费率
-      "entryPrice": 0,                                   // 入场价格
-      "sellingNotional": 0,                              // 卖出总价值
-      "marginRate": 0.02,                                // 保证金比率
-      "id": "5aec8f3f-ad95-43a7-0005-c80b43cdb509",      // 
-      "seqNo": null,                                     // 
-      "leverage": 50,                                    // 杠杆倍数
-      "totalPnl": 0,                                     // 总盈亏
-      "unrealizedPnl": 0,                                // 未实现盈亏
-      "feeRateTaker": 0.002,                             // 
-      "orderMargin": 0,                                  // 
-      "sellingSize": 0,                                  // 买入合约数量
-      "realisedPnl": 0,                                  // 已实现盈亏
-      "equity": 0,                                       // 
-      "buyingSize": 0,                                   // 买入数量
-      "riskLimit": 50,                                   // 风险限额
-      "margin": 0,                                       // 保证金
-      "rom": 0                                           // 回报率
-    },
-    "anotherContract": {
-        ...
-    },
-    ...
-  }
-}
-```
-
-### 获取充值和提现记录
-
-##### URL
-
-<https://api.basefex.com/accounts/transactions>
-
-##### HTTP请求方式
-
-> GET
-
-##### 请求参数
-
-| 参数    | 必选 | 类型     | 说明                              |
-| ----- | -- | ------ | ------------------------------- |
-| type  |    | string | 交易类型，包括充值`DEPOSIT`和提现`WITHDRAW` |
-| id    |    | string | 前一次请求中最后一个订单的id，用于分页            |
-| limit |    | number | 单次请求结果数目限制，不传值则为100             |
-
-##### 请求示例URL
-
-<https://api.basefex.com/accounts/transactions?type=DEPOSIT&limit=30>
-
-##### 返回示例
-
-``` js
-[
-  {
-    "address": "2N2BUEAqDH1mhYe2tVy1tRPda9jY4KniyjB",                                  // 充值地址
-    "foreignTxId": "a862ade7c3a642968b1f1e1412701fd3c854397fa2706b57a9ce1838d3bfddf7", // 外部交易id
-    "userId": "5aec525e-335d-4724-0005-20153b361f89",                                  // 
-    "status": "NEW",                                                                   // 状态（ NEW,AUDITED PENDING COMPLETED CANCELED REJECTED ）
-    "id": "5aeeeba7-2843-f607-0005-2fdaac7eda8f",                                      // 
-    "subtype": null,                                                                   // 
-    "amount": 0.0653564,                                                               // 充值或者提现金额
-    "balances": null,                                                                  // 
-    "ts": 1562221911201,                                                               // 时间
-    "type": "DEPOSIT",                                                                 // 充值（或者提现）
-    "readableId": null,                                                                // 
-    "audit": null,                                                                     // 
-    "fee": 0,                                                                          // 费用
-    "note": null,                                                                      // 
-    "currency": "BTC"                                                                  // 结算类型
-  }
-]
-```
-
-### 获取充值及提现记录数量
-
-##### URL
-
-<https://api.basefex.com/accounts/transactions/count>
-
-##### HTTP请求方式
-
-> GET
-
-##### 请求参数
-
-| 参数   | 必选 | 类型     | 说明                              |
-| ---- | -- | ------ | ------------------------------- |
-| type |    | string | 交易类型，包括充值`DEPOSIT`和提现`WITHDRAW` |
-
-##### 请求示例URL
-
-<https://api.basefex.com/accounts/transactions/count?type=DEPOSIT>
-
-##### 返回示例
-
-``` js
-{
-  "count": 1
 }
 ```
 

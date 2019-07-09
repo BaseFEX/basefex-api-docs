@@ -2,6 +2,8 @@
 
 Official Documentation for the BaseFEX APIs and WebSockets.
 
-[English](./en/)
+[Authentication (English)](./sign.md)
 
-[中文简体](./zh_cn/)
+[API Documents (English)](./api-doc-en.md)
+
+[接口文档（中文简体）](./api-doc-zh-cn.md)
