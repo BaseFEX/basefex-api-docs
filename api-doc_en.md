@@ -1,8 +1,8 @@
 
-| [English](./api-doc-en.md) | [中文简体](./api-doc-zh-cn.md) |
-| -------------------------- | -------------------------- |
+| [English](./api-doc_en.md) | [中文简体](./api-doc_zh.md) |
+| -------------------------- | ----------------------- |
 
-# REST API and WebSocket Documents
+# REST API and WebSocket
 
 <!-- toc -->
 
@@ -14,19 +14,19 @@
       - [Trades](#open-api-trades)
       - [Positions](#open-api-positions)
       - [Misc](#open-api-misc)
-  - WebSocket API
-      - [Websocket Pushing API](#open-api-ws)
+  - WebSocket
+      - [Websocket Subscription](#open-api-ws)
 
 ## Swagger
 
-  - Mock Environment:
+  - TestNet Environment:
     <https://testnet-api.basefex.com/explorer/index.html#/>
   - Official Trading Environment:
     <https://api.basefex.com/explorer/index.html#/>
 
 ## <span id="open-api-accounts"> Accounts </span>
 
-### Get Cash and Position Details
+### Get Cash and Position Detail
 
 ##### URL
 
@@ -98,7 +98,7 @@ No parameter needed.
 }
 ```
 
-### Get Deposit and Withdraw Records
+### Get Deposit and Withdrawal History
 
 ##### URL
 
@@ -114,7 +114,7 @@ No parameter needed.
 | ---------- | -------- | ------ | --------------------------------------------- |
 | type       |          | string | Transaction type，`DEPOSIT` or `WITHDRAW`      |
 | id         |          | string | Order id of previous response for pagination. |
-| limit      |          | number | Response size limit.0                         |
+| limit      |          | number | Response size limit.                          |
 
 ##### Request Example URL
 
@@ -144,7 +144,7 @@ No parameter needed.
 ]
 ```
 
-### Get Count of Transaction Records
+### Count Transactions
 
 ##### URL
 
@@ -178,9 +178,9 @@ No parameter needed.
 
 <!-- Done -->
 
-### Get details of single order
+### Get Order Detail
 
-Get detail informations of one order by order
+Get order information by order
 id.
 
 ##### URL
@@ -238,7 +238,10 @@ id.
 
 <!-- Done -->
 
-### Place Single Order
+### Place Order
+
+Place single
+order.
 
 ##### URL
 
@@ -313,9 +316,9 @@ id.
 
 <!-- Done -->
 
-### Cancel Single Order
+### Cancel Order
 
-Cancel order by order
+Cancel one order by order
 id.
 
 ##### URL
@@ -332,7 +335,7 @@ id.
 | ---------- | -------------------- | ------ | -------- |
 | id         | :white\_check\_mark: | string | order id |
 
-##### Request Url Example
+##### Request URL Example
 
 <https://api.basefex.com/orders/5aec8f9f-1609-4e54-0005-86e30e0cb1c6>
 
@@ -343,7 +346,7 @@ content
 
 <!-- Done -->
 
-### Get List of Orders
+### Get Order List
 
 ##### URL
 
@@ -368,7 +371,7 @@ content
 If no parameter specified, then get all
 orders.
 
-##### Request Url Example
+##### Request URL Example
 
 <https://api.basefex.com/orders?symbol=BTCUSD&type=LIMIT&side=BUY&status=NEW&limit=30>
 
@@ -409,7 +412,7 @@ orders.
 
 <!-- POST /orders/batch -->
 
-### Place Orders (Batch)
+### Place Order in Batches
 
 ##### URL
 
@@ -505,7 +508,7 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 No response content -->
 
-### Cancel Orders (Batch)
+### Cancel Order in Batches
 
 ##### URL
 
@@ -543,7 +546,7 @@ content
 
 <!-- Done -->
 
-### Get Opening Orders
+### Get Active Order List
 
 ##### URL
 
@@ -601,7 +604,7 @@ content
 
 <!-- Done -->
 
-### Get Count of Orders
+### Count Orders
 
 ##### URL
 
@@ -638,7 +641,7 @@ content
 
 <!-- Done -->
 
-### Get Count of Opening Orders
+### Count Active Orders
 
 ##### URL
 
@@ -668,7 +671,7 @@ content
 
 ## <span id="open-api-trades"> Trades </span>
 
-### Get list of trades
+### Get Trade List
 
 ##### URL
 
@@ -717,7 +720,7 @@ content
 ]
 ```
 
-### Get number of trades
+### Get Count of Trades
 
 ##### URL
 
@@ -751,7 +754,7 @@ content
 
 ## <span id="open-api-positions"> Positions </span>
 
-### Leverage Adjustment
+### Adjust Leverage
 
 ##### URL
 
@@ -859,7 +862,7 @@ content
 
 ## <span id="open-api-misc"> Misc </span>
 
-### Get Contract Price
+### Get Market Price
 
 ##### URL
 
@@ -916,7 +919,7 @@ No parameter needed.
 }
 ```
 
-### Get Detail of Depth of Market
+### Get OrderBook Snapshot
 
 ##### URL
 
@@ -1019,7 +1022,7 @@ No parameter needed.
 
 ## <span id="open-api-ws"> WebSocket Pushing API </span>
 
-### Get Contract Detail
+### Subscribe Information of Contracts
 
 Get contract details by one of Contract
 types.
@@ -1061,9 +1064,9 @@ types.
 ]
 ```
 
-### Get Order Book
+### Subscribe OrderBook
 
-Push snapshot at first, and keep pushing real time changes
+Push snapshot at first, and keep pushing real-time changes
 later.
 
 ##### URL
@@ -1107,7 +1110,7 @@ Snapshot
 }
 ```
 
-Lasting Records
+Real-time
 
 ``` js
 {
@@ -1125,7 +1128,7 @@ Lasting Records
 }
 ```
 
-### Candlesticks
+### Subscribe Candlesticks
 
 ##### URL
 
@@ -1163,7 +1166,7 @@ Lasting Records
 ]
 ```
 
-### Pushing Trading Records
+### Subscribe Real-time Trading History
 
 ##### URL
 
@@ -1205,7 +1208,7 @@ Snapshot
 ]
 ```
 
-Lasting Records
+Real-time
 
 ``` js
 [

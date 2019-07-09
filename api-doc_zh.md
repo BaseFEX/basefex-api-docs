@@ -1,8 +1,8 @@
 
-| [English](./api-doc-en.md) | [中文简体](./api-doc-zh-cn.md) |
-| -------------------------- | -------------------------- |
+| [English](./api-doc_en.md) | [中文简体](./api-doc_zh.md) |
+| -------------------------- | ----------------------- |
 
-# REST 接口和 WebSocket 推送中文版文档
+# REST API 和 WebSocket
 
 <!-- toc -->
 
@@ -14,8 +14,8 @@
       - [交易](#open-api-trades)
       - [持仓](#open-api-positions)
       - [工具及其他](#open-api-misc)
-  - WebSocket API
-      - [Websocket推送接口](#open-api-ws)
+  - WebSocket
+      - [Websocket订阅接口](#open-api-ws)
 
 ## 网页端Swagger
 
