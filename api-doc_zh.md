@@ -1016,9 +1016,9 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ## <span id="open-api-ws"> WebSocket 推送接口 </span>
 
-### 获取行情
+### 订阅市场行情
 
-获取某个合约的实时详情
+订阅某个合约的实时详情
 
 ##### URL
 
@@ -1057,9 +1057,9 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 ]
 ```
 
-### 获取买卖盘信息
+### 订阅买卖盘信息
 
-获取某一种合约的买卖盘信息，分为两部分，首先推送买卖盘当前状态的快照，后续推送买卖盘的实时变动。
+订阅某一种合约的买卖盘信息，分为两部分，首先推送买卖盘当前状态的快照，后续推送买卖盘的实时变动。
 
 ##### URL
 
@@ -1102,7 +1102,7 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 }
 ```
 
-后续推送示例
+实时推送示例
 
 ``` js
 {
@@ -1120,9 +1120,9 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 }
 ```
 
-### 获取K线数据
+### 订阅K线数据
 
-根据时间粒度获取某一种合约的K线
+根据时间粒度订阅某种合约的K线
 
 ##### URL
 
@@ -1160,9 +1160,9 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 ]
 ```
 
-### 获取交易记录
+### 订阅交易记录
 
-实时获取平台的交易记录
+订阅平台的交易记录
 
 ##### URL
 
@@ -1204,7 +1204,7 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 ]
 ```
 
-后续推送示例
+实时推送示例
 
 ``` js
 [
