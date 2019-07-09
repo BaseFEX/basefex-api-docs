@@ -38,7 +38,7 @@
 
 ##### Request Parameters
 
-无
+No parameter needed.
 
 ##### Request Example URL
 
@@ -871,7 +871,7 @@ content
 
 ##### Request Parameters
 
-无
+No parameter needed.
 
 ##### Request Example URL
 
@@ -973,7 +973,7 @@ content
 
 ##### Request Parameters
 
-无
+No parameter needed.
 
 ##### Request Example URL
 
