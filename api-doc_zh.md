@@ -45,53 +45,104 @@
 ##### 返回示例
 
 ``` js
-{
-  "cash": {                                            // 结算方式
-    "orderMargin": 0.0983953764,                       // 委托保证金
-    "balances": 1000,                                  // 余额
-    "marginRate": 0,                                   // 保证金比率
-    "userId": "5aec525e-335d-4724-0005-20153b361f89",  // 
-    "leverage": 0,                                     // 杠杆倍数
-    "marginBalances": 1000,                            // 保证金余额
-    "positionMargin": 0,                               // 仓位保证金
-    "available": 999.9016046236,                       // 可用余额
-    "unrealizedPnl": 0,                                // 未实现盈亏
-    "id": "5aec8f3b-ea46-4eaa-0005-639ddae22e5f",      // 
-    "currency": "BTC",                                 // 货币类型
-    "margin": 0                                        // 保证金
-  },
-  "positions": {
-    "ETHXBT": {                                          // 合约类型
-      "markPrice": 0.02608751,                           // 标记价格
-      "value": 0,                                        // 
-      "size": 0,                                         // 合约数量
-      "liquidatePrice": 0,                               // 
-      "risk": 0,                                         // 风险程度
-      "symbol": "ETHXBT",                                // 合约类型
-      "notional": 0,                                     // 仓位价值
-      "userId": "5aec525e-335d-4724-0005-20153b361f89",  // 
-      "buyingNotional": 0,                               // 买入总价值
-      "isCross": true,                                   // 是否满仓
-      "feeRateMaker": 0,                                 // maker费率
-      "entryPrice": 0,                                   // 入场价格
-      "sellingNotional": 0,                              // 卖出总价值
-      "marginRate": 0.02,                                // 保证金比率
-      "id": "5aec8f3f-ad95-43a7-0005-c80b43cdb509",      // 
-      "seqNo": null,                                     // 
-      "leverage": 50,                                    // 杠杆倍数
-      "totalPnl": 0,                                     // 总盈亏
-      "unrealizedPnl": 0,                                // 未实现盈亏
-      "feeRateTaker": 0.002,                             // 
-      "orderMargin": 0,                                  // 
-      "sellingSize": 0,                                  // 买入合约数量
-      "realisedPnl": 0,                                  // 已实现盈亏
-      "equity": 0,                                       // 
-      "buyingSize": 0,                                   // 买入数量
-      "riskLimit": 50,                                   // 风险限额
-      "margin": 0,                                       // 保证金
-      "rom": 0                                           // 回报率
+[
+    {
+      "cash": {                                            // 结算方式
+        "orderMargin": 0.0983953764,                       // 委托保证金
+        "balances": 1000,                                  // 余额
+        "marginRate": 0,                                   // 保证金比率
+        "userId": "5aec525e-335d-4724-0005-20153b361f89",  // 
+        "leverage": 0,                                     // 杠杆倍数
+        "marginBalances": 1000,                            // 保证金余额
+        "positionMargin": 0,                               // 仓位保证金
+        "available": 999.9016046236,                       // 可用余额
+        "unrealizedPnl": 0,                                // 未实现盈亏
+        "id": "5aec8f3b-ea46-4eaa-0005-639ddae22e5f",      // 
+        "currency": "BTC",                                 // 货币类型BTC
+        "margin": 0                                        // 保证金
+      },
+      "positions": {
+        "ETHXBT": {                                          // 合约类型
+          "markPrice": 0.02608751,                           // 标记价格
+          "value": 0,                                        // 
+          "size": 0,                                         // 合约数量
+          "liquidatePrice": 0,                               // 
+          "risk": 0,                                         // 风险程度
+          "symbol": "ETHXBT",                                // 合约类型
+          "notional": 0,                                     // 仓位价值
+          "userId": "5aec525e-335d-4724-0005-20153b361f89",  // 
+          "buyingNotional": 0,                               // 买入总价值
+          "isCross": true,                                   // 是否满仓
+          "feeRateMaker": 0,                                 // maker费率
+          "entryPrice": 0,                                   // 入场价格
+          "sellingNotional": 0,                              // 卖出总价值
+          "marginRate": 0.02,                                // 保证金比率
+          "id": "5aec8f3f-ad95-43a7-0005-c80b43cdb509",      // 
+          "seqNo": null,                                     // 
+          "leverage": 50,                                    // 杠杆倍数
+          "totalPnl": 0,                                     // 总盈亏
+          "unrealizedPnl": 0,                                // 未实现盈亏
+          "feeRateTaker": 0.002,                             // 
+          "orderMargin": 0,                                  // 
+          "sellingSize": 0,                                  // 买入合约数量
+          "realisedPnl": 0,                                  // 已实现盈亏
+          "equity": 0,                                       // 
+          "buyingSize": 0,                                   // 买入数量
+          "riskLimit": 50,                                   // 风险限额
+          "margin": 0,                                       // 保证金
+          "rom": 0                                           // 回报率
+        },
+        ...                                                  // 其他合约
+      }
     },
-    ...                                                  // 其他合约
+    {
+        "cash": {                                          // 
+          "currency": "USDT",                              // 货币类型USDT
+          "balances": 1,                                   // 
+          "marginRate": 0,                                 // 
+          "userId": "5aec525e-335d-4724-0005-20153b361f89",// 
+          "id": "5af05f79-bff6-4d6a-0005-30bcdff8bd36",    // 
+          "leverage": 0,                                   // 
+          "positionMargin": 0,                             // 
+          "unrealizedPnl": 0,                              // 
+          "orderMargin": 0,                                // 
+          "marginBalances": 1,                             // 
+          "available": 1,                                  // 
+          "margin": 0                                      // 
+        },
+        "positions": []
+    } 
+]
+```
+
+### 获取账户权益
+
+##### URL
+
+<https://api.basefex.com/accounts/equity>
+
+##### HTTP请求方式
+
+> GET
+
+##### 请求参数
+
+无
+
+##### 请求示例URL
+
+<https://api.basefex.com/accounts/equity>
+
+##### 返回示例
+
+``` js
+{
+  "equity": {
+    "available": 0.0000810079987298,  // 可用余额，单位BTC
+    "positionMargin": 0,              // 仓位保证金
+    "marginBalances": 6.5360025e-9,   // 保证金余额
+    "marginBalancesBtc": 6.5360025e-9,// 保证金余额，单位BTC
+    "unrealizedPnl": 0                // 为实现盈亏
   }
 }
 ```

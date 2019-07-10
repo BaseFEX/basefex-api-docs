@@ -59,7 +59,7 @@ No parameter needed.
     "available": 999.9016046236,                       
     "unrealizedPnl": 0,                                
     "id": "5aec8f3b-ea46-4eaa-0005-639ddae22e5f",      
-    "currency": "BTC",                                 
+    "currency": "BTC",                               // which currency, BTC    
     "margin": 0                                        
   },
   "positions": {
@@ -94,6 +94,55 @@ No parameter needed.
       "rom": 0                                         
     },
     ...
+  },
+  {
+    "cash": {                                          // 
+      "currency": "USDT",                              // which currency, USDT
+      "balances": 1,                                   // 
+      "marginRate": 0,                                 // 
+      "userId": "5aec525e-335d-4724-0005-20153b361f89",// 
+      "id": "5af05f79-bff6-4d6a-0005-30bcdff8bd36",    // 
+      "leverage": 0,                                   // 
+      "positionMargin": 0,                             // 
+      "unrealizedPnl": 0,                              // 
+      "orderMargin": 0,                                // 
+      "marginBalances": 1,                             // 
+      "available": 1,                                  // 
+      "margin": 0                                      // 
+    },
+    "positions": []
+  } 
+}
+```
+
+### Get Account Equity Information
+
+##### URL
+
+<https://api.basefex.com/accounts/equity>
+
+##### HTTP Request Method
+
+> GET
+
+##### Request Parameters
+
+Not any.
+
+##### Request Example URL
+
+<https://api.basefex.com/accounts/equity>
+
+##### Response Example
+
+``` js
+{
+  "equity": {
+    "available": 0.0000810079987298,  // available balances, unit: BTC
+    "positionMargin": 0,              
+    "marginBalances": 6.5360025e-9,   
+    "marginBalancesBtc": 6.5360025e-9,
+    "unrealizedPnl": 0                
   }
 }
 ```
