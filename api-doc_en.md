@@ -110,16 +110,17 @@ No parameter needed.
       "available": 1,                                  // 
       "margin": 0                                      // 
     },
-    "positions": []
+    "positions": []                                    // positions
   } 
 }
 ```
 
+<!--
 ### Get Account Equity Information
 
 ##### URL
 
-<https://api.basefex.com/accounts/equity>
+https://api.basefex.com/accounts/equity
 
 ##### HTTP Request Method
 
@@ -131,11 +132,11 @@ Not any.
 
 ##### Request Example URL
 
-<https://api.basefex.com/accounts/equity>
+https://api.basefex.com/accounts/equity
 
 ##### Response Example
 
-``` js
+```js
 {
   "equity": {
     "available": 0.0000810079987298,  // available balances, unit: BTC
@@ -145,7 +146,7 @@ Not any.
     "unrealizedPnl": 0                
   }
 }
-```
+``` -->
 
 ### Get Deposit and Withdrawal History
 
@@ -569,9 +570,10 @@ No response content -->
 
 ##### Request Parameters
 
-| Parameters | Required | Type | Note              |
-| ---------- | -------- | ---- | ----------------- |
-| ids        |          | list | List of order ids |
+| Parameters | Required | Type   | Note                                                                                                                                                     |
+| ---------- | -------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| ids        |          | list   | List of order ids                                                                                                                                        |
 
 ##### Request Example URL
 
@@ -581,6 +583,7 @@ No response content -->
 
 ``` js
 {
+  "symbol": "BTCUSD",
   "ids": [
     "5aedb78e-6641-4d00-0005-2b2439f84663",
     "5aed7b45-5d19-40f2-0005-ca49d01f33e3"

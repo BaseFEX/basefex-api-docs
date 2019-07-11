@@ -110,16 +110,17 @@
           "available": 1,                                  // 
           "margin": 0                                      // 
         },
-        "positions": []
+        "positions": []                                    // 仓位
     } 
 ]
 ```
 
+<!-- 
 ### 获取账户权益
 
 ##### URL
 
-<https://api.basefex.com/accounts/equity>
+https://api.basefex.com/accounts/equity
 
 ##### HTTP请求方式
 
@@ -131,11 +132,11 @@
 
 ##### 请求示例URL
 
-<https://api.basefex.com/accounts/equity>
+https://api.basefex.com/accounts/equity
 
 ##### 返回示例
 
-``` js
+```js
 {
   "equity": {
     "available": 0.0000810079987298,  // 可用余额，单位BTC
@@ -145,7 +146,7 @@
     "unrealizedPnl": 0                // 为实现盈亏
   }
 }
-```
+``` -->
 
 ### 获取充值和提现记录
 
@@ -564,9 +565,10 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数  | 必选 | 类型   | 说明     |
-| --- | -- | ---- | ------ |
-| ids |    | list | 订单id列表 |
+| 参数     | 必选                   | 类型     | 说明                                                                                                                                     |
+| ------ | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| ids    |                      | list   | 订单id列表                                                                                                                                 |
 
 ##### 请求示例URL
 
@@ -576,6 +578,7 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ``` js
 {
+  "symbol": "BTCUSD",
   "ids": [
     "5aedb78e-6641-4d00-0005-2b2439f84663",
     "5aed7b45-5d19-40f2-0005-ca49d01f33e3"
