@@ -1,8 +1,10 @@
+### 生成 API 密钥
+
+从这个地址获取新的密钥 [https://www.basefex.com/account/keys](https://www.basefex.com/account/keys)。获取时需要双重验证，可以使用 Google Authenticator 或者 Authy。 将生成的密钥及其ID保管好，使用两者计算Token以获取API请求权限。
+
 # `API密钥`使用方法
 
 使用`API密钥`对请求进行签名认证。
-
-<!-- https://testnet.bitmex.com/app/apiKeysUsage -->
 
 ### HTTP 头部信息
 
@@ -17,8 +19,8 @@
 ###  `signature`示例
 
 ```python
-apiKey = '5afd15a4-2004-400a-0005-429a61efdcfc'            # 密钥id
-apiSecret = 'a7edFd72zWbmyzhWxNjxu8nxWcPNVy5WYpeuBUIDMXw=' # 密钥
+apiKey = '5afd4095-f1fb-41d0-0005-1a0048ffe468'            # 密钥id
+apiSecret = 'OJJFq6qugIyvLBOyvg8WBPriSs0Dfw7Mi3QjLYin8is=' # 密钥
 
 #
 # Simple GET
@@ -34,7 +36,7 @@ data = ''
 signature = HEX(HMAC_SHA256(apiSecret, verb + path + str(expires) + data))
 ```
 
-### 示例代码
+### 计算Token示例代码
 
 Python
 ```python
@@ -63,13 +65,26 @@ def generate_signature(secret, verb, url, expires, data):
     return signature
 
 # 密钥
-secret = "a7edFd72zWbmyzhWxNjxu8nxWcPNVy5WYpeuBUIDMXw="
-expires = 1563148118
+secret = "OJJFq6qugIyvLBOyvg8WBPriSs0Dfw7Mi3QjLYin8is="
+# expires = 1563148118
 # 或者从当前时间之后的一段时间有效
 # 下边的时间戳5秒之后失效
-# timestamp = datetime.utcnow().timestamp()
-# expires = int(round(timestamp) + 5)
+timestamp = datetime.now().timestamp()
+expires = int(round(timestamp) + 5)
 
 print(generate_signature(secret, 'GET', '/accounts', expires, ''))
 # c321f340c6356dd562c12d16abacceeb8483b5dea9c2735f7abc85ea696b91a5
+```
+
+#### 获取账户余额和仓位信息
+
+```python
+key_id = '5afd4095-f1fb-41d0-0005-1a0048ffe468'  # replace with your key id
+secret = "OJJFq6qugIyvLBOyvg8WBPriSs0Dfw7Mi3QjLYin8is=" # replace with your key
+url = 'https://next-api.basefex.com/accounts'
+auth_token = generate_signature(secret, "GET", "/accounts", expires, '')
+hed = {'api-expires':str(expires),'api-key':key_id,'api-signature':str(auth_token)}
+response = requests.get(url, headers=hed)
+print(response.json())
+
 ```
