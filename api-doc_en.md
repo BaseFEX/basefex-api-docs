@@ -30,9 +30,9 @@
 
 ### Generate API Keys
 
-Generate new API keys from <https://www.basefex.com/account/keys>. May
-need two-factor authentication via Google Authenticator or Authy. You
-must store your secret carefully, and use this secret to genenrate
+Generate new API keys from <https://www.basefex.com/account/keys>. Need
+two-factor authentication via Google Authenticator, Authy alternatively.
+You must store your secret carefully, and use this secret to genenrate
 signature along with your every request.
 
 ### Authorization
@@ -77,7 +77,7 @@ signature = HEX(HMAC_SHA256(apiSecret, http_method + path + str(expires) + data)
 ```
 
 Or you can visit
-[这个网站](https://www.freeformatter.com/hmac-generator.html) to
+[hmac-generator](https://www.freeformatter.com/hmac-generator.html) to
 check if your are computed the right signature.
 
 ##### Signature generation in Python
@@ -121,11 +121,12 @@ print(generate_signature(secret, 'GET', '/accounts', expires, ''))
 
 #### Request example
 
-GET请求
+GET
+Request
 
 ``` python
 key_id = '5afd4095-f1fb-41d0-0005-1a0048ffe468'         # replace with your api key id 
-secret = 'OJJFq6qugIyvLBOyvg8WBPriSs0Dfw7Mi3QjLYin8is=' # replace with your apk secret
+secret = 'OJJFq6qugIyvLBOyvg8WBPriSs0Dfw7Mi3QjLYin8is=' # replace with your api secret
 path = '/accounts'                                      # relative path
 url = 'https://api.basefex.com' + path
 timestamp = datetime.now().timestamp()
@@ -137,11 +138,12 @@ response = requests.get(url, headers=hed)
 print(response.json())
 ```
 
-POST请求
+POST
+Request
 
 ``` python
 key_id = '5afd0a44-4b68-4e4a-0005-10c406964844'         # replace with your api key id
-secret = "3gA/QTBW3F35pl/oaeONMCA3Wnh9MDrq9728/HyPDu8=" # replace with your apk secret
+secret = "3gA/QTBW3F35pl/oaeONMCA3Wnh9MDrq9728/HyPDu8=" # replace with your api secret
 path = '/orders'                                        # relative path
 url = 'https://api.basefex.com' + path
 timestamp = datetime.now().timestamp()
@@ -172,9 +174,9 @@ print(response.json())
 And three headers with every response indicate your request limit
 status.
 
-``` js
+``` python
 x-ratelimit-limit      # limit per minite
-x-ratelimit-remaining  # remaining times
+x-ratelimit-remaining  # remaining request within current minite
 x-ratelimit-reset      # next timestamp when your can request(if reach limit)
 ```
 
