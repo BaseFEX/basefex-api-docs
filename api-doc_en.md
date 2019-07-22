@@ -8,11 +8,8 @@
 
 # Overview
 
-<!--
-* API Keys and Authentication
-   * [Authentication](#open-api-authentication)
--->
-
+  - API Keys and Authentication
+      - [Authentication](#open-api-authentication)
   - REST API
       - [Accounts](#open-api-accounts)
       - [Orders](#open-api-orders)
@@ -28,6 +25,161 @@
     <https://testnet-api.basefex.com/explorer/index.html#/>
   - Official Trading Environment:
     <https://api.basefex.com/explorer/index.html#/>
+
+## <span id="open-api-authentication"> API Keys and Authorization </span>
+
+### Generate API Keys
+
+Generate new API keys from <https://www.basefex.com/account/keys>. May
+need two-factor authentication via Google Authenticator or Authy. You
+must store your secret carefully, and use this secret to genenrate
+signature along with your every request.
+
+### Authorization
+
+The request header must contains expires, your api key id and the
+signature you computed. Signatures are computed by the `HmacSHA256`
+algorithm and most programming languages have their implimentations of
+this algorithm. You need `api key`, `HTTP request method`, `request
+url(relative path)`, `expires` and `request body` to generate
+signatures. And the `request body` is json string, or empty string when
+`HTTP request method` is `GET`.
+
+##### Headers Must Have
+
+  - `api-expires`: expires, a unix timestamp. Unit is seconds. For
+    instance, timestamp `1562831554` refers to `2019-07-11 07:52:34`
+    (UTC time), compared to the time on basefex server, if it does not
+    expire then grant access.
+
+  - `api-key`: id of api key.
+
+  - `api-signature`: computed base `hex(HMAC_SHA256(apiSecret,
+    http_method + path + expires + data))`. See details in Python
+    example
+below.
+
+##### Signature generation example
+
+``` python
+apiKey = '5afd4095-f1fb-41d0-0005-1a0048ffe468'            # id of api key
+apiSecret = 'OJJFq6qugIyvLBOyvg8WBPriSs0Dfw7Mi3QjLYin8is=' # api secret
+
+http_method = 'GET'
+path = '/accounts'
+expires = 1563148118 # unix timestamp, refers to 2019-07-14 23:28:38 (UTC)
+data = ''                                                   # empty request body
+
+# HEX(HMAC_SHA256(apiSecret, 'GET/accounts1563148118'))
+# Computed signature is:
+# '8b22cc3707d740c8fd43d97d39a52ad1bff3fc35e247fd4baac5e00824192c0c'
+signature = HEX(HMAC_SHA256(apiSecret, http_method + path + str(expires) + data))
+```
+
+Or you can visit
+[这个网站](https://www.freeformatter.com/hmac-generator.html) to
+check if your are computed the right signature.
+
+##### Signature generation in Python
+
+``` python
+from datetime import datetime
+import hashlib
+import hmac
+from urllib.parse import urlparse
+import json
+
+# The algorithm is: hex(HMAC_SHA256(secret, http_method + path + expires + data))
+# Upper-cased http_method, relative request path, unix timestamp expires.
+# data is json string
+def generate_signature(secret, http_method, url, expires, data):
+    # parse relative path
+    parsedURL = urlparse(url)
+    path = parsedURL.path
+    if parsedURL.query:
+        path = path + '?' + parsedURL.query
+
+    if isinstance(data, (bytes, bytearray)):
+        data = data.decode('utf8')
+
+    print("Computing HMAC: %s" % http_method + path + str(expires) + data)
+    message = http_method + path + str(expires) + data
+
+    signature = hmac.new(bytes(secret, 'utf8'), bytes(message, 'utf8'), digestmod=hashlib.sha256).hexdigest()
+    return signature
+
+# api secret
+secret = "OJJFq6qugIyvLBOyvg8WBPriSs0Dfw7Mi3QjLYin8is="
+expires = 1563148118
+# Or expires after some moment
+# Below expires in 5 seconds
+# timestamp = datetime.now().timestamp()
+# expires = int(round(timestamp) + 5)
+
+print(generate_signature(secret, 'GET', '/accounts', expires, ''))
+```
+
+#### Request example
+
+GET请求
+
+``` python
+key_id = '5afd4095-f1fb-41d0-0005-1a0048ffe468'         # replace with your api key id 
+secret = 'OJJFq6qugIyvLBOyvg8WBPriSs0Dfw7Mi3QjLYin8is=' # replace with your apk secret
+path = '/accounts'                                      # relative path
+url = 'https://api.basefex.com' + path
+timestamp = datetime.now().timestamp()
+expires = int(round(timestamp) + 5)                     # expires in 5 seconds
+data = ''                                               # HTTP GET, empty string
+auth_token = generate_signature(secret, "GET", path, expires, data)  
+hed = {'api-expires':str(expires),'api-key':key_id,'api-signature':str(auth_token)}
+response = requests.get(url, headers=hed)
+print(response.json())
+```
+
+POST请求
+
+``` python
+key_id = '5afd0a44-4b68-4e4a-0005-10c406964844'         # replace with your api key id
+secret = "3gA/QTBW3F35pl/oaeONMCA3Wnh9MDrq9728/HyPDu8=" # replace with your apk secret
+path = '/orders'                                        # relative path
+url = 'https://api.basefex.com' + path
+timestamp = datetime.now().timestamp()
+expires = int(round(timestamp) + 5)                     # expires in 5 seconds
+data = {
+    "size": 200,
+    "symbol": "BTCUSD",
+    "type": "LIMIT",
+    "side": "BUY",
+    "price": 3750.5,
+    "reduceOnly": False,
+    "conditional": {
+        "type": "REACH",
+        "price": 3750.5,
+        "priceType": "MARKET_PRICE"
+    }}                                             
+print(json.dumps(data))
+auth_token = generate_signature(
+    secret, "POST", path, expires, json.dumps(data))   
+hed = {'api-expires': str(expires), 'api-key': key_id,'api-signature': str(auth_token)}
+response = requests.post(url, headers=hed, json=data)  # HTTP POST, pass headers and json parameters
+print(response.json())
+```
+
+##### Rate Limit
+
+`REST API` limit to 180 per minite, `WebSockets` limit to 60 per minite.
+And three headers with every response indicate your request limit
+status.
+
+``` js
+x-ratelimit-limit      # limit per minite
+x-ratelimit-remaining  # remaining times
+x-ratelimit-reset      # next timestamp when your can request(if reach limit)
+```
+
+Please use bulk API like `place orders in batches`,`cancel orders in
+batches`, etc. to optimise your request limit.
 
 ## REST API
 

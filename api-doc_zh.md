@@ -24,9 +24,7 @@
   - 模拟交易环境: <https://testnet-api.basefex.com/explorer/index.html#/>
   - 正式交易环境: <https://api.basefex.com/explorer/index.html#/>
 
-## <span id="open-api-authentication"> `API`密钥获取及认证 </span>
-
-首先通过web端生成API密钥，计算签名加入到HTTP请求的头部，用于服务器校验身份和权限。
+## <span id="open-api-authentication"> API 密钥获取及认证 </span>
 
 ### 生成`API`密钥
 
