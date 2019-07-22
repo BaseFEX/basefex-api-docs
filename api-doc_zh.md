@@ -8,6 +8,8 @@
 
 # 概览
 
+  - 认证
+      - [API密钥获取及认证](#open-api-authentication)
   - REST API
       - [账户](#open-api-accounts)
       - [订单](#open-api-orders)
@@ -21,6 +23,151 @@
 
   - 模拟交易环境: <https://testnet-api.basefex.com/explorer/index.html#/>
   - 正式交易环境: <https://api.basefex.com/explorer/index.html#/>
+
+## <span id="open-api-authentication"> `API`密钥获取及认证 </span>
+
+首先通过web端生成API密钥，计算签名加入到HTTP请求的头部，用于服务器校验身份和权限。
+
+### 生成`API`密钥
+
+从这个地址获取新的密钥 <https://www.basefex.com/account/keys>。获取时需要双重验证，可以使用 Google
+Authenticator 或者 Authy。
+将生成的密钥及其ID保管好，密钥用于后续计算`签名`。
+
+### 认证
+
+请求的头部必须包含`过期时间`、`密钥ID`和`签名`。使用HmacSHA256算法计算得到`签名`，多数编程语言都有实现这个算法。签名的计算需要`密钥`、`HTTP请求方法`、`请求相对路径`、`过期时间`和`请求数据`，其中请求数据为JSON字符串，如果是GET方法则为空字符串。
+
+##### 请求需要的头部信息
+
+  - `api-expires`: 过期时间，使用 Unix 时间戳。
+
+最小单位为秒，例如 UTC 时间 2019-07-11 07:52:34 对应的时间戳是
+1562831554。这个时间戳与服务器端时间进行对比，如果过期，请求将被拒绝。
+
+  - `api-key`: 密钥ID。
+
+  - `api-signature`: 根据本地请求的内容计算出的签名，计算公式为 hex(HMAC\_SHA256(apiSecret,
+    http\_method + path + expires + data))。具体请看Python代码示例。
+
+##### 签名计算规则
+
+``` python
+apiKey = '5afd4095-f1fb-41d0-0005-1a0048ffe468'            # 密钥ID
+apiSecret = 'OJJFq6qugIyvLBOyvg8WBPriSs0Dfw7Mi3QjLYin8is=' # 密钥
+
+http_method = 'GET'
+path = '/accounts'
+expires = 1563148118 # unix时间戳 表示时间 2019-07-14 23:28:38 （UTC零时区）
+data = ''
+
+# HEX(HMAC_SHA256(apiSecret, 'GET/accounts1563148118'))
+# 计算出的签名是：
+# '8b22cc3707d740c8fd43d97d39a52ad1bff3fc35e247fd4baac5e00824192c0c'
+signature = HEX(HMAC_SHA256(apiSecret, http_method + path + str(expires) + data))
+```
+
+或者使用[这个网站](https://www.freeformatter.com/hmac-generator.html)验证算法的正确性。
+
+##### Python计算签名示例
+
+``` python
+from datetime import datetime
+import hashlib
+import hmac
+from urllib.parse import urlparse
+import json
+
+# 先哈希 HMAC_SHA256(secret, http_method + path + expires + data)，然后将哈希后的数据转化为16进制字符串即为signature
+# http_method是HTTP方法，必须为英文大写；path为相对路径；expires为Unix时间戳，单位为秒。
+# data为json字符串
+def generate_signature(secret, http_method, url, expires, data):
+    # 解析url获取相对路径
+    parsedURL = urlparse(url)
+    path = parsedURL.path
+    if parsedURL.query:
+        path = path + '?' + parsedURL.query
+
+    if isinstance(data, (bytes, bytearray)):
+        data = data.decode('utf8')
+
+    print("Computing HMAC: %s" % http_method + path + str(expires) + data)
+    message = http_method + path + str(expires) + data
+
+    signature = hmac.new(bytes(secret, 'utf8'), bytes(message, 'utf8'), digestmod=hashlib.sha256).hexdigest()
+    return signature
+
+# 密钥
+secret = "OJJFq6qugIyvLBOyvg8WBPriSs0Dfw7Mi3QjLYin8is="
+expires = 1563148118
+# 或者从当前时间之后的一段时间有效
+# 下边的时间戳5秒之后失效
+# timestamp = datetime.now().timestamp()
+# expires = int(round(timestamp) + 5)
+
+print(generate_signature(secret, 'GET', '/accounts', expires, ''))
+```
+
+#### 接口调用示例
+
+GET请求
+
+``` python
+key_id = '5afd4095-f1fb-41d0-0005-1a0048ffe468'         # 替换成你的密钥ID
+secret = 'OJJFq6qugIyvLBOyvg8WBPriSs0Dfw7Mi3QjLYin8is=' # 替换成你的密钥
+path = '/accounts'                                      # 相对路径
+url = 'https://api.basefex.com' + path
+timestamp = datetime.now().timestamp()
+expires = int(round(timestamp) + 5)                     # 5秒后失效
+data = ''                                               # GET请求，请求体为空字符串
+auth_token = generate_signature(secret, "GET", path, expires, data)  
+hed = {'api-expires':str(expires),'api-key':key_id,'api-signature':str(auth_token)}
+response = requests.get(url, headers=hed)
+print(response.json())
+```
+
+POST请求
+
+``` python
+key_id = '5afd0a44-4b68-4e4a-0005-10c406964844'         # 替换成你的密钥ID
+secret = "3gA/QTBW3F35pl/oaeONMCA3Wnh9MDrq9728/HyPDu8=" # 替换成你的密钥 
+path = '/orders'                                         # 相对路径
+url = 'https://api.basefex.com' + path
+timestamp = datetime.now().timestamp()
+expires = int(round(timestamp) + 5)                     # 5秒后失效
+data = {
+    "size": 200,
+    "symbol": "BTCUSD",
+    "type": "LIMIT",
+    "side": "BUY",
+    "price": 3750.5,
+    "reduceOnly": False,
+    "conditional": {
+        "type": "REACH",
+        "price": 3750.5,
+        "priceType": "MARKET_PRICE"
+    }}                                             
+print(json.dumps(data))
+auth_token = generate_signature(
+    secret, "POST", path, expires, json.dumps(data))   
+hed = {'api-expires': str(expires), 'api-key': key_id,'api-signature': str(auth_token)}
+response = requests.post(url, headers=hed, json=data)  # post方法，使用headers和json参数
+print(response.json())
+```
+
+##### 接口速率限制
+
+所有`REST`接口一分钟内限制`180`次，`WebSockets`订阅一分钟内限制`60`次。每一次返回的`headers`中包含
+
+``` js
+x-ratelimit-limit      # 接口限制数
+x-ratelimit-remaining  # 剩余调用数
+x-ratelimit-reset      # 下一次被允许时间戳（如果超限）
+```
+
+请使用批量接口如批量下单，批量撤单等来优化接口调用频率。
+
+## REST API
 
 ## <span id="open-api-accounts"> 账户 Accounts </span>
 
@@ -299,15 +446,15 @@ https://api.basefex.com/accounts/equity
 
 ##### 请求参数
 
-| 参数          | 必选                   | 类型      | 说明                                                                                                                                     |
-| ----------- | -------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| size        | :white\_check\_mark: | number  | 合约数量                                                                                                                                   |
-| symbol      | :white\_check\_mark: | string  | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| type        | :white\_check\_mark: | string  | 订单类型，可选值：`LIMIT`, `MARKET`, `IOC`, `FOK`, `POST_ONLY`                                                                                  |
-| side        | :white\_check\_mark: | string  | 买入`BUY`或者卖出`SELL`                                                                                                                      |
-| price       |                      | number  | 订单价格                                                                                                                                   |
-| reduceOnly  |                      | boolean | 如果为true，则只减少持仓而不会增加持仓，即如果这个订单将要增加仓位时，这个订单将会被自动取消。                                                                                      |
-| conditional |                      | object  | 可通过 conditional 是否为 null 来判断是否为条件委托，conditional的type目前只有 `REACH`，priceType 包括 `MARK_PRICE`、`INDEX_PRICE`、`MARKET_PRICE`                |
+| 参数          | 必选                   | 类型      | 说明                                                                                                                                                |
+| ----------- | -------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| size        | :white\_check\_mark: | number  | 合约数量                                                                                                                                              |
+| symbol      | :white\_check\_mark: | string  | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| type        | :white\_check\_mark: | string  | 订单类型，可选值：`LIMIT`, `MARKET`, `IOC`, `FOK`, `POST_ONLY`                                                                                             |
+| side        | :white\_check\_mark: | string  | 买入`BUY`或者卖出`SELL`                                                                                                                                 |
+| price       |                      | number  | 订单价格                                                                                                                                              |
+| reduceOnly  |                      | boolean | 如果为true，则只减少持仓而不会增加持仓，即如果这个订单将要增加仓位时，这个订单将会被自动取消。                                                                                                 |
+| conditional |                      | object  | 可通过 conditional 是否为 null 来判断是否为条件委托，conditional的type目前只有 `REACH`，priceType 包括 `MARK_PRICE`、`INDEX_PRICE`、`MARKET_PRICE`                           |
 
 ##### URL请求示例
 
@@ -404,15 +551,15 @@ https://api.basefex.com/accounts/equity
 
 ##### 请求参数
 
-| 参数     | 必选 | 类型     | 说明                                                                                                                                     |
-| ------ | -- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| id     |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                   |
-| type   |    | string | `LIMIT` `MARKET` `IOC` `FOK` `POST_ONLY`                                                                                               |
-| side   |    | string | 买入`BUY`或者卖出`SELL`                                                                                                                      |
-| status |    | string | 订单状态，包括`NEW`, `PARTIALLY_FILLED`, `PARTIALLY_CANCELED`, `CANCELED`, `REJECTED`, `FILLED`, `UNTRIGGERED`, `PENDING_CANCEL`, `TRIGGERED` |
-| opt    |    | string | 已触发`TRIGGERED` 或者强平`LIQUIDATE`                                                                                                         |
-| limit  |    | number | 单次请求结果数目限制                                                                                                                             |
+| 参数     | 必选 | 类型     | 说明                                                                                                                                                |
+| ------ | -- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| id     |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                              |
+| type   |    | string | `LIMIT` `MARKET` `IOC` `FOK` `POST_ONLY`                                                                                                          |
+| side   |    | string | 买入`BUY`或者卖出`SELL`                                                                                                                                 |
+| status |    | string | 订单状态，包括`NEW`, `PARTIALLY_FILLED`, `PARTIALLY_CANCELED`, `CANCELED`, `REJECTED`, `FILLED`, `UNTRIGGERED`, `PENDING_CANCEL`, `TRIGGERED`            |
+| opt    |    | string | 已触发`TRIGGERED` 或者强平`LIQUIDATE`                                                                                                                    |
+| limit  |    | number | 单次请求结果数目限制                                                                                                                                        |
 
 无参数限定时返回所有订单。
 
@@ -469,10 +616,10 @@ https://api.basefex.com/accounts/equity
 
 ##### 请求参数
 
-| 参数     | 必选                   | 类型     | 说明                                                                                                                                     |
-| ------ | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| orders | :white\_check\_mark: | list   | price为合约单价，类型为number；size为合约数量，类型为number；side为买卖方向，`BUY`或者`SELL`，类型为string                                                             |
+| 参数     | 必选                   | 类型     | 说明                                                                                                                                                |
+| ------ | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| orders | :white\_check\_mark: | list   | price为合约单价，类型为number；size为合约数量，类型为number；side为买卖方向，`BUY`或者`SELL`，类型为string                                                                        |
 
 ##### 请求示例URL
 
@@ -548,7 +695,7 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 | 参数   | 必选 | 类型   | 说明                                   |
 |--------|------|--------|----------------------------------------|
-| symbol |      | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| symbol |      | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 | side   |      | string | `BUY` `SELL`                           |
 
 无返回内容 -->
@@ -565,10 +712,10 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数     | 必选                   | 类型     | 说明                                                                                                                                     |
-| ------ | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| ids    |                      | list   | 订单id列表                                                                                                                                 |
+| 参数     | 必选                   | 类型     | 说明                                                                                                                                                |
+| ------ | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| ids    |                      | list   | 订单id列表                                                                                                                                            |
 
 ##### 请求示例URL
 
@@ -604,11 +751,11 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数     | 必选 | 类型     | 说明                                                                                                                                     |
-| ------ | -- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| id     |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                   |
-| limit  |    | number | 单次请求的结果数目限制，不传值则为100                                                                                                                   |
+| 参数     | 必选 | 类型     | 说明                                                                                                                                                |
+| ------ | -- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| id     |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                              |
+| limit  |    | number | 单次请求的结果数目限制，不传值则为100                                                                                                                              |
 
 ##### URL请求示例
 
@@ -662,14 +809,14 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数     | 必选 | 类型     | 说明                                                                                                                                     |
-| ------ | -- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| id     |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                   |
-| type   |    | string | `LIMIT` `MARKET` `IOC` `FOK` `POST_ONLY`                                                                                               |
-| side   |    | string | 买入`BUY`或者卖出`SELL`                                                                                                                      |
-| status |    | string | 订单状态，包括`NEW`, `PARTIALLY_FILLED`, `PARTIALLY_CANCELED`, `CANCELED`, `REJECTED`, `FILLED`, `UNTRIGGERED`, `PENDING_CANCEL`, `TRIGGERED` |
-| opt    |    | string | `TRIGGERED` `LIQUIDATE`                                                                                                                |
+| 参数     | 必选 | 类型     | 说明                                                                                                                                                |
+| ------ | -- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| id     |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                              |
+| type   |    | string | `LIMIT` `MARKET` `IOC` `FOK` `POST_ONLY`                                                                                                          |
+| side   |    | string | 买入`BUY`或者卖出`SELL`                                                                                                                                 |
+| status |    | string | 订单状态，包括`NEW`, `PARTIALLY_FILLED`, `PARTIALLY_CANCELED`, `CANCELED`, `REJECTED`, `FILLED`, `UNTRIGGERED`, `PENDING_CANCEL`, `TRIGGERED`            |
+| opt    |    | string | `TRIGGERED` `LIQUIDATE`                                                                                                                           |
 
 ##### 请求示例URL
 
@@ -699,9 +846,9 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数     | 必选 | 类型     | 说明                                                                                                                                     |
-| ------ | -- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| 参数     | 必选 | 类型     | 说明                                                                                                                                                |
+| ------ | -- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 
 ##### 请求示例URL
 
@@ -729,13 +876,13 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数       | 必选 | 类型     | 说明                                                                                                                                     |
-| -------- | -- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol   |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| id       |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                   |
-| limit    |    | number | 单次请求结果数目限制，不传值则为10                                                                                                                     |
-| side     |    | string | 买入`BUY`，卖出`SELL`，或者平台每8个小时触发的`FUNDING`                                                                                                 |
-| order-id |    | string | 订单id                                                                                                                                   |
+| 参数       | 必选 | 类型     | 说明                                                                                                                                                |
+| -------- | -- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol   |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| id       |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                              |
+| limit    |    | number | 单次请求结果数目限制，不传值则为10                                                                                                                                |
+| side     |    | string | 买入`BUY`，卖出`SELL`，或者平台每8个小时触发的`FUNDING`                                                                                                            |
+| order-id |    | string | 订单id                                                                                                                                              |
 
 ##### 请求示例URL
 
@@ -778,13 +925,13 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数       | 必选 | 类型     | 说明                                                                                                                                     |
-| -------- | -- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol   |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| id       |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                   |
-| limit    |    | number | 单次请求结果数目限制，不传值则为10                                                                                                                     |
-| side     |    | string | 买入`BUY`，卖出`SELL`，或者平台每8个小时触发的`FUNDING`                                                                                                 |
-| order-id |    | string | 订单id                                                                                                                                   |
+| 参数       | 必选 | 类型     | 说明                                                                                                                                                |
+| -------- | -- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol   |    | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| id       |    | string | 前一次请求中最后一个订单的id，用于分页                                                                                                                              |
+| limit    |    | number | 单次请求结果数目限制，不传值则为10                                                                                                                                |
+| side     |    | string | 买入`BUY`，卖出`SELL`，或者平台每8个小时触发的`FUNDING`                                                                                                            |
+| order-id |    | string | 订单id                                                                                                                                              |
 
 ##### 请求示例URL
 
@@ -812,12 +959,12 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数       | 必选                   | 类型      | 说明                                                                                                                                     |
-| -------- | -------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol   | :white\_check\_mark: | string  | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| margin   |                      | number  |                                                                                                                                        |
-| leverage |                      | number  | 杠杆倍数，isCross为false时生效。                                                                                                                 |
-| isCross  |                      | boolean | true为全仓，false时leverage字段生效                                                                                                             |
+| 参数       | 必选                   | 类型      | 说明                                                                                                                                                |
+| -------- | -------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol   | :white\_check\_mark: | string  | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| margin   |                      | number  |                                                                                                                                                   |
+| leverage |                      | number  | 杠杆倍数，isCross为false时生效。                                                                                                                            |
+| isCross  |                      | boolean | true为全仓，false时leverage字段生效                                                                                                                        |
 
 ##### 请求示例URL
 
@@ -880,10 +1027,10 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数       | 必选                   | 类型     | 说明                                                                                                                                     |
-| -------- | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol   | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| notional | :white\_check\_mark: | number |                                                                                                                                        |
+| 参数       | 必选                   | 类型     | 说明                                                                                                                                                |
+| -------- | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol   | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| notional | :white\_check\_mark: | number |                                                                                                                                                   |
 
 ##### 请求示例URL
 
@@ -979,9 +1126,9 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数     | 必选                   | 类型     | 说明                                                                                                                                     |
-| ------ | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| 参数     | 必选                   | 类型     | 说明                                                                                                                                                |
+| ------ | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 
 ##### 请求示例URL
 
@@ -1068,6 +1215,8 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
   },
 ```
 
+## WebSocket
+
 ## <span id="open-api-ws"> WebSocket 推送接口 </span>
 
 ### 订阅市场行情
@@ -1080,9 +1229,9 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数     | 必选                   | 类型     | 说明                                                                                                                                     |
-| ------ | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| 参数     | 必选                   | 类型     | 说明                                                                                                                                                |
+| ------ | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 
 ##### 请求示例（使用wscat）
 
@@ -1121,9 +1270,9 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数     | 必选                   | 类型     | 说明                                                                                                                                     |
-| ------ | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| 参数     | 必选                   | 类型     | 说明                                                                                                                                                |
+| ------ | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 
 ##### 请求示例（使用wscat）
 
@@ -1184,10 +1333,10 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数     | 必选                   | 类型     | 说明                                                                                                                                     |
-| ------ | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| type   | :white\_check\_mark: | string | 时间周期                                                                                                                                   |
-| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| 参数     | 必选                   | 类型     | 说明                                                                                                                                                |
+| ------ | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type   | :white\_check\_mark: | string | 时间周期                                                                                                                                              |
+| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 
 ##### 请求示例（使用wscat）
 
@@ -1224,9 +1373,9 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求参数
 
-| 参数     | 必选                   | 类型     | 说明                                                                                                                                     |
-| ------ | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| 参数     | 必选                   | 类型     | 说明                                                                                                                                                |
+| ------ | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol | :white\_check\_mark: | string | 合约类型，包括`BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 
 ##### 请求示例（使用wscat）
 

@@ -8,6 +8,11 @@
 
 # Overview
 
+<!--
+* API Keys and Authentication
+   * [Authentication](#open-api-authentication)
+-->
+
   - REST API
       - [Accounts](#open-api-accounts)
       - [Orders](#open-api-orders)
@@ -23,6 +28,8 @@
     <https://testnet-api.basefex.com/explorer/index.html#/>
   - Official Trading Environment:
     <https://api.basefex.com/explorer/index.html#/>
+
+## REST API
 
 ## <span id="open-api-accounts"> Accounts </span>
 
@@ -306,7 +313,7 @@ order.
 | Parameters  | Required             | Type    | Note                                                                                                                                                                   |
 | ----------- | -------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | size        | :white\_check\_mark: | number  | Contract amount                                                                                                                                                        |
-| symbol      | :white\_check\_mark: | string  | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`               |
+| symbol      | :white\_check\_mark: | string  | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT`    |
 | type        | :white\_check\_mark: | string  | Order type, includes `LIMIT`, `MARKET`, `IOC`, `FOK`, `POST_ONLY`                                                                                                      |
 | side        | :white\_check\_mark: | string  | `BUY` or `SELL`                                                                                                                                                        |
 | price       |                      | number  | Order price                                                                                                                                                            |
@@ -408,15 +415,15 @@ content
 
 ##### Request Parameters
 
-| Parameters | Required | Type   | Note                                                                                                                                                     |
-| ---------- | -------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| id         |          | string | Order id of previous response for pagination.                                                                                                            |
-| type       |          | string | Order types, includes `LIMIT`, `MARKET`, `IOC`, `FOK`, `POST_ONLY`                                                                                       |
-| side       |          | string | `BUY` or `SELL`                                                                                                                                          |
-| status     |          | string | Order status, includes `NEW`, `PARTIALLY_FILLED`, `PARTIALLY_CANCELED`, `CANCELED`, `REJECTED`, `FILLED`, `UNTRIGGERED`, `PENDING_CANCEL`, `TRIGGERED`   |
-| opt        |          | string | `TRIGGERED` or `LIQUIDATE`                                                                                                                               |
-| limit      |          | number | Response size limit.                                                                                                                                     |
+| Parameters | Required | Type   | Note                                                                                                                                                                |
+| ---------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| id         |          | string | Order id of previous response for pagination.                                                                                                                       |
+| type       |          | string | Order types, includes `LIMIT`, `MARKET`, `IOC`, `FOK`, `POST_ONLY`                                                                                                  |
+| side       |          | string | `BUY` or `SELL`                                                                                                                                                     |
+| status     |          | string | Order status, includes `NEW`, `PARTIALLY_FILLED`, `PARTIALLY_CANCELED`, `CANCELED`, `REJECTED`, `FILLED`, `UNTRIGGERED`, `PENDING_CANCEL`, `TRIGGERED`              |
+| opt        |          | string | `TRIGGERED` or `LIQUIDATE`                                                                                                                                          |
+| limit      |          | number | Response size limit.                                                                                                                                                |
 
 If no parameter specified, then get all
 orders.
@@ -474,10 +481,10 @@ orders.
 
 ##### Request Parameters
 
-| Parameters | Required             | Type   | Note                                                                                                                                                     |
-| ---------- | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| orders     | :white\_check\_mark: | list   | Explanations below                                                                                                                                       |
+| Parameters | Required             | Type   | Note                                                                                                                                                                |
+| ---------- | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| orders     | :white\_check\_mark: | list   | Explanations below                                                                                                                                                  |
 
 ##### Request Example URL
 
@@ -553,7 +560,7 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 | Parameters | Required | Type   | Note                                              |
 |------------|----------|--------|---------------------------------------------------|
-| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 | side       |          | string | `BUY` `SELL`                                      |
 
 No response content -->
@@ -570,10 +577,10 @@ No response content -->
 
 ##### Request Parameters
 
-| Parameters | Required | Type   | Note                                                                                                                                                     |
-| ---------- | -------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| ids        |          | list   | List of order ids                                                                                                                                        |
+| Parameters | Required | Type   | Note                                                                                                                                                                |
+| ---------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| ids        |          | list   | List of order ids                                                                                                                                                   |
 
 ##### Request Example URL
 
@@ -610,11 +617,11 @@ content
 
 ##### Request Parameters
 
-| Parameters | Required | Type   | Note                                                                                                                                                     |
-| ---------- | -------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| id         |          | string | Order id of previous response for pagination.                                                                                                            |
-| limit      |          | number | Response limit per request                                                                                                                               |
+| Parameters | Required | Type   | Note                                                                                                                                                                |
+| ---------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| id         |          | string | Order id of previous response for pagination.                                                                                                                       |
+| limit      |          | number | Response limit per request                                                                                                                                          |
 
 ##### URL Request Example
 
@@ -668,14 +675,14 @@ content
 
 ##### Request Parameters
 
-| Parameters | Required | Type   | Note                                                                                                                                                     |
-| ---------- | -------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| id         |          | string | Order id of previous response for pagination.                                                                                                            |
-| type       |          | string | one of `LIMIT` `MARKET` `IOC` `FOK` `POST_ONLY`                                                                                                          |
-| side       |          | string | `BUY` or `SELL`                                                                                                                                          |
-| status     |          | string | Order status, includes `NEW`, `PARTIALLY_FILLED`, `PARTIALLY_CANCELED`, `CANCELED`, `REJECTED`, `FILLED`, `UNTRIGGERED`, `PENDING_CANCEL`, `TRIGGERED`   |
-| opt        |          | string | `TRIGGERED` `LIQUIDATE`                                                                                                                                  |
+| Parameters | Required | Type   | Note                                                                                                                                                                |
+| ---------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| id         |          | string | Order id of previous response for pagination.                                                                                                                       |
+| type       |          | string | one of `LIMIT` `MARKET` `IOC` `FOK` `POST_ONLY`                                                                                                                     |
+| side       |          | string | `BUY` or `SELL`                                                                                                                                                     |
+| status     |          | string | Order status, includes `NEW`, `PARTIALLY_FILLED`, `PARTIALLY_CANCELED`, `CANCELED`, `REJECTED`, `FILLED`, `UNTRIGGERED`, `PENDING_CANCEL`, `TRIGGERED`              |
+| opt        |          | string | `TRIGGERED` `LIQUIDATE`                                                                                                                                             |
 
 ##### Request Example URL
 
@@ -705,9 +712,9 @@ content
 
 ##### Request Parameters
 
-| Parameters | Required | Type   | Note                                                                                                                                                     |
-| ---------- | -------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| Parameters | Required | Type   | Note                                                                                                                                                                |
+| ---------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 
 ##### Request Example URL
 
@@ -735,13 +742,13 @@ content
 
 ##### Request Parameters
 
-| Parameters | Required | Type   | Note                                                                                                                                                     |
-| ---------- | -------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| id         |          | string | Order id of previous response for pagination.                                                                                                            |
-| limit      |          | number | Response size limit.                                                                                                                                     |
-| side       |          | string | `BUY`, `SELL` or `FUNDING`(triggered every 8 hours)                                                                                                      |
-| order-id   |          | string | Order id                                                                                                                                                 |
+| Parameters | Required | Type   | Note                                                                                                                                                                |
+| ---------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| id         |          | string | Order id of previous response for pagination.                                                                                                                       |
+| limit      |          | number | Response size limit.                                                                                                                                                |
+| side       |          | string | `BUY`, `SELL` or `FUNDING`(triggered every 8 hours)                                                                                                                 |
+| order-id   |          | string | Order id                                                                                                                                                            |
 
 ##### Request Example URL
 
@@ -784,13 +791,13 @@ content
 
 ##### Request Parameters
 
-| Parameters | Required | Type   | Note                                                                                                                                                     |
-| ---------- | -------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| id         |          | string | Order id of previous response for pagination.                                                                                                            |
-| limit      |          | number | Response size limit.                                                                                                                                     |
-| side       |          | string | `BUY`, `SELL` or `FUNDING`(triggered every 8 hours)                                                                                                      |
-| order-id   |          | string | Order id                                                                                                                                                 |
+| Parameters | Required | Type   | Note                                                                                                                                                                |
+| ---------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     |          | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| id         |          | string | Order id of previous response for pagination.                                                                                                                       |
+| limit      |          | number | Response size limit.                                                                                                                                                |
+| side       |          | string | `BUY`, `SELL` or `FUNDING`(triggered every 8 hours)                                                                                                                 |
+| order-id   |          | string | Order id                                                                                                                                                            |
 
 ##### Request Example URL
 
@@ -818,12 +825,12 @@ content
 
 ##### Request Parameters
 
-| Parameters | Required             | Type    | Note                                                                                                                                                     |
-| ---------- | -------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     | :white\_check\_mark: | string  | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| margin     |                      | number  |                                                                                                                                                          |
-| leverage   |                      | number  | Leverage, valid when isCross to be true                                                                                                                  |
-| isCross    |                      | boolean | true(cross margin) or false                                                                                                                              |
+| Parameters | Required             | Type    | Note                                                                                                                                                                |
+| ---------- | -------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     | :white\_check\_mark: | string  | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| margin     |                      | number  |                                                                                                                                                                     |
+| leverage   |                      | number  | Leverage, valid when isCross to be true                                                                                                                             |
+| isCross    |                      | boolean | true(cross margin) or false                                                                                                                                         |
 
 ##### Request Example URL
 
@@ -886,10 +893,10 @@ content
 
 ##### Request Parameters
 
-| Parameters | Required             | Type   | Note                                                                                                                                                     |
-| ---------- | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
-| notional   | :white\_check\_mark: | number |                                                                                                                                                          |
+| Parameters | Required             | Type   | Note                                                                                                                                                                |
+| ---------- | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
+| notional   | :white\_check\_mark: | number |                                                                                                                                                                     |
 
 ##### Request Example URL
 
@@ -983,9 +990,9 @@ No parameter needed.
 
 ##### Request Parameters
 
-| Parameters | Required             | Type   | Note                                                                                                                                                     |
-| ---------- | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| Parameters | Required             | Type   | Note                                                                                                                                                                |
+| ---------- | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 
 ##### Request Example URL
 
@@ -1072,6 +1079,8 @@ No parameter needed.
   },
 ```
 
+## WebSocket
+
 ## <span id="open-api-ws"> WebSocket Pushing API </span>
 
 ### Subscribe Information of Contracts
@@ -1085,9 +1094,9 @@ types.
 
 ##### Request Parameters
 
-| Parameters | Required             | Type   | Note                                                                                                                                                     |
-| ---------- | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| Parameters | Required             | Type   | Note                                                                                                                                                                |
+| ---------- | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 
 ##### Request Example
 
@@ -1127,9 +1136,9 @@ later.
 
 ##### Request Parameters
 
-| Parameters | Required             | Type   | Note                                                                                                                                                     |
-| ---------- | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| Parameters | Required             | Type   | Note                                                                                                                                                                |
+| ---------- | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 
 ##### Request Example
 
@@ -1188,10 +1197,10 @@ Real-time
 
 ##### Request Parameters
 
-| Parameters | Required             | Type   | Note                                                                                                                                                     |
-| ---------- | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type       | :white\_check\_mark: | string | period of time                                                                                                                                           |
-| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| Parameters | Required             | Type   | Note                                                                                                                                                                |
+| ---------- | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type       | :white\_check\_mark: | string | period of time                                                                                                                                                      |
+| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 
 ##### Request Example
 
@@ -1226,9 +1235,9 @@ Real-time
 
 ##### Request Parameters
 
-| Parameters | Required             | Type   | Note                                                                                                                                                     |
-| ---------- | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT` |
+| Parameters | Required             | Type   | Note                                                                                                                                                                |
+| ---------- | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol     | :white\_check\_mark: | string | Contract types, includes `BTCUSD`, `ETHXBT`, `XRPXBT`, `BCHXBT`, `LTCXBT`, `EOSXBT`, `ADAXBT`, `TRXXBT`, `BNBXBT`, `HTXBT`, `OKBXBT`, `GTXBT`, `ATOMXBT`, `BTCUSDT` |
 
 ##### Request Example
 
