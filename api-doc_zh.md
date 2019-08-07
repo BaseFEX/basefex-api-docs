@@ -1112,6 +1112,40 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 }
 ```
 
+### 获取合约24小时涨跌额
+
+获取平台所有合约的24小时内价格的涨跌额
+
+##### URL
+
+<https://api.basefex.com/instruments/difference>
+
+##### HTTP请求方式
+
+> GET
+
+##### 请求参数
+
+无
+
+##### 请求示例URL
+
+<https://api.basefex.com/instruments/difference>
+
+##### 返回示例
+
+``` js
+{
+  "BTCUSD": -0.009252547648488466,
+  "ETHXBT":  0.008724589346875234,
+  "XRPXBT": "No Data",              // 无输入数据
+  "BCHXBT": "No Data",
+  "LTCXBT": "No Data",
+  "BNBXBT": "No Data",
+  "BTCUSDT": "No Data"
+}
+```
+
 ### 获取买卖盘实时行情
 
 ##### URL

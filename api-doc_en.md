@@ -1132,6 +1132,38 @@ No parameter needed.
 }
 ```
 
+### Get 24H Change of Market Price
+
+##### URL
+
+<https://api.basefex.com/instruments/difference>
+
+##### HTTP Request Method
+
+> GET
+
+##### Request Parameters
+
+No parameter needed.
+
+##### Request Example URL
+
+<https://api.basefex.com/instruments/difference>
+
+##### Response Example
+
+``` js
+{
+  "BTCUSD": -0.009252547648488466,
+  "ETHXBT":  0.008724589346875234,
+  "XRPXBT": "No Data",              // No Input Data
+  "BCHXBT": "No Data",
+  "LTCXBT": "No Data",
+  "BNBXBT": "No Data",
+  "BTCUSDT": "No Data"
+}
+```
+
 ### Get OrderBook Snapshot
 
 ##### URL
