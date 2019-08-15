@@ -1241,6 +1241,7 @@ No parameter needed.
     "btcPrice": 11767.48,                 
     "latestPrice": 11769.5,               
     "symbol": "BTCUSD",                  // contract type
+    "last24hPriceChange": -0.07677342823250297,
     "openValue": 255.98924199050046,     
     "last24hMinPrice": 10950.5,              
     "openTime": 0,                       
@@ -1257,6 +1258,7 @@ No parameter needed.
     "btcPrice": 11767.48,
     "latestPrice": 0.02524,
     "symbol": "ETHXBT",                  // contract type
+    "last24hPriceChange": -0.0537359263050153,
     "openValue": 98.61654386057411,
     "last24hMinPrice": 0.02523,
     "openTime": 0,

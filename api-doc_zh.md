@@ -1112,9 +1112,9 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 }
 ```
 
-### 获取合约24小时涨跌额
+### 获取合约24小时涨跌幅
 
-获取平台所有合约的24小时内价格的涨跌额
+获取平台所有合约的24小时内价格的涨跌幅
 
 ##### URL
 
@@ -1223,6 +1223,7 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
     "btcPrice": 11767.48,                 // 现货价格（美元计）
     "latestPrice": 11769.5,               // 最新成交价
     "symbol": "BTCUSD",                  // 合约类型
+    "last24hPriceChange": -0.07677342823250297, //前24小时涨跌幅
     "openValue": 255.98924199050046,     // 未平仓合约总价值（BTC计）
     "last24hMinPrice": 10950.5,          // 前24小时最低价
     "openTime": 0,                       // 
@@ -1239,6 +1240,7 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
     "btcPrice": 11767.48,
     "latestPrice": 0.02524,
     "symbol": "ETHXBT",                  // 合约类型
+    "last24hPriceChange": -0.0537359263050153,
     "openValue": 98.61654386057411,
     "last24hMinPrice": 0.02523,
     "openTime": 0,
