@@ -1471,3 +1471,73 @@ Real-time
     }
 ]
 ```
+
+### Subscribe Changes of Cash/Orders/Trades/Positions (Authorization needed)
+
+##### URL
+
+<wss://ws.basefex.com/stream>
+
+##### No Parameters
+
+##### Request Example using `wscat`
+
+> wscat -c <wss://ws.basefex.com/stream> -H “Authorization: Bearer
+> eyJhbGciOiJub25lIiwidHlwIjoiSldUIiwia2lkIjoiNjlmNzAxMWMtZmRjYS00ZjJlLTgxODMtYTAzNGM3NzEwYjAwIn0.eyJzdWIiOiI1YjIzZDNhZS0yNjU0LTQxYzYtMDAwNy1mYTM3ZWQwZDNiZTAifQ.”
+
+##### Response Example
+
+``` js
+{
+    "cash": {
+        "id": "5b7b715d-8d5f-43fe-0007-08e47200fb1b",
+        "userId": "5b23d3ae-2654-41c6-0007-fa37ed0d3be0",
+        "currency": "USDT",
+        "balances": 0.2,
+        "available": 0.2,
+        "margin": 0,
+        "orderMargin": 0,
+        "leverage": 0,
+        "marginBalances": 0.2,
+        "unrealizedPnl": 0,
+        "marginRate": 0,
+        "positionMargin": 0
+    },
+    "positions": [
+        {
+            "id": "5b7b746b-eca7-42a5-0007-1079e392c9f9",
+            "userId": "5b23d3ae-2654-41c6-0007-fa37ed0d3be0",
+            "symbol": "BTCUSDT",
+            "currency": "USDT",
+            "isCross": true,
+            "marginRate": 0.01,
+            "feeRateTaker": 0.0007,
+            "feeRateMaker": -0.0002,
+            "size": 0,
+            "notional": 0,
+            "margin": 0,
+            "orderMargin": 0,
+            "buyingSize": 0,
+            "buyingNotional": 0,
+            "sellingSize": 0,
+            "sellingNotional": 0,
+            "realisedPnl": 0,
+            "totalPnl": 0,
+            "markPrice": 9159.77,
+            "riskLimit": 1000000,
+            "seqNo": null,
+            "leverage": 100,
+            "rom": 0,
+            "equity": 0,
+            "value": 0,
+            "entryPrice": 0,
+            "risk": 0,
+            "unrealizedPnl": 0,
+            "liquidatePrice": 0
+        }
+    ],
+    "userId": "5b23d3ae-2654-41c6-0007-fa37ed0d3be0",
+    "trades": [],
+    "orders": []
+}
+```
