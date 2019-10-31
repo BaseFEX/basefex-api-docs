@@ -1482,8 +1482,9 @@ Real-time
 
 ##### Request Example using `wscat`
 
-> wscat -c <wss://ws.basefex.com/stream> -H “Authorization: Bearer
-> eyJhbGciOiJub25lIiwidHlwIjoiSldUIiwia2lkIjoiNjlmNzAxMWMtZmRjYS00ZjJlLTgxODMtYTAzNGM3NzEwYjAwIn0.eyJzdWIiOiI1YjIzZDNhZS0yNjU0LTQxYzYtMDAwNy1mYTM3ZWQwZDNiZTAifQ.”
+``` bash
+ wscat -c 'wss://ws.basefex.com/stream?JWT=yourtoken'
+```
 
 ##### Response Example
 

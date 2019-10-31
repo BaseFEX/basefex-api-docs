@@ -1468,8 +1468,9 @@ https://api.basefex.com/orders?symbol=BTCUSD&side=BUY
 
 ##### 请求示例（使用wscat）
 
-> wscat -c <wss://ws.basefex.com/stream> -H “Authorization: Bearer
-> eyJhbGciOiJub25lIiwidHlwIjoiSldUIiwia2lkIjoiNjlmNzAxMWMtZmRjYS00ZjJlLTgxODMtYTAzNGM3NzEwYjAwIn0.eyJzdWIiOiI1YjIzZDNhZS0yNjU0LTQxYzYtMDAwNy1mYTM3ZWQwZDNiZTAifQ.”
+``` bash
+ wscat -c 'wss://ws.basefex.com/stream?JWT=yourtoken'
+```
 
 ##### 推送示例
 
