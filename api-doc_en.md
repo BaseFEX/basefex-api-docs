@@ -138,6 +138,22 @@ response = requests.get(url, headers=hed)
 print(response.json())
 ```
 
+GET Request with paramaters on url
+
+``` python
+key_id = '5afd4095-f1fb-41d0-0005-1a0048ffe468'         # key id 
+secret = 'OJJFq6qugIyvLBOyvg8WBPriSs0Dfw7Mi3QjLYin8is=' # api secret
+path = '/orders?symbol=BTCUSD'                          # relative path
+url = 'https://api.basefex.com' + path
+timestamp = datetime.now().timestamp()
+expires = int(round(timestamp) + 5)                     # expires in 5 seconds
+data = ''                                               # HTTP GET, empty string
+auth_token = generate_signature(secret, "GET", path, expires, data)  
+hed = {'api-expires':str(expires),'api-key':key_id,'api-signature':str(auth_token)}
+response = requests.get(url, headers=hed)
+print(response.json())
+```
+
 POST
 Request
 
@@ -166,6 +182,22 @@ auth_token = generate_signature(
 hed = {'api-expires': str(expires), 'api-key': key_id,'api-signature': str(auth_token)}
 response = requests.post(url, headers=hed, json=data)  # HTTP POST, pass headers and json parameters
 print(response.json())
+```
+
+Websocket
+
+``` python
+import websockets
+auth_token = generate_signature(secret, "GET", "/stream", expires, '') # Http method must be same as which in header
+hed = {'api-expires':str(expires),'api-key':key_id,'api-signature':str(auth_token)}
+async def hello():
+    uri = "wss://api.basefex.com/stream"
+    async with websockets.connect(uri, extra_headers=hed) as websocket:
+        await websocket.send('{"ping":1573552318023}')
+        greeting = await websocket.recv()
+        print(f"< {greeting}")
+
+asyncio.get_event_loop().run_until_complete(hello())
 ```
 
 ##### Rate Limit
